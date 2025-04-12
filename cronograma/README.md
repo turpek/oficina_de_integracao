@@ -16,11 +16,9 @@
 
 8. Criar o sistema de som
 
-
-
-
-
 ## Cronograma do Tetris
+
+![Cronograma geral](cronograma_geral.png)
 
 1. 15/04 até 22/04
    
@@ -76,4 +74,4 @@
 
 10. 17/06 até 24/06 > Marco 3
     
-    -  Criação do relatório final
+    - Criação do relatório final
