@@ -1,7 +1,7 @@
 ---
 name: Tarefa
 about: Utilize esse template para criar uma lista de tarefas
-title: "[TAREFA] Descreva brevemente a tarefa"
+title: "[TASK] Descreva brevemente a tarefa"
 labels: task
 assignees: ""
 ---
