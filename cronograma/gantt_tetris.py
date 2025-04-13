@@ -4,22 +4,22 @@ from datetime import datetime
 
 # Dados fornecidos
 dados = [
-    ("Codificação para renderizar peças\nna matriz de led", "15/04/2025", "22/04/2025"),
-    ("Teste de unidade das funções de\nrenderização", "15/04/2025", "22/04/2025"),
-    ("Codificação para a movimentação\ndas peças  [Marco 1]", "22/04/2025", "06/05/2025"),
-    ("Teste de unidade das funções de\n movimentação e pontuação", "22/04/2025", "06/05/2025"),
-    ("Codigo do sistema de pontuação", "29/04/2025", "06/05/2025"),
-    ("Teste na prática usando o arduino,\n matriz de led e os controles", "29/04/2025", "06/05/2025"),
-    ("Desenvolvimento das funções de\n game over e pause", "06/05/2025", "13/05/2025"),
-    ("Teste unitário das funções de\n game over/pause", "06/05/2025", "13/05/2025"),
-    ("Códificação do sistema de soms", "13/05/2025", "20/05/2025"),
-    ("Teste unitário do sistema de som", "13/05/2025", "20/05/2025"),
-    ("Montagem dos componentes\nna estrutura", "20/05/2025", "27/05/2025"),
-    ("Teste na prática de todas\nas funcionalidades", "20/05/2025", "27/05/2025"),
-    ("Ajuste finais [Marco 2]", "27/05/2025", "03/06/2025"),
-    ("Ajuste finais", "03/06/2025", "17/06/2025"),
-    ("Produção do vídeo", "17/06/2025", "20/06/2025"),
-    ("Confecção do relatório [Marco 3]", "17/06/2025", "24/06/2025"),
+    ("Codificação para renderizar peças na matriz de LED", "15/04/2025", "29/04/2025"),
+    ("Codificação para a movimentação das peças", "22/04/2025", "06/05/2025"),
+    ("Teste unitário das funções de\nrenderização e movimentação [Marco 1]", "15/04/2025", "06/05/2025"),
+    ("Teste de integridade da fita de LED,\n botões e joystick", "06/05/2025", "13/05/2025"),
+    ("Código do sistema de pontuação", "06/05/2025", "20/05/2025"),
+    ("Teste de integração do software com o hardware", "13/05/2025", "20/05/2025"),
+    ("Codificação do game over e pause", "20/05/2025", "03/06/2025"),
+    ("Teste unitário das funções de pontuação,\ngame over e pause [Marco 2]", "06/05/2025", "03/06/2025"),
+    ("Codificação do sistema de som", "03/06/2025", "10/06/2025"),
+    ("Teste unitário do sistema de som", "03/06/2025", "10/06/2025"),
+    ("Desenvolvimento do gabinete para a impressão 3D","03/06/2025", "17/06/2025"),
+    ("Montagem dos componentes no gabinete", "17/06/2025", "24/06/2025"),
+    ("Teste de jogabilidade [Marco 3]", "17/06/2025", "24/06/2025"),
+    ("Ajuste finais", "24/06/2025", "01/07/2025"),
+    ("Confecção do relatório", "24/06/2025", "08/07/2025"),
+    ("Produção do vídeo", "01/07/2025", "05/07/2025")
 ]
 
 
@@ -30,16 +30,16 @@ df["Fim"] = pd.to_datetime(df["Fim"], dayfirst=True)
 df["Duração"] = (df["Fim"] - df["Início"]).dt.days
 
 # Regerando o gráfico com as linhas horizontais da grade desativadas
-fig, ax = plt.subplots(figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(18, 12))
 
 # Plotando as barras
-ax.barh(df.index, df["Duração"], left=df["Início"].map(datetime.toordinal), color='firebrick')
+ax.barh(df.index, df["Duração"], left=df["Início"].map(datetime.toordinal), height=0.5, color='firebrick')
 
 # Customizando os eixos
 ax.set_yticks(df.index)
-ax.set_yticklabels(df["Tarefa"], fontsize=12)
+ax.set_yticklabels(df["Tarefa"], fontsize=13.5)
 ax.set_xlabel("")
-ax.set_title("Cronograma Geral", fontsize=18, color='black')
+ax.set_title("Cronograma Geral\n", fontsize=28, color='black')
 ax.invert_yaxis()  # tarefas do topo primeiro
 
 # Eixo X no topo
@@ -54,16 +54,18 @@ for date, label in zip(marcos, marcos_label):
     ax.axvline(x=data_linha, color='black', linestyle='-', linewidth=2, label=label)
 
 # Formatando datas no eixo X
+print(df["Fim"].max())
 ticks = pd.date_range(start=df["Início"].min(), end=df["Fim"].max(), freq="7D")
 ax.set_xticks(ticks.map(datetime.toordinal))
 ax.set_xticklabels(ticks.strftime("%d/%m"), rotation=45)
-ax.tick_params(axis='x', labelsize=12)
+ax.tick_params(axis='x', labelsize=14)
 
 # Apenas linhas verticais na grade
 plt.grid(axis='x', linestyle='--', alpha=0.5)
 ax.grid(visible=True, axis='y', linestyle='', linewidth=0)  # desativa grade horizontal
 
+
 plt.tight_layout()
 plt.grid(axis='x', linestyle='--', alpha=0.5)
-plt.savefig("cronograma_geral.png", dpi=100)
+plt.savefig("cronograma_geral.png", dpi=1000)
 

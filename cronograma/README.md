@@ -20,13 +20,13 @@
 
 ![Cronograma geral](cronograma_geral.png)
 
-1. 15/04 até 22/04
+1. 15/04 até 29/04
    
    - Criação das funções para renderizar as peças na matriz de led
    
    - Teste de unidade das funções criadas
 
-2. 22/04 até 29/04
+2. 22/04 até 13/05
    
    - Criação das funções responsável pela movimentação das peças na matriz de led
    
