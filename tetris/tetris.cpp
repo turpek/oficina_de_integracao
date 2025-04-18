@@ -13,7 +13,7 @@
  * Hex  0x0F00
  */
 
-uint16_t piece_I[NUM_ROTATION] = {0x0F00, 0x0, 0, 0};
+uint16_t piece_I[NUM_ROTATION] = {0x0F00, 0x2222, 0x00F0, 0x4444};
 
 
 void decodePiece(uint8_t *piece, const uint16_t bitmask){
