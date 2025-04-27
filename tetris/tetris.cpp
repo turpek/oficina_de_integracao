@@ -3,6 +3,12 @@
 #define NUM_PIECE_TYPES     7
 #define NUM_ROTATION        4
 
+// Definição do tamanho do grid, ou seja, do tamanho da matriz de LEDs
+#define GRID_W 8
+#define GRID_H 16
+#define LED_COUNT (GRID_H * GRID_W)
+#define LED_PIN 6
+
 /*                            Peça I
  *
  *   Rotacional 0x Rotacionado 1x Rotacionado 2x Rotacionado 3x
@@ -71,6 +77,28 @@ uint16_t piece_S[NUM_ROTATION] = {0x6C00, 0x4620, 0x06C0, 0x8C40};
 uint16_t piece_Z[NUM_ROTATION] = {0xC600, 0x2640, 0x0C60, 0x4C80};
 uint16_t piece_O[NUM_ROTATION] = {0xCC00, 0xCC00, 0xCC00, 0xCC00};
 
+const uint16_t* pieces[NUM_PIECE_TYPES] = {
+  piece_S,
+  piece_Z,
+  piece_L,
+  piece_J,
+  piece_O,
+  piece_T,
+  piece_I,
+};
+
+const uint32_t piece_colors[NUM_PIECE_TYPES] = {
+  0x009900, // green S
+  0xFF0000, // red Z
+  0xFF8000, // orange L
+  0x000044, // blue J
+  0xFFFF00, // yellow O
+  0xFF00FF, // purple T
+  0x00FFFF,  // cyan I
+};
+
+int piece_id = 0;
+int piece_rotation = 0;
 
 void decodePiece(uint8_t *piece, const uint16_t bitmask){
   for(int i=0, bshift=15; i<15; i++, bshift--){
