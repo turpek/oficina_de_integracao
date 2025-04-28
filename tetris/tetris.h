@@ -12,7 +12,17 @@ extern uint16_t piece_S[];
 extern uint16_t piece_Z[];
 extern uint16_t piece_O[];
 
+extern uint16_t* pieces[];
+extern uint32_t piece_colors[];
+extern uint32_t grid[];
 
+extern int piece_id;
+extern int piece_rotation;
+extern int piece_x;
+extern int piece_y;
+
+void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
+void add_piece_to_grid();
 
 #endif

@@ -9,6 +9,10 @@
 #define LED_COUNT (GRID_H * GRID_W)
 #define LED_PIN 6
 
+//Dimensões das peças
+#define PIECE_W 4
+#define PIECE_H 4
+
 /*                            Peça I
  *
  *   Rotacional 0x Rotacionado 1x Rotacionado 2x Rotacionado 3x
@@ -77,7 +81,7 @@ uint16_t piece_S[NUM_ROTATION] = {0x6C00, 0x4620, 0x06C0, 0x8C40};
 uint16_t piece_Z[NUM_ROTATION] = {0xC600, 0x2640, 0x0C60, 0x4C80};
 uint16_t piece_O[NUM_ROTATION] = {0xCC00, 0xCC00, 0xCC00, 0xCC00};
 
-const uint16_t* pieces[NUM_PIECE_TYPES] = {
+uint16_t* pieces[NUM_PIECE_TYPES] = {
   piece_S,
   piece_Z,
   piece_L,
@@ -87,7 +91,7 @@ const uint16_t* pieces[NUM_PIECE_TYPES] = {
   piece_I,
 };
 
-const uint32_t piece_colors[NUM_PIECE_TYPES] = {
+uint32_t piece_colors[NUM_PIECE_TYPES] = {
   0x009900, // green S
   0xFF0000, // red Z
   0xFF8000, // orange L
@@ -99,12 +103,40 @@ const uint32_t piece_colors[NUM_PIECE_TYPES] = {
 
 int piece_id = 0;
 int piece_rotation = 0;
+int piece_x = 0;
+int piece_y = 0;
+
+uint32_t grid[LED_COUNT] = {0};
+
+void clear_grid(){
+  for(int i=0; i < LED_COUNT; i++){
+    grid[i] = 0;
+  }
+}
 
 void decodePiece(uint8_t *piece, const uint16_t bitmask){
   for(int i=0, bshift=15; i<15; i++, bshift--){
     piece[i] = bitmask >> bshift & 1;
   }
 }
+
+
+void add_piece_to_grid(){
+  uint8_t piece[16] = {0};
+  decodePiece(piece, pieces[piece_id][piece_rotation]);
+
+  for(int y=0; y < PIECE_H; ++y){
+    for(int x=0; x < PIECE_W; ++x){
+      int dx = piece_x + x;
+      int dy = piece_y + y;
+      if((dx < 0 || dx > GRID_W) || (dy < 0 || dy > GRID_H))
+        continue;
+      else if(piece[y*PIECE_W+x] == 1)
+        grid[dy*GRID_W+dx] = piece_colors[piece_id];
+    }
+  }
+
+};
 
 #ifndef UNIT_TEST
 int main(){
