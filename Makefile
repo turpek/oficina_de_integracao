@@ -9,7 +9,7 @@ BIN_DIR  = bin
 # Arquivos-fonte
 UNITY_SRC  = $(UNITY_DIR)/unity.c
 TETRIS_SRC = $(SRC_DIR)/tetris.cpp
-TEST_SRC   = $(TEST_DIR)/test_tetris.cpp
+TEST_SRC   = $(TEST_DIR)/test_utils.cpp $(TEST_DIR)/test_tetris.cpp
 
 # Executáveis
 TARGET     = $(BIN_DIR)/test_tetris
