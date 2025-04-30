@@ -24,5 +24,6 @@ extern int piece_y;
 void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
 void add_piece_to_grid();
+void remove_piece_from_grid();
 
 #endif
