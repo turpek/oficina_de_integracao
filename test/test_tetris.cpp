@@ -412,6 +412,7 @@ void test_add_piece_to_grid_Piece_S_rx0(){
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
 }
 
+/***************** TESTE DA FUNÇÃO `add_piece_to_grid` *********************/
 
 void test_add_piece_to_grid_Piece_S_rx1(){
   uint32_t expect_grid[LED_COUNT] = {0};
@@ -441,6 +442,213 @@ void test_add_piece_to_grid_Piece_S_rx3(){
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
 }
 
+void test_add_piece_to_grid_Piece_S_rx0_movX1Y0(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 0;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX0Y1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 1;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX1Y1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 1;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+
+void test_add_piece_to_grid_Piece_S_rx0_movX_1Y0(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = -1;
+  piece_y = 0;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX0Y_1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = -1;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX_1Y_1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = -1;
+  piece_y = -1;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX_1_Y_1, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX5Y14(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 5;
+  piece_y = 14;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX5Y14, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX6Y14(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 6;
+  piece_y = 14;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX6Y14, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX5Y15(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 5;
+  piece_y = 15;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX5Y15, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_add_piece_to_grid_Piece_S_rx0_movX6Y15(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 6;
+  piece_y = 15;
+  add_piece_to_grid();
+  transform_grid(expect_grid, map_piece_S_rx0_movX6Y15, piece_colors[piece_id], LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+/***************** TESTE DA FUNÇÃO `add_piece_to_grid` *********************/
+
+void test_remove_piece_from_grid_Piece_S_rx0(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  transform_grid(grid, map_piece_S_rx0, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+
+}
+
+void test_remove_piece_from_grid_Piece_S_rx1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 1;
+  transform_grid(grid, map_piece_S_rx1, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+
+}
+void test_remove_piece_from_grid_Piece_S_rx2(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 2;
+  transform_grid(grid, map_piece_S_rx2, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+
+}
+
+void test_remove_piece_from_grid_Piece_S_rx3(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 3;
+  transform_grid(grid, map_piece_S_rx3, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_remove_piece_from_grid_Piece_S_rx0_movX1Y0(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 0;
+  transform_grid(grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_remove_piece_from_grid_Piece_S_rx0_movX0Y1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 1;
+  transform_grid(grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_remove_piece_from_grid_Piece_S_rx0_movX1Y1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 1;
+  transform_grid(grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+
+void test_remove_piece_from_grid_Piece_S_rx0_movX_1Y0(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 0;
+  transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1(){
+  uint32_t expect_grid[LED_COUNT] = {0};
+  piece_id = 0;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 0;
+  transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
+  show_grid(grid);
+  remove_piece_from_grid();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
 
 int main(){
   UNITY_BEGIN();
@@ -484,6 +692,33 @@ int main(){
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx1);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx2);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx3);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX1Y0);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX0Y1);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX1Y1);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX_1Y0);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX0Y_1);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX_1Y_1);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX5Y14);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX6Y14);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX5Y15);
+  RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX6Y15);
+
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx1);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx2);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx3);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX1Y0);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX0Y1);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX1Y1);
+
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX_1Y0);
+  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1);
+  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX_1Y_1);
+  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX5Y14);
+  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX6Y14);
+  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX5Y15);
+  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX6Y15);
+
   return UNITY_END();
 
 }
