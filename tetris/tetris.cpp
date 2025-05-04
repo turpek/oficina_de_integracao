@@ -1,4 +1,5 @@
 #include <cstdint>
+#include "tetris/Mock_Arduino.h"
 
 #define NUM_PIECE_TYPES     7
 #define NUM_ROTATION        4
@@ -9,9 +10,13 @@
 #define LED_COUNT (GRID_H * GRID_W)
 #define LED_PIN 6
 
-//Dimensões das peças
+// Dimensões das peças
 #define PIECE_W 4
 #define PIECE_H 4
+
+int button_right = 9;
+
+//
 
 /*                            Peça I
  *
@@ -25,10 +30,10 @@
  *                            Peça L
  *
  *    Rotacionado 0x Rotacionado 1x Rotacionado 2x Rotacionado 3x
- *        0010           0100           0000           1100          
- *        1110           0100           1110           0100          
- *        0000           0110           1000           0100          
- *        0000           0000           0000           0000          
+ *        0010           0100           0000           1100
+ *        1110           0100           1110           0100
+ *        0000           0110           1000           0100
+ *        0000           0000           0000           0000
  * Hex   0x2E00         0x4460         0x0E80         0xC440
  *
  *                            Peça J
@@ -155,6 +160,12 @@ void remove_piece_from_grid(){
   }
 
 };
+
+
+int is_right_pressed(int dx){
+  return digitalRead(button_right) == LOW;
+}
+
 
 #ifndef UNIT_TEST
 int main(){
