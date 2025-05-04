@@ -1,6 +1,7 @@
 #include "Unity/unity.h"
 #include "tetris/tetris.h"
 #include "test/test_utils.h"
+#include "tetris/Mock_Arduino.h"
 #include <iostream>
 using namespace std;
 
@@ -16,7 +17,9 @@ void setUp(void){
   piece_y = 0;
 };
 
-void tearDown(void){};
+void tearDown(void){
+  pin_values[button_right] = HIGH;
+};
 
 void show_piece(uint8_t *piece){
 
@@ -631,7 +634,7 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX_1Y0(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
-  piece_x = 0;
+  piece_x = -1;
   piece_y = 0;
   transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
@@ -643,11 +646,22 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1(){
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
-  piece_y = 0;
-  transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
-  show_grid(grid);
+  piece_y = -1;
+  transform_grid(grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+}
+
+void test_is_right_pressed_right_button_not_pressed(){
+  pin_values[button_right] = HIGH;
+  int expect_right_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(0));
+}
+
+void test_is_right_pressed_right_button_pressed(){
+  pin_values[button_right] = LOW;
+  int expect_right_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(0));
 }
 
 int main(){
@@ -712,12 +726,15 @@ int main(){
   RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX1Y1);
 
   RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX_1Y0);
-  //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1);
+  RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1);
   //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX_1Y_1);
   //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX5Y14);
   //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX6Y14);
   //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX5Y15);
   //RUN_TEST(test_remove_piece_from_grid_Piece_S_rx0_movX6Y15);
+
+  RUN_TEST(test_is_right_pressed_right_button_not_pressed);
+  RUN_TEST(test_is_right_pressed_right_button_pressed);
 
   return UNITY_END();
 
