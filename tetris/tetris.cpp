@@ -10,10 +10,16 @@
 #define LED_COUNT (GRID_H * GRID_W)
 #define LED_PIN 6
 
+// Opções do joystick
+#define JOYSTICK_DEAD_ZONE 30
+#define JOYSTICK_PIN 2
+
+
 // Dimensões das peças
 #define PIECE_W 4
 #define PIECE_H 4
 
+int button_left = 8;
 int button_right = 9;
 
 //
@@ -163,7 +169,30 @@ void remove_piece_from_grid(){
 
 
 int is_right_pressed(int dx){
-  return digitalRead(button_right) == LOW;
+  return (dx < -JOYSTICK_DEAD_ZONE) || (digitalRead(button_right) == LOW);
+}
+
+int is_left_pressed(int dx){
+  return (dx > JOYSTICK_DEAD_ZONE) || (digitalRead(button_left) == LOW);
+}
+
+int check_left_border(){
+  if((piece_x - 1) >= 0){
+    return 1;
+  }
+
+  int overflow= -(piece_x - 1);
+  uint8_t piece[16] = {0};
+  decodePiece(piece, pieces[piece_id][piece_rotation]);
+
+  for(int y=0; y < PIECE_H; y++){
+    for(int x=0; x < overflow; x++){
+      if(piece[y*PIECE_W +x] != 0)
+        return 0;
+    }
+
+  }
+  return 1;
 }
 
 

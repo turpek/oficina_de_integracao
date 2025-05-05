@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 // Declaração dos pinos
+extern int button_left;
 extern int button_right;
 
 // Declaração (não definição!)
@@ -29,5 +30,7 @@ void decodePiece(uint8_t *piece, const uint16_t bitmask);
 void add_piece_to_grid();
 void remove_piece_from_grid();
 int is_right_pressed(int dx);
+int is_left_pressed(int dx);
+int check_left_border();
 
 #endif
