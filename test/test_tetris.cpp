@@ -15,6 +15,7 @@ void setUp(void){
   piece_rotation = 0;
   piece_x = 0;
   piece_y = 0;
+  clear_piece();
 };
 
 void tearDown(void){
@@ -407,10 +408,53 @@ void test_decodePiece_O_rx3(){
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_piece, piece, 16);
 }
 
+
+/***************** TESTES DA FUNÇÃO `update_piece` *************************/
+
+void test_update_piece_S_rx0(){
+  uint8_t expect_piece[16] = {
+    0, 1, 1, 0,
+    1, 1, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0
+  };
+  piece_id = 0;
+  piece_rotation = 0;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_piece, get_test_piece(), 16);
+}
+
+void test_update_piece_S_rx1(){
+  uint8_t expect_piece[16] = {
+    0, 1, 0, 0,
+    0, 1, 1, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 0
+  };
+  piece_id = 0;
+  piece_rotation = 1;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_piece, get_test_piece(), 16);
+}
+
+void test_update_piece_L_rx3(){
+  uint8_t expect_piece[16] = {
+    1, 1, 0, 0,
+    0, 1, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 0, 0
+  };
+  piece_id = 2;
+  piece_rotation = 3;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_piece, get_test_piece(), 16);
+}
+
 void test_add_piece_to_grid_Piece_S_rx0(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -422,6 +466,7 @@ void test_add_piece_to_grid_Piece_S_rx1(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 1;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx1, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -432,6 +477,7 @@ void test_add_piece_to_grid_Piece_S_rx2(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 2;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx2, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -441,6 +487,7 @@ void test_add_piece_to_grid_Piece_S_rx3(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 3;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx3, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -452,6 +499,7 @@ void test_add_piece_to_grid_Piece_S_rx0_movX1Y0(){
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 0;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -463,6 +511,7 @@ void test_add_piece_to_grid_Piece_S_rx0_movX0Y1(){
   piece_rotation = 0;
   piece_x = 0;
   piece_y = 1;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -474,6 +523,7 @@ void test_add_piece_to_grid_Piece_S_rx0_movX1Y1(){
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 1;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -486,6 +536,7 @@ void test_add_piece_to_grid_Piece_S_rx0_movX_1Y0(){
   piece_rotation = 0;
   piece_x = -1;
   piece_y = 0;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -497,6 +548,7 @@ void test_add_piece_to_grid_Piece_S_rx0_movX0Y_1(){
   piece_rotation = 0;
   piece_x = 0;
   piece_y = -1;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -508,6 +560,7 @@ void test_add_piece_to_grid_Piece_S_rx0_movX_1Y_1(){
   piece_rotation = 0;
   piece_x = -1;
   piece_y = -1;
+  update_piece();
   add_piece_to_grid();
   transform_grid(expect_grid, map_piece_S_rx0_movX_1_Y_1, piece_colors[piece_id], LED_COUNT);
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -563,6 +616,7 @@ void test_remove_piece_from_grid_Piece_S_rx0(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
+  update_piece();
   transform_grid(grid, map_piece_S_rx0, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -573,6 +627,7 @@ void test_remove_piece_from_grid_Piece_S_rx1(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 1;
+  update_piece();
   transform_grid(grid, map_piece_S_rx1, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -582,6 +637,7 @@ void test_remove_piece_from_grid_Piece_S_rx2(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 2;
+  update_piece();
   transform_grid(grid, map_piece_S_rx2, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -592,6 +648,7 @@ void test_remove_piece_from_grid_Piece_S_rx3(){
   uint32_t expect_grid[LED_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 3;
+  update_piece();
   transform_grid(grid, map_piece_S_rx3, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -603,6 +660,7 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX1Y0(){
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 0;
+  update_piece();
   transform_grid(grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -614,6 +672,7 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX0Y1(){
   piece_rotation = 0;
   piece_x = 0;
   piece_y = 1;
+  update_piece();
   transform_grid(grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -625,6 +684,7 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX1Y1(){
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 1;
+  update_piece();
   transform_grid(grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -637,6 +697,7 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX_1Y0(){
   piece_rotation = 0;
   piece_x = -1;
   piece_y = 0;
+  update_piece();
   transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -648,6 +709,7 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1(){
   piece_rotation = 0;
   piece_x = 0;
   piece_y = -1;
+  update_piece();
   transform_grid(grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], LED_COUNT);
   remove_piece_from_grid();
   TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
@@ -711,6 +773,7 @@ void test_check_left_border_Piece_S_rx0_mov_X0(){
   piece_id = 0;
   piece_rotation = 0;
   int expect_left_border = 0;
+  update_piece();
   TEST_ASSERT_EQUAL_INT(expect_left_border, check_left_border());
 }
 
@@ -742,6 +805,7 @@ void test_check_left_border_Piece_S_rx1_mov_X_1(){
   piece_rotation = 1;
   piece_x = -1;
   int expect_left_border = 0;
+  update_piece();
   TEST_ASSERT_EQUAL_INT(expect_left_border, check_left_border());
 }
 
@@ -783,6 +847,9 @@ int main(){
   RUN_TEST(test_decodePiece_O_rx2);
   RUN_TEST(test_decodePiece_O_rx3);
 
+  RUN_TEST(test_update_piece_S_rx0);
+  RUN_TEST(test_update_piece_S_rx1);
+  RUN_TEST(test_update_piece_L_rx3);
 
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx1);

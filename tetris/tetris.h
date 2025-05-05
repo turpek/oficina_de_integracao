@@ -27,10 +27,18 @@ extern int piece_y;
 
 void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
+void update_piece();
 void add_piece_to_grid();
 void remove_piece_from_grid();
 int is_right_pressed(int dx);
 int is_left_pressed(int dx);
 int check_left_border();
+
+#ifdef ENABLE_TEST
+
+uint8_t* get_test_piece();
+void clear_piece();
+#endif
+
 
 #endif

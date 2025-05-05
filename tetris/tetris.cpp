@@ -114,6 +114,7 @@ uint32_t piece_colors[NUM_PIECE_TYPES] = {
 
 int piece_id = 0;
 int piece_rotation = 0;
+static uint8_t piece[16] = {0};
 int piece_x = 0;
 int piece_y = 0;
 
@@ -132,10 +133,11 @@ void decodePiece(uint8_t *piece, const uint16_t bitmask){
 }
 
 
-void add_piece_to_grid(){
-  uint8_t piece[16] = {0};
+void update_piece(){
   decodePiece(piece, pieces[piece_id][piece_rotation]);
+}
 
+void add_piece_to_grid(){
   for(int y=0; y < PIECE_H; ++y){
     for(int x=0; x < PIECE_W; ++x){
       int dx = piece_x + x;
@@ -151,9 +153,6 @@ void add_piece_to_grid(){
 
 
 void remove_piece_from_grid(){
-  uint8_t piece[16] = {0};
-  decodePiece(piece, pieces[piece_id][piece_rotation]);
-
   for(int y=0; y < PIECE_H; ++y){
     for(int x=0; x < PIECE_W; ++x){
       int dx = piece_x + x;
@@ -182,9 +181,6 @@ int check_left_border(){
   }
 
   int overflow= -(piece_x - 1);
-  uint8_t piece[16] = {0};
-  decodePiece(piece, pieces[piece_id][piece_rotation]);
-
   for(int y=0; y < PIECE_H; y++){
     for(int x=0; x < overflow; x++){
       if(piece[y*PIECE_W +x] != 0)
@@ -200,5 +196,17 @@ int check_left_border(){
 int main(){
 
   return 0;
+}
+#endif
+
+
+#ifdef ENABLE_TEST
+uint8_t *get_test_piece(){
+  return piece;
+}
+
+void clear_piece(){
+  for(int i=0; i < LED_COUNT; i++)
+    piece[i] = 0;
 }
 #endif
