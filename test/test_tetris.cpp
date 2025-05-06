@@ -863,6 +863,67 @@ void test_check_right_border_Piece_S_rx3_mov_X6(){
   TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
 }
 
+void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13(){
+  piece_y = 14;
+  piece_id = 5;
+  piece_rotation = 0;
+  update_piece();
+  add_piece_to_grid();
+
+  piece_x = 3;
+  piece_y = 14;
+  piece_id = 1;
+  update_piece();
+
+  int expect_collision = 0;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(-1, 0));
+}
+
+void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13(){
+  piece_y = 14;
+  piece_id = 5;
+  piece_rotation = 0;
+  update_piece();
+  add_piece_to_grid();
+
+  piece_x = 2;
+  piece_y = 14;
+  piece_id = 1;
+  update_piece();
+
+  int expect_collision = 1;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(-1, 0));
+}
+
+void test_has_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13(){
+  piece_x = 5;
+  piece_y = 13;
+  piece_id = 2;
+  update_piece();
+  add_piece_to_grid();
+
+  piece_x = 3;
+  piece_y = 12;
+  piece_id = 3;
+  update_piece();
+  int expect_collision = 0;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(1, 0));
+}
+
+void test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
+  piece_x = 5;
+  piece_y = 13;
+  piece_id = 2;
+  update_piece();
+  add_piece_to_grid();
+
+  piece_x = 4;
+  piece_y = 12;
+  piece_id = 3;
+  update_piece();
+  int expect_collision = 1;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(1, 0));
+}
 
 int main(){
   UNITY_BEGIN();
@@ -960,6 +1021,11 @@ int main(){
   RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X3);
   RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X5);
   RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X6);
+
+  RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13);
+  RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13);
+  RUN_TEST(test_has_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13);
+  RUN_TEST(test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13);
 
   return UNITY_END();
 
