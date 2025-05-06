@@ -809,6 +809,60 @@ void test_check_left_border_Piece_S_rx1_mov_X_1(){
   TEST_ASSERT_EQUAL_INT(expect_left_border, check_left_border());
 }
 
+void test_check_right_border_Piece_S_rx0_mov_X3(){
+  piece_id = 0;
+  piece_x = 3;
+  piece_rotation = 0;
+  int expect_right_border = 1;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
+}
+
+void test_check_right_border_Piece_S_rx0_mov_X4(){
+  piece_id = 0;
+  piece_x = 4;
+  piece_rotation = 0;
+  int expect_right_border = 1;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
+}
+
+void test_check_right_border_Piece_S_rx0_mov_X5(){
+  piece_id = 0;
+  piece_x = 5;
+  piece_rotation = 0;
+  int expect_right_border = 0;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
+}
+
+void test_check_right_border_Piece_S_rx3_mov_X3(){
+  piece_id = 0;
+  piece_x = 3;
+  piece_rotation = 3;
+  int expect_right_border = 1;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
+}
+
+void test_check_right_border_Piece_S_rx3_mov_X5(){
+  piece_id = 0;
+  piece_x = 5;
+  piece_rotation = 3;
+  int expect_right_border = 1;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
+}
+
+void test_check_right_border_Piece_S_rx3_mov_X6(){
+  piece_id = 0;
+  piece_x = 6;
+  piece_rotation = 3;
+  int expect_right_border = 0;
+  update_piece();
+  TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
+}
+
 
 int main(){
   UNITY_BEGIN();
@@ -899,6 +953,13 @@ int main(){
   RUN_TEST(test_check_left_border_Piece_S_rx1_mov_X0);
   RUN_TEST(test_check_left_border_Piece_S_rx1_mov_X1);
   RUN_TEST(test_check_left_border_Piece_S_rx1_mov_X_1);
+
+  RUN_TEST(test_check_right_border_Piece_S_rx0_mov_X3);
+  RUN_TEST(test_check_right_border_Piece_S_rx0_mov_X4);
+  RUN_TEST(test_check_right_border_Piece_S_rx0_mov_X5);
+  RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X3);
+  RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X5);
+  RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X6);
 
   return UNITY_END();
 
