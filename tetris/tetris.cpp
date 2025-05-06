@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "tetris/Mock_Arduino.h"
+#include <stdio.h>
 
 #define NUM_PIECE_TYPES     7
 #define NUM_ROTATION        4
@@ -180,10 +181,10 @@ int check_left_border(){
     return 1;
   }
 
-  int overflow= -(piece_x - 1);
+  int overflow = -(piece_x - 1);
   for(int y=0; y < PIECE_H; y++){
     for(int x=0; x < overflow; x++){
-      if(piece[y*PIECE_W +x] != 0)
+      if(piece[y*PIECE_W+x] != 0)
         return 0;
     }
 
@@ -191,6 +192,41 @@ int check_left_border(){
   return 1;
 }
 
+int check_right_border(){
+  if(piece_x + PIECE_W < GRID_W){
+    return 1;
+  }
+
+  /*                 Calculo do overflow
+   *
+   * Devemos calcular o quando a peça sai do grid, para isso devemos calcular a coordenada
+   * da extremidade direita da peça com;
+   *
+   *    xend = piece_x + PIECE_W + 1
+   *
+   * agora precisamos calcular o quanto a peça saiu do grid;
+   *
+   *    delx = xend - GRID_W
+   *
+   * se subtrairmos delx de PIECE_W, encontramos o valor do overflow, isso eh;
+   *
+   *    overflow = PIECE_W - delx
+   *    overflow = PIECE_W - (xend - GRID_W)
+   *    overflow = PIECE_W - (piece_x + PIECE_W + 1) + GRID_W
+   *    overflow = GRID_W - (piece_x + 1)
+   *
+   */
+
+  int overflow = GRID_W - (piece_x + 1);
+  for(int y=0; y < PIECE_H; y++){
+    for(int x=overflow; x < PIECE_W; x++){
+      if(piece[y*PIECE_W+x] != 0){
+        return 0;
+      }
+    }
+  }
+  return 1;
+}
 
 #ifndef UNIT_TEST
 int main(){

@@ -33,6 +33,7 @@ void remove_piece_from_grid();
 int is_right_pressed(int dx);
 int is_left_pressed(int dx);
 int check_left_border();
+int check_right_border();
 
 #ifdef ENABLE_TEST
 
