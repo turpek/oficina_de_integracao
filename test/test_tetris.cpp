@@ -863,6 +863,48 @@ void test_check_right_border_Piece_S_rx3_mov_X6(){
   TEST_ASSERT_EQUAL_INT(expect_right_border, check_right_border());
 }
 
+void test_check_botton_border_Piece_S_rx0_mov_Y12(){
+  piece_id = 0;
+  piece_y = 12;
+  update_piece();
+  int expect_botton_border = 1;
+  TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border());
+}
+
+void test_check_botton_border_Piece_S_rx0_mov_Y13(){
+  piece_id = 0;
+  piece_y = 13;
+  update_piece();
+  int expect_botton_border = 1;
+  TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border());
+}
+
+void test_check_botton_border_Piece_S_rx0_mov_Y14(){
+  piece_id = 0;
+  piece_y = 14;
+  update_piece();
+  int expect_botton_border = 0;
+  TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border());
+}
+
+void test_check_botton_border_Piece_I_rx1_mov_Y11(){
+  piece_id = 6;
+  piece_y = 11;
+  piece_rotation = 1;
+  update_piece();
+  int expect_botton_border = 1;
+  TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border());
+}
+
+void test_check_botton_border_Piece_I_rx1_mov_Y12(){
+  piece_id = 6;
+  piece_y = 12;
+  piece_rotation = 1;
+  update_piece();
+  int expect_botton_border = 0;
+  TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border());
+}
+
 void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13(){
   piece_y = 14;
   piece_id = 5;
@@ -1021,6 +1063,12 @@ int main(){
   RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X3);
   RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X5);
   RUN_TEST(test_check_right_border_Piece_S_rx3_mov_X6);
+
+  RUN_TEST(test_check_botton_border_Piece_S_rx0_mov_Y12);
+  RUN_TEST(test_check_botton_border_Piece_S_rx0_mov_Y13);
+  RUN_TEST(test_check_botton_border_Piece_S_rx0_mov_Y14);
+  RUN_TEST(test_check_botton_border_Piece_I_rx1_mov_Y11);
+  RUN_TEST(test_check_botton_border_Piece_I_rx1_mov_Y12);
 
   RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13);
   RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13);
