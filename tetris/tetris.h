@@ -34,6 +34,7 @@ int is_right_pressed(int dx);
 int is_left_pressed(int dx);
 int check_left_border();
 int check_right_border();
+bool check_botton_border();
 bool has_collision(int dx, int dy);
 
 #ifdef ENABLE_TEST

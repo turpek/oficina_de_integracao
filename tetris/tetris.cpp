@@ -94,13 +94,13 @@ uint16_t piece_Z[NUM_ROTATION] = {0xC600, 0x2640, 0x0C60, 0x4C80};
 uint16_t piece_O[NUM_ROTATION] = {0xCC00, 0xCC00, 0xCC00, 0xCC00};
 
 uint16_t* pieces[NUM_PIECE_TYPES] = {
-  piece_S,
-  piece_Z,
-  piece_L,
-  piece_J,
-  piece_O,
-  piece_T,
-  piece_I,
+  piece_S, // 0
+  piece_Z, // 1
+  piece_L, // 2
+  piece_J, // 3
+  piece_O, // 4
+  piece_T, // 5
+  piece_I, // 6
 };
 
 uint32_t piece_colors[NUM_PIECE_TYPES] = {
@@ -226,6 +226,22 @@ int check_right_border(){
     }
   }
   return 1;
+}
+
+bool check_botton_border(){
+  if((piece_y + PIECE_H) < GRID_H){
+    return true;
+  }
+
+  int overflow = GRID_H - (piece_y + 1);
+  for(int y=overflow; y < PIECE_H; y++){
+    for(int x=0; x < PIECE_W; x++){
+      if(piece[y*PIECE_W+x] != 0){
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 bool has_collision(int dx, int dy){
