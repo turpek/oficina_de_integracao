@@ -36,6 +36,7 @@ int check_left_border();
 int check_right_border();
 bool check_botton_border();
 bool has_collision(int dx, int dy);
+bool can_rotate();
 
 #ifdef ENABLE_TEST
 

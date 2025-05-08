@@ -258,6 +258,72 @@ bool has_collision(int dx, int dy){
   return 0;
 }
 
+bool can_rotate(){
+  int old_rotation = piece_rotation;
+  int old_piece_x = piece_x, old_piece_y = piece_y;
+
+  piece_rotation = (piece_rotation + 1) % NUM_ROTATION;
+  update_piece();
+
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+    return true;
+  }
+
+  piece_x = old_piece_x - 1;
+  piece_y = old_piece_y;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+    return true;
+  }
+
+  piece_x = old_piece_x + 1;
+  piece_y = old_piece_y;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x;
+  piece_y = old_piece_y - 1;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x;
+  piece_y = old_piece_y + 1;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x - 2;
+  piece_y = old_piece_y;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x + 2;
+  piece_y = old_piece_y;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x;
+  piece_y = old_piece_y - 2;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x;
+  piece_y = old_piece_y + 2;
+  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
+   return true;
+  }
+
+  piece_x = old_piece_x;
+  piece_y = old_piece_y;
+  piece_rotation = old_rotation;
+  return false;
+}
+
+
 #ifndef UNIT_TEST
 int main(){
 
