@@ -265,7 +265,7 @@ bool can_rotate(){
   
   static constexpr int8_t KICKS_JLSTZ[4][NUM_KICKS][2] = {
   {{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}},  // O -> R
-  {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // R -> 2
+  {{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}},       // R -> 2
   {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // 2 -> L
   {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // L -> O
 };
@@ -283,9 +283,9 @@ bool can_rotate(){
     int dy = kicks[i][1];
     piece_x = old_piece_x + dx;
     piece_y = old_piece_y + dy;
-    printf("(%d, %d), (%d, %d) %d %d %d %d\n",
-        dx, dy, piece_x, piece_y, check_left_border(0),
-        check_right_border(1), check_botton_border(0), !has_collision(0, 0));
+    //printf("(%d, %d), (%d, %d) %d %d %d %d\n",
+    //    dx, dy, piece_x, piece_y, check_left_border(0),
+    //    check_right_border(1), check_botton_border(0), !has_collision(0, 0));
     if(check_left_border(0) && check_right_border(0) &&
         check_botton_border(0) && !has_collision(0, 0)){
       return true;
