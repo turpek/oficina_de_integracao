@@ -24,7 +24,7 @@ extern uint32_t map_piece_S_rx0_movX6Y14[];
 extern uint32_t map_piece_S_rx0_movX5Y15[];
 extern uint32_t map_piece_S_rx0_movX6Y15[];
 
-extern uint32_t map_rotation_shift_1x[];
+extern uint32_t map_rotation_JLSTZ[];
 extern uint32_t map_rotation_shift_2x[];
 
 #endif
