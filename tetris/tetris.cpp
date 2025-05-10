@@ -4,6 +4,7 @@
 
 #define NUM_PIECE_TYPES     7
 #define NUM_ROTATION        4
+#define NUM_KICKS           5
 
 // Definição do tamanho do grid, ou seja, do tamanho da matriz de LEDs
 #define GRID_W 8
@@ -78,6 +79,7 @@ int button_right = 9;
  *
  *                            Peça O
  *   Rotacionado 0x Rotacionado 1x Rotacionado 2x Rotacionado 3x
+ {-1, +1},
  *       1100           1100           1100           1100
  *       1100           1100           1100           1100
  *       0000           0000           0000           0000
@@ -176,12 +178,12 @@ int is_left_pressed(int dx){
   return (dx > JOYSTICK_DEAD_ZONE) || (digitalRead(button_left) == LOW);
 }
 
-int check_left_border(){
-  if((piece_x - 1) >= 0){
+int check_left_border(int dx){
+  if((piece_x - dx) >= 0){
     return 1;
   }
 
-  int overflow = -(piece_x - 1);
+  int overflow = -(piece_x - dx);
   for(int y=0; y < PIECE_H; y++){
     for(int x=0; x < overflow; x++){
       if(piece[y*PIECE_W+x] != 0)
@@ -192,7 +194,7 @@ int check_left_border(){
   return 1;
 }
 
-int check_right_border(){
+int check_right_border(int dx){
   if(piece_x + PIECE_W < GRID_W){
     return 1;
   }
@@ -202,7 +204,7 @@ int check_right_border(){
    * Devemos calcular o quando a peça sai do grid, para isso devemos calcular a coordenada
    * da extremidade direita da peça com;
    *
-   *    xend = piece_x + PIECE_W + 1
+   *    xend = piece_x + PIECE_W + dx
    *
    * agora precisamos calcular o quanto a peça saiu do grid;
    *
@@ -212,12 +214,12 @@ int check_right_border(){
    *
    *    overflow = PIECE_W - delx
    *    overflow = PIECE_W - (xend - GRID_W)
-   *    overflow = PIECE_W - (piece_x + PIECE_W + 1) + GRID_W
-   *    overflow = GRID_W - (piece_x + 1)
+   *    overflow = PIECE_W - (piece_x + PIECE_W + dx) + GRID_W
+   *    overflow = GRID_W - (piece_x + dx)
    *
    */
 
-  int overflow = GRID_W - (piece_x + 1);
+  int overflow = GRID_W - (piece_x + dx);
   for(int y=0; y < PIECE_H; y++){
     for(int x=overflow; x < PIECE_W; x++){
       if(piece[y*PIECE_W+x] != 0){
@@ -228,12 +230,12 @@ int check_right_border(){
   return 1;
 }
 
-bool check_botton_border(){
+bool check_botton_border(int dy){
   if((piece_y + PIECE_H) < GRID_H){
     return true;
   }
 
-  int overflow = GRID_H - (piece_y + 1);
+  int overflow = GRID_H - (piece_y + dy);
   for(int y=overflow; y < PIECE_H; y++){
     for(int x=0; x < PIECE_W; x++){
       if(piece[y*PIECE_W+x] != 0){
@@ -259,67 +261,41 @@ bool has_collision(int dx, int dy){
 }
 
 bool can_rotate(){
-  int old_rotation = piece_rotation;
-  int old_piece_x = piece_x, old_piece_y = piece_y;
 
+  
+  static constexpr int8_t KICKS_JLSTZ[4][NUM_KICKS][2] = {
+  {{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}},  // O -> R
+  {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // R -> 2
+  {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // 2 -> L
+  {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // L -> O
+};
+ 
+  int old_piece_x = piece_x, old_piece_y = piece_y;
+  
+  auto &kicks = KICKS_JLSTZ[piece_rotation];
+  // (piece_id == PIECE_I ? KICKS_I : KICKS_JLSTZ);
+  
+  int old_rotation = piece_rotation;
   piece_rotation = (piece_rotation + 1) % NUM_ROTATION;
   update_piece();
-
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-    return true;
-  }
-
-  piece_x = old_piece_x - 1;
-  piece_y = old_piece_y;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-    return true;
-  }
-
-  piece_x = old_piece_x + 1;
-  piece_y = old_piece_y;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
-  }
-
-  piece_x = old_piece_x;
-  piece_y = old_piece_y - 1;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
-  }
-
-  piece_x = old_piece_x;
-  piece_y = old_piece_y + 1;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
-  }
-
-  piece_x = old_piece_x - 2;
-  piece_y = old_piece_y;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
-  }
-
-  piece_x = old_piece_x + 2;
-  piece_y = old_piece_y;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
-  }
-
-  piece_x = old_piece_x;
-  piece_y = old_piece_y - 2;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
-  }
-
-  piece_x = old_piece_x;
-  piece_y = old_piece_y + 2;
-  if(check_left_border() && check_right_border() && !has_collision(0, 0)){
-   return true;
+  for(int i=0; i<NUM_KICKS; i++){
+    int dx = kicks[i][0];
+    int dy = kicks[i][1];
+    piece_x = old_piece_x + dx;
+    piece_y = old_piece_y + dy;
+    printf("(%d, %d), (%d, %d) %d %d %d %d\n",
+        dx, dy, piece_x, piece_y, check_left_border(0),
+        check_right_border(1), check_botton_border(0), !has_collision(0, 0));
+    if(check_left_border(0) && check_right_border(0) &&
+        check_botton_border(0) && !has_collision(0, 0)){
+      return true;
+    }
   }
 
   piece_x = old_piece_x;
   piece_y = old_piece_y;
   piece_rotation = old_rotation;
+
   return false;
 }
 
