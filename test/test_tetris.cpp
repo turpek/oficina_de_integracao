@@ -969,67 +969,129 @@ void test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
 
 
 
-void test_can_rotate_OR_J_test_1(){
+void test_can_rotate_OR_L_test_1(){
   piece_x = 2;
   piece_y = 2;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
 
-  can_rotate();
   int expect_rotate =1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, 1);
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
 }
 
-void test_can_rotate_OR_J_test_2(){
+void test_can_rotate_OR_L_test_2(){
   piece_x = 0;
   piece_y = 13;
   piece_id = 3;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_JLSTZ, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L_OR, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
 }
 
-void test_can_rotate_OR_J_test_3(){
+void test_can_rotate_OR_L_test_3(){
   piece_x = 3;
   piece_y = 12;
   piece_id = 3;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_JLSTZ, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L_OR, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
-  add_piece_to_grid();
-  show_grid(grid);
 }
 
-void test_can_rotate_OR_J_test_4(){
+void test_can_rotate_OR_L_test_4(){
   piece_x = 5;
   piece_y = 14;
   piece_id = 3;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_JLSTZ, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L_OR, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
 }
 
-void test_can_rotate_OR_J_test_5(){
+void test_can_rotate_OR_L_test_5(){
   piece_x = 3;
   piece_y = 14;
   piece_id = 3;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_JLSTZ, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L_OR, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+}
+
+void test_can_rotate_R2_L_test_1(){
+  piece_x = 2;
+  piece_y = 2;
+  piece_id = 2;
+  piece_rotation = 1;
+  update_piece();
+
+  int expect_rotate =1;
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+}
+
+void test_can_rotate_R2_L_test_2(){
+  piece_x = 0;
+  piece_y = 12;
+  piece_id = 2;
+  piece_rotation = 1;
+  update_piece();
+  transform_grid(grid, map_rotation_L_R2, piece_colors[piece_id], LED_COUNT);
+  int expect_rotate =1;
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+}
+
+void test_can_rotate_R2_L_test_3(){
+  piece_x = 0;
+  piece_y = 10;
+  piece_id = 2;
+  piece_rotation = 1;
+  update_piece();
+  transform_grid(grid, map_rotation_L_R2, piece_colors[piece_id], LED_COUNT);
+  int expect_rotate =1;
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+}
+
+void test_can_rotate_R2_L_test_4(){
+  piece_x = 3;
+  piece_y = 11;
+  piece_id = 2;
+  piece_rotation = 1;
+  update_piece();
+  transform_grid(grid, map_rotation_L_R2, piece_colors[piece_id], LED_COUNT);
+  int expect_rotate =1;
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+}
+
+void test_can_rotate_R2_L_test_5(){
+  piece_x = 0;
+  piece_y = 6;
+  piece_id = 2;
+  piece_rotation = 1;
+  update_piece();
+  transform_grid(grid, map_rotation_L_R2, piece_colors[piece_id], LED_COUNT);
+  int expect_rotate =1;
+  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+}
+
+void test_can_rotate_R2_L_test_floor(){
+  piece_x = 1;
+  piece_y = 13;
+  piece_id = 2;
+  piece_rotation = 1;
+  update_piece();
+  transform_grid(grid, map_rotation_L_R2, piece_colors[piece_id], LED_COUNT);
+  int expect_rotate =1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
 }
 
 int main(){
   UNITY_BEGIN();
-  /*
   RUN_TEST(test_decodePiece_I_rx0);
   RUN_TEST(test_decodePiece_I_rx1);
   RUN_TEST(test_decodePiece_I_rx2);
@@ -1135,12 +1197,19 @@ int main(){
   RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13);
   RUN_TEST(test_has_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13);
   RUN_TEST(test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13);
-  */
-  RUN_TEST(test_can_rotate_OR_J_test_1);  
-  RUN_TEST(test_can_rotate_OR_J_test_2);  
-  RUN_TEST(test_can_rotate_OR_J_test_3);  
-  RUN_TEST(test_can_rotate_OR_J_test_4);  
-  RUN_TEST(test_can_rotate_OR_J_test_5);  
+
+  RUN_TEST(test_can_rotate_OR_L_test_1);  
+  RUN_TEST(test_can_rotate_OR_L_test_2);  
+  RUN_TEST(test_can_rotate_OR_L_test_3);  
+  RUN_TEST(test_can_rotate_OR_L_test_4);  
+  RUN_TEST(test_can_rotate_OR_L_test_5);  
+  
+  RUN_TEST(test_can_rotate_R2_L_test_1);  
+  RUN_TEST(test_can_rotate_R2_L_test_2);  
+  RUN_TEST(test_can_rotate_R2_L_test_3);  
+  RUN_TEST(test_can_rotate_R2_L_test_4);  
+  RUN_TEST(test_can_rotate_R2_L_test_5);  
+  RUN_TEST(test_can_rotate_R2_L_test_floor);  
 
   return UNITY_END();
 
