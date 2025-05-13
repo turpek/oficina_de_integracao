@@ -264,7 +264,20 @@ bool has_collision(int dx, int dy){
 
 bool can_rotate(){
 
-  
+bool _check_rotate(int old_piece_x, int old_piece_y, const int8_t kicks[][2], int num_kicks){
+  for(int i=0; i< num_kicks; i++){
+    piece_x = old_piece_x + kicks[i][0];
+    piece_y = old_piece_y + kicks[i][1];
+    if(check_left_border(0) && check_right_border(0) &&
+        check_botton_border(0) && has_no_collision(0, 0)){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool can_rotate(){
   static constexpr int8_t kicks[NUM_KICKS][2] = {{0, 0}, {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
   static constexpr int8_t kicks_I[NUM_KICKS_I][2] = {{-2, 0}, {2, 0}, {0, -2}};
 
@@ -273,28 +286,13 @@ bool can_rotate(){
 
   piece_rotation = (piece_rotation + 1) % NUM_ROTATION;
   update_piece();
-  for(int i=0; i<NUM_KICKS; i++){
-    int dx = kicks[i][0];
-    int dy = kicks[i][1];
-    piece_x = old_piece_x + dx;
-    piece_y = old_piece_y + dy;
-    if(check_left_border(0) && check_right_border(0) &&
-        check_botton_border(0) && !has_collision(0, 0)){
-      return true;
-    }
+  if(_check_rotate(old_piece_x, old_piece_y, kicks, NUM_KICKS)){
+    return true;
   }
 
   if(piece_id == PIECE_I){
-    for(int i=0; i<NUM_KICKS_I; i++){
-      int dx = kicks_I[i][0];
-      int dy = kicks_I[i][1];
-      piece_x = old_piece_x + dx;
-      piece_y = old_piece_y + dy;
-    if(check_left_border(0) && check_right_border(0) &&
-        check_botton_border(0) && !has_collision(0, 0)){
+    if(_check_rotate(old_piece_x, old_piece_y, kicks_I, NUM_KICKS_I)){
       return true;
-    }
-
     }
   }
 
