@@ -248,7 +248,7 @@ bool check_botton_border(int dy){
   return true;
 }
 
-bool has_collision(int dx, int dy){
+bool has_no_collision(int dx, int dy){
   for(int y=piece_y+dy, j=0; y < GRID_H && j < PIECE_H; y++, j++){
     if(y < 0)
       continue;
@@ -256,13 +256,12 @@ bool has_collision(int dx, int dy){
       if(x < 0)
         continue;
       if((grid[y * GRID_W + x] > 0) && (piece[j * PIECE_W + i] > 0))
-        return 1;
+        return 0;
     }
   }
-  return 0;
+  return 1;
 }
 
-bool can_rotate(){
 
 bool _check_rotate(int old_piece_x, int old_piece_y, const int8_t kicks[][2], int num_kicks){
   for(int i=0; i< num_kicks; i++){

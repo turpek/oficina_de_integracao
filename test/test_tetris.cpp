@@ -905,7 +905,7 @@ void test_check_botton_border_Piece_I_rx1_mov_Y12(){
   TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border(1));
 }
 
-void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13(){
+void test_has_no_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13(){
   piece_y = 14;
   piece_id = 5;
   piece_rotation = 0;
@@ -917,11 +917,11 @@ void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13(){
   piece_id = 1;
   update_piece();
 
-  int expect_collision = 0;
-  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(-1, 0));
+  int expect_collision = 1;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(-1, 0));
 }
 
-void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13(){
+void test_has_no_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13(){
   piece_y = 14;
   piece_id = 5;
   piece_rotation = 0;
@@ -933,11 +933,11 @@ void test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13(){
   piece_id = 1;
   update_piece();
 
-  int expect_collision = 1;
-  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(-1, 0));
+  int expect_collision = 0;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(-1, 0));
 }
 
-void test_has_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13(){
+void test_has_no_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13(){
   piece_x = 5;
   piece_y = 13;
   piece_id = 2;
@@ -948,11 +948,11 @@ void test_has_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13(){
   piece_y = 12;
   piece_id = 3;
   update_piece();
-  int expect_collision = 0;
-  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(1, 0));
+  int expect_collision = 1;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(1, 0));
 }
 
-void test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
+void test_has_no_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
   piece_x = 5;
   piece_y = 13;
   piece_id = 2;
@@ -963,8 +963,8 @@ void test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
   piece_y = 12;
   piece_id = 3;
   update_piece();
-  int expect_collision = 1;
-  TEST_ASSERT_EQUAL_INT(expect_collision, has_collision(1, 0));
+  int expect_collision = 0;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(1, 0));
 }
 
 
@@ -1182,10 +1182,10 @@ int main(){
   RUN_TEST(test_check_botton_border_Piece_I_rx1_mov_Y11);
   RUN_TEST(test_check_botton_border_Piece_I_rx1_mov_Y12);
 
-  RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13);
-  RUN_TEST(test_has_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13);
-  RUN_TEST(test_has_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13);
-  RUN_TEST(test_has_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13);
+  RUN_TEST(test_has_no_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX3Y13);
+  RUN_TEST(test_has_no_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13);
+  RUN_TEST(test_has_no_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13);
+  RUN_TEST(test_has_no_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13);
 
   RUN_TEST(test_can_rotate_L_test_1);  
   RUN_TEST(test_can_rotate_L_test_2);  
