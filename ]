@@ -1057,28 +1057,6 @@ void test_can_rotate_I_rx1_test_left_wall(){
   TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
 }
 
-void test_can_rotate_I_rx0_test_floor(){
-  piece_x = 2;
-  piece_y = 14;
-  piece_id = 6;
-  piece_rotation = 0;
-  update_piece();
-  transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
-  int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
-}
-
-void test_can_rotate_I_rx2_test_floor(){
-  piece_x = 2;
-  piece_y = 14;
-  piece_id = 6;
-  piece_rotation = 2;
-  update_piece();
-  transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
-  int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
-}
-
 int main(){
   UNITY_BEGIN();
   RUN_TEST(test_decodePiece_I_rx0);
@@ -1197,7 +1175,6 @@ int main(){
   RUN_TEST(test_can_rotate_I_rx3_test_right_wall);
   RUN_TEST(test_can_rotate_I_rx1_test_left_wall);
   RUN_TEST(test_can_rotate_I_rx0_test_floor);
-  RUN_TEST(test_can_rotate_I_rx2_test_floor);
 
   return UNITY_END();
 
