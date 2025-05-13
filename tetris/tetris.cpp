@@ -5,6 +5,8 @@
 #define NUM_PIECE_TYPES     7
 #define NUM_ROTATION        4
 #define NUM_KICKS           5
+#define NUM_KICKS_I         3
+#define PIECE_I             6
 
 // Definição do tamanho do grid, ou seja, do tamanho da matriz de LEDs
 #define GRID_W 8
@@ -263,19 +265,12 @@ bool has_collision(int dx, int dy){
 bool can_rotate(){
 
   
-  static constexpr int8_t KICKS_JLSTZ[4][NUM_KICKS][2] = {
-  {{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}},  // O -> R
-  {{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}},       // R -> 2
-  {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // 2 -> L
-  {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},       // L -> O
-};
- 
+  static constexpr int8_t kicks[NUM_KICKS][2] = {{0, 0}, {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+  static constexpr int8_t kicks_I[NUM_KICKS_I][2] = {{-2, 0}, {2, 0}, {0, -2}};
+
   int old_piece_x = piece_x, old_piece_y = piece_y;
-  
-  auto &kicks = KICKS_JLSTZ[piece_rotation];
-  // (piece_id == PIECE_I ? KICKS_I : KICKS_JLSTZ);
-  
   int old_rotation = piece_rotation;
+
   piece_rotation = (piece_rotation + 1) % NUM_ROTATION;
   update_piece();
   for(int i=0; i<NUM_KICKS; i++){
@@ -283,19 +278,29 @@ bool can_rotate(){
     int dy = kicks[i][1];
     piece_x = old_piece_x + dx;
     piece_y = old_piece_y + dy;
-    //printf("(%d, %d), (%d, %d) %d %d %d %d\n",
-    //    dx, dy, piece_x, piece_y, check_left_border(0),
-    //    check_right_border(1), check_botton_border(0), !has_collision(0, 0));
     if(check_left_border(0) && check_right_border(0) &&
         check_botton_border(0) && !has_collision(0, 0)){
       return true;
     }
   }
 
+  if(piece_id == PIECE_I){
+    for(int i=0; i<NUM_KICKS_I; i++){
+      int dx = kicks_I[i][0];
+      int dy = kicks_I[i][1];
+      piece_x = old_piece_x + dx;
+      piece_y = old_piece_y + dy;
+    if(check_left_border(0) && check_right_border(0) &&
+        check_botton_border(0) && !has_collision(0, 0)){
+      return true;
+    }
+
+    }
+  }
+
   piece_x = old_piece_x;
   piece_y = old_piece_y;
   piece_rotation = old_rotation;
-
   return false;
 }
 
