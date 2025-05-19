@@ -21,6 +21,10 @@ void setUp(void){
 void tearDown(void){
   pin_values[button_right] = HIGH;
   pin_values[button_left] = HIGH;
+  pin_values[button_down] = HIGH;
+  pin_values[button_up] = HIGH;
+  current_time = 500;
+  last_fall_timer = 0;
 };
 
 void show_piece(uint8_t *piece){
@@ -1117,6 +1121,63 @@ void test_fall_timer_expired_true_with_start_fall_timer(){
 }
 
 
+void test_is_down_pressed_down_button_not_pressed(){
+  pin_values[button_down] = HIGH;
+  int expect_down_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+}
+
+
+void test_is_down_pressed_down_button_pressed(){
+  pin_values[button_down] = LOW;
+  int expect_down_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+}
+
+void test_is_down_pressed_by_joystick_DY_0(){
+  int expect_down_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+
+}
+
+void test_is_down_pressed_by_joystick_DY_30(){
+  int expect_down_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-30));
+}
+
+void test_is_down_pressed_by_joystick_DY_31(){
+  int expect_down_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-31));
+}
+
+
+void test_is_up_pressed_up_button_not_pressed(){
+  pin_values[button_up] = HIGH;
+  int expect_up_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+}
+
+void test_is_up_pressed_up_button_pressed(){
+  pin_values[button_up] = LOW;
+  int expect_up_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+}
+
+void test_is_up_pressed_by_joystick_DY0(){
+  int expect_up_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+}
+
+void test_is_up_pressed_by_joystick_DY30(){
+  int expect_up_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(30));
+}
+
+void test_is_up_pressed_by_joystick_DY31(){
+  int expect_up_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(31));
+}
+
 int main(){
   UNITY_BEGIN();
   RUN_TEST(test_decodePiece_I_rx0);
@@ -1200,6 +1261,18 @@ int main(){
   RUN_TEST(test_is_left_pressed_by_joystick_DX_0);
   RUN_TEST(test_is_left_pressed_by_joystick_DX_30);
   RUN_TEST(test_is_left_pressed_by_joystick_DX_31);
+
+  RUN_TEST(test_is_down_pressed_down_button_not_pressed);
+  RUN_TEST(test_is_down_pressed_down_button_pressed);
+  RUN_TEST(test_is_down_pressed_by_joystick_DY_0);
+  RUN_TEST(test_is_down_pressed_by_joystick_DY_30);
+  RUN_TEST(test_is_down_pressed_by_joystick_DY_31);
+
+  RUN_TEST(test_is_up_pressed_up_button_not_pressed);
+  RUN_TEST(test_is_up_pressed_up_button_pressed);
+  RUN_TEST(test_is_up_pressed_by_joystick_DY0);
+  RUN_TEST(test_is_up_pressed_by_joystick_DY30);
+  RUN_TEST(test_is_up_pressed_by_joystick_DY31);
 
   RUN_TEST(test_check_left_border_Piece_S_rx0_mov_X0);
   RUN_TEST(test_check_left_border_Piece_S_rx0_mov_X1);
