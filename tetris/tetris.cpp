@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "tetris/Mock_Arduino.h"
+#include "tetris/Mock_Adafruit_NeoPixel.h"
 #include <stdio.h>
 
 #define NUM_PIECE_TYPES     7
@@ -22,6 +23,12 @@
 // Dimensões das peças
 #define PIECE_W 4
 #define PIECE_H 4
+
+
+// Opções do tempo de descida
+#define INITIAL_FALL_DELAY 500
+#define INITIAL_LAST_FALL_DELAY 0
+#define DROP_DISCOUNT 60
 
 int button_left = 8;
 int button_right = 9;
@@ -123,7 +130,23 @@ static uint8_t piece[16] = {0};
 int piece_x = 0;
 int piece_y = 0;
 
+unsigned long fall_delay = INITIAL_FALL_DELAY;
+unsigned long last_fall_delay = INITIAL_LAST_FALL_DELAY;
+unsigned long last_fall_timer = 0;
+
 uint32_t grid[LED_COUNT] = {0};
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
+
+
+void start_fall_timar(){
+  last_fall_timer = millis();
+}
+
+bool is_fall_timer_expired(){
+  return (millis() - last_fall_timer) >= fall_delay;
+}
+
 
 void clear_grid(){
   for(int i=0; i < LED_COUNT; i++){

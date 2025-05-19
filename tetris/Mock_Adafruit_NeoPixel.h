@@ -7,6 +7,10 @@
 #include <cstdint>
 #include <cstdio>
 
+#define NEO_RGB    0
+#define NEO_KHZ800 0
+
+
 class Adafruit_NeoPixel {
 public:
     /**

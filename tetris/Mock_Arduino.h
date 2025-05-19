@@ -2,10 +2,12 @@
 #define MOCK_ARDUINO_H
 
 // Modos de pino
-#define INPUT          0
-#define OUTPUT         1
-#define INPUT_PULLUP   2
-#define INPUT_PULLDOWN 3
+#define INPUT           0
+#define OUTPUT          1
+#define INPUT_PULLUP    2
+#define INPUT_PULLDOWN  3
+#define A0             -1
+#define A1             -2
 
 // Estados lógicos
 #define LOW  0
@@ -16,6 +18,8 @@ const int MAX_PINS = 20;
 
 inline int pin_modes[MAX_PINS]  = {INPUT};
 inline int pin_values[MAX_PINS] = {LOW};
+inline int mockAnalogValue = 0;
+inline unsigned int current_time = 0;
 
 
 inline void pinMode(int pin, int mode) {
@@ -45,6 +49,20 @@ inline int digitalRead(int pin) {
         return (pin_values[pin] == HIGH ? HIGH : LOW);
     }
     return LOW;
+}
+
+inline int analogRead(int pin) {
+  // Mock: Retorna valores fixos ou controlados em teste
+  return mockAnalogValue;
+}
+
+inline long map(long x, long in_min, long in_max, long out_min, long out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+
+inline unsigned long millis() {
+    return current_time;
 }
 
 #endif
