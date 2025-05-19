@@ -32,6 +32,10 @@
 
 int button_left = 8;
 int button_right = 9;
+int button_down = 10;
+int button_up = 11;
+int joystick_x = A0;
+int joystick_y = A1;
 
 //
 
@@ -154,6 +158,12 @@ void clear_grid(){
   }
 }
 
+void show_grid(){
+  for(int i=0; i < LED_COUNT; i++){
+    strip.setPixelColor(i, grid[i]);
+  }
+}
+
 void decodePiece(uint8_t *piece, const uint16_t bitmask){
   for(int i=0, bshift=15; i<15; i++, bshift--){
     piece[i] = bitmask >> bshift & 1;
@@ -195,12 +205,20 @@ void remove_piece_from_grid(){
 };
 
 
-int is_right_pressed(int dx){
+bool is_right_pressed(int dx){
   return (dx < -JOYSTICK_DEAD_ZONE) || (digitalRead(button_right) == LOW);
 }
 
-int is_left_pressed(int dx){
+bool is_left_pressed(int dx){
   return (dx > JOYSTICK_DEAD_ZONE) || (digitalRead(button_left) == LOW);
+}
+
+bool is_down_pressed(int dy){
+  return (dy < -JOYSTICK_DEAD_ZONE || (digitalRead(button_down) == LOW));
+}
+
+bool is_up_pressed(int dy){
+  return (dy > JOYSTICK_DEAD_ZONE) || (digitalRead(button_up) == LOW);
 }
 
 int check_left_border(int dx){
@@ -324,6 +342,31 @@ bool can_rotate(){
   return false;
 }
 
+
+void react_to_player(){
+  int dx = map(analogRead(joystick_x),0,1023,512,-512);
+  int dy = map(analogRead(joystick_y),0,1023,512,-512);
+  int can_show = false;
+
+  remove_piece_from_grid();
+  if(is_left_pressed(dx) &&check_left_border(1) && has_no_collision(-1, 0)){
+    piece_x--;
+    can_show = true;
+  }
+  if(is_right_pressed(dx) && check_right_border(1) && has_no_collision(1, 0)){
+    piece_x++;
+    can_show = true;
+  }
+  if(is_up_pressed(dy)){
+    can_rotate();
+    can_show = true;
+  }
+  add_piece_to_grid();
+
+  if(can_show){
+    show_grid();
+  }
+}
 
 #ifndef UNIT_TEST
 int main(){

@@ -6,6 +6,8 @@
 // Declaração dos pinos
 extern int button_left;
 extern int button_right;
+extern int button_down;
+extern int button_up;
 
 // Declaração (não definição!)
 extern uint16_t piece_I[];
@@ -25,13 +27,17 @@ extern int piece_rotation;
 extern int piece_x;
 extern int piece_y;
 
+extern unsigned long last_fall_timer;
+
 void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
 void update_piece();
 void add_piece_to_grid();
 void remove_piece_from_grid();
-int is_right_pressed(int dx);
-int is_left_pressed(int dx);
+bool is_right_pressed(int dx);
+bool is_left_pressed(int dx);
+bool is_down_pressed(int dy);
+bool is_up_pressed(int dy);
 int check_left_border(int dx);
 int check_right_border(int dx);
 bool check_botton_border(int dy);
