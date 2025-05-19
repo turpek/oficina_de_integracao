@@ -409,6 +409,7 @@ void test_decodePiece_O_rx3(){
 }
 
 
+
 /***************** TESTES DA FUNÇÃO `update_piece` *************************/
 
 void test_update_piece_S_rx0(){
@@ -1079,6 +1080,43 @@ void test_can_rotate_I_rx2_test_floor(){
   TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
 }
 
+
+void test_fall_timer_expired_false_interval_less_than_fall_delay(){
+  int expect_fall_timer = 0;
+  current_time = 499;
+  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+}
+
+void test_fall_timer_expired_true_interval_equal_than_fall_delay(){
+  int expect_fall_timer = 1;
+  current_time = 500;
+  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+}
+
+void test_fall_timer_expired_true_interval_greater_than_fall_delay(){
+  int expect_fall_timer = 1;
+  current_time = 501;
+  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+}
+
+
+void test_fall_timer_expired_false_with_start_fall_timer(){
+  int expect_fall_timer = 0;
+  current_time = 679;
+  start_fall_timar();
+  current_time = 943;
+  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+}
+
+void test_fall_timer_expired_true_with_start_fall_timer(){
+  int expect_fall_timer = 1;
+  current_time = 679;
+  start_fall_timar();
+  current_time = 1243;
+  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+}
+
+
 int main(){
   UNITY_BEGIN();
   RUN_TEST(test_decodePiece_I_rx0);
@@ -1198,6 +1236,12 @@ int main(){
   RUN_TEST(test_can_rotate_I_rx1_test_left_wall);
   RUN_TEST(test_can_rotate_I_rx0_test_floor);
   RUN_TEST(test_can_rotate_I_rx2_test_floor);
+
+  RUN_TEST(test_fall_timer_expired_false_interval_less_than_fall_delay);
+  RUN_TEST(test_fall_timer_expired_true_interval_equal_than_fall_delay);
+  RUN_TEST(test_fall_timer_expired_true_interval_greater_than_fall_delay);
+  RUN_TEST(test_fall_timer_expired_false_with_start_fall_timer);
+  RUN_TEST(test_fall_timer_expired_true_with_start_fall_timer);
 
   return UNITY_END();
 
