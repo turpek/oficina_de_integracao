@@ -974,7 +974,7 @@ void test_has_no_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
 
 
 
-void test_can_rotate_L_test_1(){
+void test_try_rotate_L_test_1(){
   piece_x = 2;
   piece_y = 2;
   piece_id = 2;
@@ -982,10 +982,10 @@ void test_can_rotate_L_test_1(){
   update_piece();
 
   int expect_rotate =1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_L_test_2(){
+void test_try_rotate_L_test_2(){
   piece_x = 1;
   piece_y = 13;
   piece_id = 2;
@@ -993,10 +993,10 @@ void test_can_rotate_L_test_2(){
   update_piece();
   transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_L_test_3(){
+void test_try_rotate_L_test_3(){
   piece_x = 1;
   piece_y = 11;
   piece_id = 2;
@@ -1004,10 +1004,10 @@ void test_can_rotate_L_test_3(){
   update_piece();
   transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_L_test_4(){
+void test_try_rotate_L_test_4(){
   piece_x = 4;
   piece_y = 12;
   piece_id = 2;
@@ -1015,10 +1015,10 @@ void test_can_rotate_L_test_4(){
   update_piece();
   transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_L_test_5(){
+void test_try_rotate_L_test_5(){
   piece_x = 3;
   piece_y = 4;
   piece_id = 2;
@@ -1026,10 +1026,10 @@ void test_can_rotate_L_test_5(){
   update_piece();
   transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_L_test_floor(){
+void test_try_rotate_L_test_floor(){
   piece_x = 3;
   piece_y = 14;
   piece_id = 2;
@@ -1037,10 +1037,10 @@ void test_can_rotate_L_test_floor(){
   update_piece();
   transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_I_rx3_test_right_wall(){
+void test_try_rotate_I_rx3_test_right_wall(){
   piece_x = 6;
   piece_y = 10;
   piece_id = 6;
@@ -1048,10 +1048,10 @@ void test_can_rotate_I_rx3_test_right_wall(){
   update_piece();
   transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_I_rx1_test_left_wall(){
+void test_try_rotate_I_rx1_test_left_wall(){
   piece_x = -2;
   piece_y = 10;
   piece_id = 6;
@@ -1059,10 +1059,10 @@ void test_can_rotate_I_rx1_test_left_wall(){
   update_piece();
   transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_I_rx0_test_floor(){
+void test_try_rotate_I_rx0_test_floor(){
   piece_x = 2;
   piece_y = 14;
   piece_id = 6;
@@ -1070,10 +1070,10 @@ void test_can_rotate_I_rx0_test_floor(){
   update_piece();
   transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
-void test_can_rotate_I_rx2_test_floor(){
+void test_try_rotate_I_rx2_test_floor(){
   piece_x = 2;
   piece_y = 14;
   piece_id = 6;
@@ -1081,7 +1081,7 @@ void test_can_rotate_I_rx2_test_floor(){
   update_piece();
   transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
   int expect_rotate = 1;
-  TEST_ASSERT_EQUAL_INT(expect_rotate, can_rotate());
+  TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 
@@ -1298,17 +1298,17 @@ int main(){
   RUN_TEST(test_has_no_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13);
   RUN_TEST(test_has_no_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13);
 
-  RUN_TEST(test_can_rotate_L_test_1);  
-  RUN_TEST(test_can_rotate_L_test_2);  
-  RUN_TEST(test_can_rotate_L_test_3);  
-  RUN_TEST(test_can_rotate_L_test_4);  
-  RUN_TEST(test_can_rotate_L_test_5);  
-  RUN_TEST(test_can_rotate_L_test_floor);  
+  RUN_TEST(test_try_rotate_L_test_1);  
+  RUN_TEST(test_try_rotate_L_test_2);  
+  RUN_TEST(test_try_rotate_L_test_3);  
+  RUN_TEST(test_try_rotate_L_test_4);  
+  RUN_TEST(test_try_rotate_L_test_5);  
+  RUN_TEST(test_try_rotate_L_test_floor);  
 
-  RUN_TEST(test_can_rotate_I_rx3_test_right_wall);
-  RUN_TEST(test_can_rotate_I_rx1_test_left_wall);
-  RUN_TEST(test_can_rotate_I_rx0_test_floor);
-  RUN_TEST(test_can_rotate_I_rx2_test_floor);
+  RUN_TEST(test_try_rotate_I_rx3_test_right_wall);
+  RUN_TEST(test_try_rotate_I_rx1_test_left_wall);
+  RUN_TEST(test_try_rotate_I_rx0_test_floor);
+  RUN_TEST(test_try_rotate_I_rx2_test_floor);
 
   RUN_TEST(test_fall_timer_expired_false_interval_less_than_fall_delay);
   RUN_TEST(test_fall_timer_expired_true_interval_equal_than_fall_delay);

@@ -135,7 +135,6 @@ int piece_x = 0;
 int piece_y = 0;
 
 unsigned long fall_delay = INITIAL_FALL_DELAY;
-unsigned long last_fall_delay = INITIAL_LAST_FALL_DELAY;
 unsigned long last_fall_timer = 0;
 
 uint32_t grid[LED_COUNT] = {0};
@@ -317,7 +316,7 @@ bool _check_rotate(int old_piece_x, int old_piece_y, const int8_t kicks[][2], in
   return false;
 }
 
-bool can_rotate(){
+bool try_rotate(){
   static constexpr int8_t kicks[NUM_KICKS][2] = {{0, 0}, {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
   static constexpr int8_t kicks_I[NUM_KICKS_I][2] = {{-2, 0}, {2, 0}, {0, -2}};
 
@@ -358,7 +357,7 @@ void react_to_player(){
     can_show = true;
   }
   if(is_up_pressed(dy)){
-    can_rotate();
+    try_rotate();
     can_show = true;
   }
   add_piece_to_grid();

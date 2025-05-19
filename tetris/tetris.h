@@ -42,7 +42,7 @@ int check_left_border(int dx);
 int check_right_border(int dx);
 bool check_botton_border(int dy);
 bool has_no_collision(int dx, int dy);
-bool can_rotate();
+bool try_rotate();
 void start_fall_timar();
 bool is_fall_timer_expired();
 
