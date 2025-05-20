@@ -62,7 +62,6 @@
    
    - Teste de integração entre software e hardware, isto é, testar a movimentação da peças na matriz de LED, botões e joystick por meio do arduino
    
-   - es
 
 6. 20/05 até 03/06 **[Marco 2]**
    
