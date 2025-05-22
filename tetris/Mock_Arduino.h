@@ -65,4 +65,21 @@ inline unsigned long millis() {
     return current_time;
 }
 
+inline  unsigned long mock_random_seed_value;
+
+inline void randomSeed(unsigned long seed) {
+    mock_random_seed_value = seed;
+}
+
+inline long mock_random_return_value;
+inline long random(long max) {
+    return mock_random_return_value % max;
+}
+
+inline long random(long min, long max) {
+    return min + (mock_random_return_value % (max - min));
+}
+
+inline void delay(long time) {};
+
 #endif
