@@ -209,11 +209,10 @@ void show_grid(){
 }
 
 void decodePiece(uint8_t *piece, const uint16_t bitmask){
-  for(int i=0, bshift=15; i<15; i++, bshift--){
+  for(int i=0, bshift=15; i<16; i++, bshift--){
     piece[i] = bitmask >> bshift & 1;
   }
 }
-
 
 void update_piece(){
   decodePiece(piece, pieces[piece_id][piece_rotation]);
