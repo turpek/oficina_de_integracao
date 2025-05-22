@@ -25,6 +25,7 @@ void tearDown(void){
   pin_values[button_up] = HIGH;
   current_time = 500;
   last_fall_timer = 0;
+  piece_moved = false;
 };
 
 void show_piece(uint8_t *piece){
@@ -1178,6 +1179,22 @@ void test_is_up_pressed_by_joystick_DY31(){
   TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(31));
 }
 
+void test_has_piece_moved_default(){
+  TEST_ASSERT_FALSE(has_piece_moved());
+}
+
+void test_has_piece_moved_set_true(){
+  set_piece_moved();
+  TEST_ASSERT_TRUE(has_piece_moved());
+}
+
+void test_has_piece_moved_set_false(){
+  set_piece_moved();
+  reset_piece_moved();
+  TEST_ASSERT_FALSE(has_piece_moved());
+}
+
+
 int main(){
   UNITY_BEGIN();
   RUN_TEST(test_decodePiece_I_rx0);
@@ -1315,6 +1332,11 @@ int main(){
   RUN_TEST(test_fall_timer_expired_true_interval_greater_than_fall_delay);
   RUN_TEST(test_fall_timer_expired_false_with_start_fall_timer);
   RUN_TEST(test_fall_timer_expired_true_with_start_fall_timer);
+
+  RUN_TEST(test_has_piece_moved_default);
+  RUN_TEST(test_has_piece_moved_set_true);
+  RUN_TEST(test_has_piece_moved_set_false);
+
 
   return UNITY_END();
 
