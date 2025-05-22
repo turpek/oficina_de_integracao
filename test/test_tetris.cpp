@@ -16,16 +16,18 @@ void setUp(void){
   piece_x = 0;
   piece_y = 0;
   clear_piece();
-};
-
-void tearDown(void){
   pin_values[button_right] = HIGH;
   pin_values[button_left] = HIGH;
   pin_values[button_down] = HIGH;
   pin_values[button_up] = HIGH;
+  mock_analog_x = JOYSTICK_CENTER;
+  mock_analog_y = JOYSTICK_CENTER;
   current_time = 500;
   last_fall_timer = 0;
   piece_moved = false;
+};
+
+void tearDown(void){
 };
 
 void show_piece(uint8_t *piece){
@@ -1121,64 +1123,6 @@ void test_fall_timer_expired_true_with_start_fall_timer(){
   TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
 }
 
-
-void test_is_down_pressed_down_button_not_pressed(){
-  pin_values[button_down] = HIGH;
-  int expect_down_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
-}
-
-
-void test_is_down_pressed_down_button_pressed(){
-  pin_values[button_down] = LOW;
-  int expect_down_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
-}
-
-void test_is_down_pressed_by_joystick_DY_0(){
-  int expect_down_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
-
-}
-
-void test_is_down_pressed_by_joystick_DY_30(){
-  int expect_down_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-30));
-}
-
-void test_is_down_pressed_by_joystick_DY_31(){
-  int expect_down_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-31));
-}
-
-
-void test_is_up_pressed_up_button_not_pressed(){
-  pin_values[button_up] = HIGH;
-  int expect_up_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
-}
-
-void test_is_up_pressed_up_button_pressed(){
-  pin_values[button_up] = LOW;
-  int expect_up_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
-}
-
-void test_is_up_pressed_by_joystick_DY0(){
-  int expect_up_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
-}
-
-void test_is_up_pressed_by_joystick_DY30(){
-  int expect_up_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(30));
-}
-
-void test_is_up_pressed_by_joystick_DY31(){
-  int expect_up_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(31));
-}
-
 void test_has_piece_moved_default(){
   TEST_ASSERT_FALSE(has_piece_moved());
 }
@@ -1194,9 +1138,350 @@ void test_has_piece_moved_set_false(){
   TEST_ASSERT_FALSE(has_piece_moved());
 }
 
+void test_react_to_player_without_movements(){
+  int expect_piece_x = 2;
+  int expect_piece_y = 2;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 2;
+
+  update_piece();
+  add_piece_to_grid();
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_left_true(){
+  int expect_piece_x = 1;
+  int expect_piece_y = 2;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 2;
+
+  update_piece();
+  add_piece_to_grid();
+  pin_values[button_left] = LOW;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_joystick_left_true(){
+  int expect_piece_x = 1;
+  int expect_piece_y = 2;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 2;
+
+  update_piece();
+  add_piece_to_grid();
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  mock_analog_x = JOYSTICK_LEFT;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_left_collision(){
+  int expect_piece_x = 1;
+  int expect_piece_y = 9;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 9;
+
+  update_piece();
+  add_piece_to_grid();
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+    
+  pin_values[button_left] = LOW;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 9");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_joystick_left_collision(){
+  int expect_piece_x = 1;
+  int expect_piece_y = 9;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 9;
+
+  update_piece();
+  add_piece_to_grid();
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+    
+  mock_analog_x = JOYSTICK_LEFT;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 9");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_left_border(){
+  int expect_piece_x = 0;
+  int expect_piece_y = 0;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 0;
+
+  update_piece();
+  add_piece_to_grid();
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+    
+  pin_values[button_left] = LOW;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 0");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_joystick_left_border(){
+  int expect_piece_x = 0;
+  int expect_piece_y = 0;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 0;
+
+  update_piece();
+  add_piece_to_grid();
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+    
+  mock_analog_x = JOYSTICK_LEFT;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 0");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_right_true(){
+  int expect_piece_x = 3;
+  int expect_piece_y = 2;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 2;
+
+  update_piece();
+  add_piece_to_grid();
+  pin_values[button_right] = LOW;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 3");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+void test_react_to_player_joystick_right_true(){
+  int expect_piece_x = 3;
+  int expect_piece_y = 2;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 2;
+
+  update_piece();
+  add_piece_to_grid();
+  mock_analog_x = JOYSTICK_RIGHT;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 3");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_right_collision(){
+  int expect_piece_x = 2;
+  int expect_piece_y = 13;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 13;
+
+  update_piece();
+  add_piece_to_grid();
+  pin_values[button_right] = LOW;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 13");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_joystick_right_collision(){
+  int expect_piece_x = 2;
+  int expect_piece_y = 13;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 2;
+  piece_y = 13;
+
+  update_piece();
+  add_piece_to_grid();
+  mock_analog_x = JOYSTICK_RIGHT;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 13");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_right_border(){
+  int expect_piece_x = 7;
+  int expect_piece_y = 0;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 7;
+  piece_y = 0;
+
+  update_piece();
+  add_piece_to_grid();
+  pin_values[button_right] = LOW;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 7");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_joystick_right_border(){
+  int expect_piece_x = 7;
+  int expect_piece_y = 0;
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 7;
+  piece_y = 0;
+
+  update_piece();
+  add_piece_to_grid();
+  mock_analog_x = JOYSTICK_RIGHT;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 7");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_botton_up_true(){
+  int expect_rotation = 1;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 4;
+  piece_y = 4;
+
+  update_piece();
+  add_piece_to_grid();
+  pin_values[button_up] = LOW;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 1");
+}
+
+void test_react_to_player_joystick_up_true(){
+  int expect_rotation = 1;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 4;
+  piece_y = 4;
+
+  update_piece();
+  add_piece_to_grid();
+  mock_analog_y = JOYSTICK_UP;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 1");
+}
+
+void test_react_to_player_botton_up_false(){
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 14;
+
+  update_piece();
+  add_piece_to_grid();
+  pin_values[button_up] = LOW;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+void test_react_to_player_joystick_up_false(){
+  int expect_rotation = 0;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 14;
+
+  update_piece();
+  add_piece_to_grid();
+  mock_analog_y = JOYSTICK_UP;
+  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
+}
+
+
 
 int main(){
   UNITY_BEGIN();
+
   RUN_TEST(test_decodePiece_I_rx0);
   RUN_TEST(test_decodePiece_I_rx1);
   RUN_TEST(test_decodePiece_I_rx2);
@@ -1337,6 +1622,23 @@ int main(){
   RUN_TEST(test_has_piece_moved_set_true);
   RUN_TEST(test_has_piece_moved_set_false);
 
+  RUN_TEST(test_react_to_player_without_movements);
+  RUN_TEST(test_react_to_player_botton_left_true);
+  RUN_TEST(test_react_to_player_joystick_left_true);
+  RUN_TEST(test_react_to_player_botton_left_collision);
+  RUN_TEST(test_react_to_player_joystick_left_collision);
+  RUN_TEST(test_react_to_player_botton_left_border);
+  RUN_TEST(test_react_to_player_joystick_left_border);
+  RUN_TEST(test_react_to_player_botton_right_true);
+  RUN_TEST(test_react_to_player_joystick_right_true);
+  RUN_TEST(test_react_to_player_botton_right_collision);
+  RUN_TEST(test_react_to_player_joystick_right_collision);
+  RUN_TEST(test_react_to_player_botton_right_border);
+  RUN_TEST(test_react_to_player_joystick_right_border);
+  RUN_TEST(test_react_to_player_botton_up_true);
+  RUN_TEST(test_react_to_player_joystick_up_true);
+  RUN_TEST(test_react_to_player_botton_up_false);
+  RUN_TEST(test_react_to_player_joystick_up_false);
 
   return UNITY_END();
 
