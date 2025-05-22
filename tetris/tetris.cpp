@@ -388,24 +388,23 @@ bool try_rotate(){
 void react_to_player(){
   int dx = map(analogRead(joystick_x),0,1023,512,-512);
   int dy = map(analogRead(joystick_y),0,1023,512,-512);
-  int can_show = false;
 
   remove_piece_from_grid();
   if(is_left_pressed(dx) &&check_left_border(1) && has_no_collision(-1, 0)){
     piece_x--;
-    can_show = true;
+    set_piece_moved();
   }
   if(is_right_pressed(dx) && check_right_border(1) && has_no_collision(1, 0)){
     piece_x++;
-    can_show = true;
+    set_piece_moved();
   }
   if(is_up_pressed(dy)){
     try_rotate();
-    can_show = true;
+    set_piece_moved();
   }
   add_piece_to_grid();
 
-  if(can_show){
+  if(has_piece_moved()){
     show_grid();
   }
 }
