@@ -142,10 +142,36 @@ uint32_t grid[LED_COUNT] = {0};
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
+uint8_t bag[NUM_PIECE_TYPES];
+uint8_t bag_index = 0;
 
-void start_fall_timar(){
-  last_fall_timer = millis();
+void shuffle_bag() {
+  // Fisher-Yates
+  for (int i = NUM_PIECE_TYPES - 1; i > 0; i--) {
+    int j = random(i + 1);
+    uint8_t tmp = bag[i];
+    bag[i] = bag[j];
+    bag[j] = tmp;
+  }
 }
+
+void init_bag() {
+  for (uint8_t i = 0; i < NUM_PIECE_TYPES; i++) {
+    bag[i] = i;
+  }
+  shuffle_bag();
+  bag_index = 0;
+}
+
+uint8_t get_next_piece() {
+  if (bag_index >= NUM_PIECE_TYPES) {
+    init_bag(); // reembaralha
+  }
+  return bag[bag_index++];
+}
+
+
+
 
 bool is_fall_timer_expired(){
   return (millis() - last_fall_timer) >= fall_delay;
