@@ -27,7 +27,10 @@ extern int piece_rotation;
 extern int piece_x;
 extern int piece_y;
 
-extern unsigned long last_fall_timer;
+extern unsigned long last_fall_delay;
+extern unsigned long last_lock_delay;
+extern bool locking;
+extern bool piece_moved;
 
 void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
@@ -45,6 +48,9 @@ bool has_no_collision(int dx, int dy);
 bool try_rotate();
 void start_fall_timar();
 bool is_fall_timer_expired();
+bool has_piece_moved();
+void set_piece_moved();
+void reset_piece_moved();
 
 #ifdef ENABLE_TEST
 
