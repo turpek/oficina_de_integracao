@@ -223,14 +223,13 @@ void add_piece_to_grid(){
     for(int x=0; x < PIECE_W; ++x){
       int dx = piece_x + x;
       int dy = piece_y + y;
-      if((dx < 0 || dx > GRID_W) || (dy < 0 || dy > GRID_H))
+      if((dx < 0 || dx >= GRID_W) || (dy < 0 || dy >= GRID_H))
         continue;
       else if(piece[y*PIECE_W+x] == 1)
         grid[dy*GRID_W+dx] = piece_colors[piece_id];
     }
   }
-
-};
+}
 
 
 void remove_piece_from_grid(){
@@ -238,7 +237,7 @@ void remove_piece_from_grid(){
     for(int x=0; x < PIECE_W; ++x){
       int dx = piece_x + x;
       int dy = piece_y + y;
-      if((dx < 0 || dx > GRID_W) || (dy < 0 || dy > GRID_H))
+      if((dx < 0 || dx >= GRID_W) || (dy < 0 || dy >= GRID_H))
         continue;
       else if(piece[y*PIECE_W+x] == 1)
         grid[dy*GRID_W+dx] = 0;
