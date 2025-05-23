@@ -13,6 +13,11 @@
 
 class Adafruit_NeoPixel {
 public:
+
+
+      Adafruit_NeoPixel(const Adafruit_NeoPixel&)            = delete;
+      Adafruit_NeoPixel& operator=(const Adafruit_NeoPixel&) = delete;
+
     /**
      * Constructor:
      * @param numPixels Number of LEDs in the strip
@@ -31,9 +36,12 @@ public:
      * Destructor: frees pixel buffer
      */
     ~Adafruit_NeoPixel() {
+      if (_pixels) {
         delete[] _pixels;
         _pixels = nullptr;
+      }
     }
+
 
     /**
      * Initialize the strip (mock) - clears all pixels
@@ -94,6 +102,7 @@ public:
     uint16_t numPixels() const {
         return _numPixels;
     }
+    
 
 private:
     uint16_t  _numPixels;  // number of LEDs
