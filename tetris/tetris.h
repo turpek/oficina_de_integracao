@@ -51,6 +51,7 @@ void start_lock_delay();
 void reset_lock_delay();
 bool is_lock_delay_elapsed();
 bool is_lock_delay_active();
+bool can_fall();
 bool has_piece_moved();
 void set_piece_moved();
 void reset_piece_moved();

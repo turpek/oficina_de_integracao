@@ -26,7 +26,7 @@
 
 
 // Opções do tempo de descida
-#define INITIAL_FALL_DELAY 500
+#define INITIAL_FALL_DELAY 1000
 #define INITIAL_LAST_FALL_DELAY 0
 #define INITIAL_LOCK_DELAY 500
 #define DROP_DISCOUNT 60
@@ -175,16 +175,6 @@ uint8_t get_next_piece() {
   return bag[bag_index++];
 }
 
-bool is_fall_delay_elapsed(){
-  return (millis() - last_fall_delay) >= fall_delay;
-}
-
-
-void start_fall_delay(){
-  last_fall_delay = millis();
-}
-
-
 bool has_piece_moved(){
   return piece_moved;
 }
@@ -201,10 +191,6 @@ void clear_grid(){
   for(int i=0; i < LED_COUNT; i++){
     grid[i] = 0;
   }
-}
-
-bool can_auto_fall(){
-  return !locking && is_fall_delay_elapsed();
 }
 
 void start_lock_delay(){
@@ -226,6 +212,18 @@ bool is_lock_delay_active(){
 // Função que verifica se o tempo de lock expirou
 bool is_lock_delay_elapsed(){
   return is_lock_delay_active() && ((millis() - last_lock_delay) > lock_delay);
+}
+
+bool is_fall_delay_elapsed(){
+  return (millis() - last_fall_delay) >= fall_delay;
+}
+
+void start_fall_delay(){
+  last_fall_delay = millis();
+}
+
+bool can_fall(){
+  return !is_lock_delay_active() && is_fall_delay_elapsed();
 }
 
 void show_grid(){
