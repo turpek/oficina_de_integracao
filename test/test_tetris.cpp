@@ -1089,38 +1089,33 @@ void test_try_rotate_I_rx2_test_floor(){
 
 
 void test_fall_timer_expired_false_interval_less_than_fall_delay(){
-  int expect_fall_timer = 0;
-  current_time = 499;
-  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+  current_time = 999;
+  TEST_ASSERT_FALSE(is_fall_delay_elapsed());
 }
 
 void test_fall_timer_expired_true_interval_equal_than_fall_delay(){
-  int expect_fall_timer = 1;
-  current_time = 500;
-  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+  current_time = 1000;
+  TEST_ASSERT_TRUE(is_fall_delay_elapsed());
 }
 
 void test_fall_timer_expired_true_interval_greater_than_fall_delay(){
-  int expect_fall_timer = 1;
-  current_time = 501;
-  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+  current_time = 1001;
+  TEST_ASSERT_TRUE(is_fall_delay_elapsed());
 }
 
 
 void test_fall_timer_expired_false_with_start_fall_timer(){
-  int expect_fall_timer = 0;
-  current_time = 679;
-  start_fall_timar();
-  current_time = 943;
-  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+  current_time = 1279;
+  start_fall_delay();
+  current_time = 2143;
+  TEST_ASSERT_FALSE(is_fall_delay_elapsed());
 }
 
 void test_fall_timer_expired_true_with_start_fall_timer(){
-  int expect_fall_timer = 1;
-  current_time = 679;
-  start_fall_timar();
-  current_time = 1243;
-  TEST_ASSERT_EQUAL_INT(expect_fall_timer, is_fall_timer_expired());
+  current_time = 1279;
+  start_fall_delay();
+  current_time = 2343;
+  TEST_ASSERT_TRUE(is_fall_delay_elapsed());
 }
 
 void test_has_piece_moved_default(){
