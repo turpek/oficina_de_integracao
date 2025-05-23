@@ -55,6 +55,7 @@ bool can_fall();
 bool has_piece_moved();
 void set_piece_moved();
 void reset_piece_moved();
+void react_to_player();
 
 #ifdef ENABLE_TEST
 
