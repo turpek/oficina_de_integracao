@@ -779,6 +779,64 @@ void test_is_left_pressed_by_joystick_DX_31(){
   TEST_ASSERT_EQUAL_INT(expect_left_pressed, is_left_pressed(31));
 }
 
+
+void test_is_down_pressed_down_button_not_pressed(){
+  pin_values[button_down] = HIGH;
+  int expect_down_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+}
+
+
+void test_is_down_pressed_down_button_pressed(){
+  pin_values[button_down] = LOW;
+  int expect_down_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+}
+
+void test_is_down_pressed_by_joystick_DY_0(){
+  int expect_down_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+
+}
+
+void test_is_down_pressed_by_joystick_DY_30(){
+  int expect_down_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-30));
+}
+
+void test_is_down_pressed_by_joystick_DY_31(){
+  int expect_down_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-31));
+}
+
+
+void test_is_up_pressed_up_button_not_pressed(){
+  pin_values[button_up] = HIGH;
+  int expect_up_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+}
+
+void test_is_up_pressed_up_button_pressed(){
+  pin_values[button_up] = LOW;
+  int expect_up_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+}
+
+void test_is_up_pressed_by_joystick_DY0(){
+  int expect_up_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+}
+
+void test_is_up_pressed_by_joystick_DY30(){
+  int expect_up_pressed = 0;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(30));
+}
+
+void test_is_up_pressed_by_joystick_DY31(){
+  int expect_up_pressed = 1;
+  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(31));
+}
+
 void test_check_left_border_Piece_S_rx0_mov_X0(){
   piece_id = 0;
   piece_rotation = 0;
