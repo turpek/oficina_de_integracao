@@ -1617,6 +1617,38 @@ void test_is_lock_delay_elapsed_true(){
   TEST_ASSERT_TRUE(is_lock_delay_elapsed());
 }
 
+void test_can_fall_false_with_lock_delay_disabled(){
+  reset_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + 10;
+  TEST_ASSERT_FALSE(can_fall());
+}
+
+void test_can_fall_false_with_lock_delay_active_with_fall_delay_false(){
+  start_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + 10;
+  TEST_ASSERT_FALSE(can_fall());
+}
+
+void test_can_fall_false_with_lock_delay_active_with_fall_delay_true(){
+  start_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + INITIAL_FALL_DELAY;
+  TEST_ASSERT_FALSE(can_fall());
+}
+
+void test_can_fall_true(){
+  reset_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + INITIAL_FALL_DELAY;
+  TEST_ASSERT_TRUE(can_fall());
+}
+
 int main(){
   UNITY_BEGIN();
 
@@ -1789,6 +1821,11 @@ int main(){
   RUN_TEST(test_is_lock_delay_elapsed_false_time_delta_less_than_lock_delay);
   RUN_TEST(test_is_lock_delay_elapsed_false_time_delta_INITIAL_LOCK_DELAY);
   RUN_TEST(test_is_lock_delay_elapsed_true);
+
+  RUN_TEST(test_can_fall_false_with_lock_delay_disabled);
+  RUN_TEST(test_can_fall_false_with_lock_delay_active_with_fall_delay_false);
+  RUN_TEST(test_can_fall_false_with_lock_delay_active_with_fall_delay_true);
+  RUN_TEST(test_can_fall_true);
 
   return UNITY_END();
 
