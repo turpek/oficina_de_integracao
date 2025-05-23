@@ -430,6 +430,7 @@ void react_to_player(){
 
   if(has_piece_moved()){
     show_grid();
+    delay(MOVE_DELAY);
   }
 }
 
