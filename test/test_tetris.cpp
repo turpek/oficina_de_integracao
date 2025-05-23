@@ -8,6 +8,11 @@ using namespace std;
 #define GRID_W 8
 #define GRID_H 16
 #define LED_COUNT (GRID_W * GRID_H)
+#define INITIAL_FALL_DELAY 1000
+#define INITIAL_LAST_FALL_DELAY 0
+#define INITIAL_LOCK_DELAY 500
+#define DROP_DISCOUNT 60
+#define MOVE_DELAY 100
 
 void setUp(void){
   clear_grid();
@@ -25,7 +30,7 @@ void setUp(void){
   current_time = 500;
   last_fall_delay = 0;
   last_lock_delay = 0;
-  locking = false;
+  reset_lock_delay();
   piece_moved = false;
 };
 
@@ -1256,7 +1261,7 @@ void test_react_to_player_botton_left_true(){
   add_piece_to_grid();
   pin_values[button_left] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
@@ -1276,7 +1281,7 @@ void test_react_to_player_joystick_left_true(){
   update_piece();
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   mock_analog_x = JOYSTICK_LEFT;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
@@ -1297,7 +1302,7 @@ void test_react_to_player_botton_left_collision(){
   update_piece();
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-    
+
   pin_values[button_left] = LOW;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
@@ -1318,7 +1323,7 @@ void test_react_to_player_joystick_left_collision(){
   update_piece();
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-    
+
   mock_analog_x = JOYSTICK_LEFT;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
@@ -1339,7 +1344,7 @@ void test_react_to_player_botton_left_border(){
   update_piece();
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-    
+
   pin_values[button_left] = LOW;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 0");
@@ -1360,7 +1365,7 @@ void test_react_to_player_joystick_left_border(){
   update_piece();
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-    
+
   mock_analog_x = JOYSTICK_LEFT;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 0");
@@ -1382,7 +1387,7 @@ void test_react_to_player_botton_right_true(){
   add_piece_to_grid();
   pin_values[button_right] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 3");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
@@ -1402,7 +1407,7 @@ void test_react_to_player_joystick_right_true(){
   add_piece_to_grid();
   mock_analog_x = JOYSTICK_RIGHT;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 3");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 2");
@@ -1423,7 +1428,7 @@ void test_react_to_player_botton_right_collision(){
   add_piece_to_grid();
   pin_values[button_right] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 13");
@@ -1444,7 +1449,7 @@ void test_react_to_player_joystick_right_collision(){
   add_piece_to_grid();
   mock_analog_x = JOYSTICK_RIGHT;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 13");
@@ -1465,7 +1470,7 @@ void test_react_to_player_botton_right_border(){
   add_piece_to_grid();
   pin_values[button_right] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 7");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
@@ -1486,7 +1491,7 @@ void test_react_to_player_joystick_right_border(){
   add_piece_to_grid();
   mock_analog_x = JOYSTICK_RIGHT;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 7");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
@@ -1505,7 +1510,7 @@ void test_react_to_player_botton_up_true(){
   add_piece_to_grid();
   pin_values[button_up] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 1");
 }
@@ -1522,7 +1527,7 @@ void test_react_to_player_joystick_up_true(){
   add_piece_to_grid();
   mock_analog_y = JOYSTICK_UP;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 1");
 }
@@ -1539,7 +1544,7 @@ void test_react_to_player_botton_up_false(){
   add_piece_to_grid();
   pin_values[button_up] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
 }
@@ -1556,12 +1561,61 @@ void test_react_to_player_joystick_up_false(){
   add_piece_to_grid();
   mock_analog_y = JOYSTICK_UP;
   transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
-  
+
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
 }
 
 
+void test_is_lock_delay_active_default(){
+  TEST_ASSERT_FALSE(is_lock_delay_active());
+}
+
+void test_is_lock_delay_active_false(){
+  reset_lock_delay();
+  TEST_ASSERT_FALSE(is_lock_delay_active());
+}
+
+void test_is_lock_delay_active_true(){
+  start_lock_delay();
+  TEST_ASSERT_TRUE(is_lock_delay_active());
+}
+
+void test_is_lock_delay_active_manually_disabled(){
+  start_lock_delay();
+  reset_lock_delay();
+  TEST_ASSERT_FALSE(is_lock_delay_active());
+
+}
+
+void test_is_lock_delay_elapsed_false_with_lock_delay_disabled(){
+  current_time = 200;
+  start_lock_delay();
+  reset_lock_delay();
+  current_time = current_time + INITIAL_LOCK_DELAY + 1;
+  TEST_ASSERT_FALSE(is_lock_delay_elapsed());
+}
+
+void test_is_lock_delay_elapsed_false_time_delta_less_than_lock_delay(){
+  current_time = 200;
+  start_lock_delay();
+  current_time = current_time + 20;
+  TEST_ASSERT_FALSE(is_lock_delay_elapsed());
+}
+
+void test_is_lock_delay_elapsed_false_time_delta_INITIAL_LOCK_DELAY(){
+  current_time = 200;
+  start_lock_delay();
+  current_time = current_time + INITIAL_LOCK_DELAY;
+  TEST_ASSERT_FALSE(is_lock_delay_elapsed());
+}
+
+void test_is_lock_delay_elapsed_true(){
+  current_time = 200;
+  start_lock_delay();
+  current_time = current_time + INITIAL_LOCK_DELAY + 1;
+  TEST_ASSERT_TRUE(is_lock_delay_elapsed());
+}
 
 int main(){
   UNITY_BEGIN();
@@ -1725,6 +1779,16 @@ int main(){
   RUN_TEST(test_react_to_player_joystick_up_true);
   RUN_TEST(test_react_to_player_botton_up_false);
   RUN_TEST(test_react_to_player_joystick_up_false);
+
+  RUN_TEST(test_is_lock_delay_active_default);
+  RUN_TEST(test_is_lock_delay_active_false);
+  RUN_TEST(test_is_lock_delay_active_true);
+  RUN_TEST(test_is_lock_delay_active_manually_disabled);
+
+  RUN_TEST(test_is_lock_delay_elapsed_false_with_lock_delay_disabled);
+  RUN_TEST(test_is_lock_delay_elapsed_false_time_delta_less_than_lock_delay);
+  RUN_TEST(test_is_lock_delay_elapsed_false_time_delta_INITIAL_LOCK_DELAY);
+  RUN_TEST(test_is_lock_delay_elapsed_true);
 
   return UNITY_END();
 
