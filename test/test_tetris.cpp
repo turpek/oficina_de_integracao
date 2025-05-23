@@ -23,7 +23,9 @@ void setUp(void){
   mock_analog_x = JOYSTICK_CENTER;
   mock_analog_y = JOYSTICK_CENTER;
   current_time = 500;
-  last_fall_timer = 0;
+  last_fall_delay = 0;
+  last_lock_delay = 0;
+  locking = false;
   piece_moved = false;
 };
 
