@@ -1740,12 +1740,12 @@ int main(){
   RUN_TEST(test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX1Y12);
   RUN_TEST(test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX0Y12);
 
-  RUN_TEST(test_try_rotate_L_test_1);  
-  RUN_TEST(test_try_rotate_L_test_2);  
-  RUN_TEST(test_try_rotate_L_test_3);  
-  RUN_TEST(test_try_rotate_L_test_4);  
-  RUN_TEST(test_try_rotate_L_test_5);  
-  RUN_TEST(test_try_rotate_L_test_floor);  
+  RUN_TEST(test_try_rotate_L_test_1);
+  RUN_TEST(test_try_rotate_L_test_2);
+  RUN_TEST(test_try_rotate_L_test_3);
+  RUN_TEST(test_try_rotate_L_test_4);
+  RUN_TEST(test_try_rotate_L_test_5);
+  RUN_TEST(test_try_rotate_L_test_floor);
 
   RUN_TEST(test_try_rotate_I_rx3_test_right_wall);
   RUN_TEST(test_try_rotate_I_rx1_test_left_wall);
