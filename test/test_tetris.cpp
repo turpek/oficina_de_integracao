@@ -31,7 +31,7 @@ void setUp(void){
   last_fall_delay = 0;
   last_lock_delay = 0;
   reset_lock_delay();
-  piece_moved = false;
+  reset_piece_moved();
 };
 
 void tearDown(void){
