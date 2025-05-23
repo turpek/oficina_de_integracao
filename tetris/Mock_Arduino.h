@@ -13,13 +13,22 @@
 #define LOW  0
 #define HIGH 1
 
+// Estados do joystick
+#define JOYSTICK_LEFT   200
+#define JOYSTICK_CENTER 512
+#define JOYSTICK_RIGHT  800
+#define JOYSTICK_NOISE  510
+#define JOYSTICK_UP     200
+#define JOYSTICK_DOWN   800
+
 // Número máximo de pinos simulados
 const int MAX_PINS = 20;
 
 inline int pin_modes[MAX_PINS]  = {INPUT};
 inline int pin_values[MAX_PINS] = {LOW};
-inline int mockAnalogValue = 0;
 inline unsigned int current_time = 0;
+inline int mock_analog_x = 512;
+inline int mock_analog_y = 512;
 
 
 inline void pinMode(int pin, int mode) {
@@ -51,9 +60,11 @@ inline int digitalRead(int pin) {
     return LOW;
 }
 
+
 inline int analogRead(int pin) {
-  // Mock: Retorna valores fixos ou controlados em teste
-  return mockAnalogValue;
+    if (pin == A0) return mock_analog_x;
+    if (pin == A1) return mock_analog_y;
+    return 0;
 }
 
 inline long map(long x, long in_min, long in_max, long out_min, long out_max) {
