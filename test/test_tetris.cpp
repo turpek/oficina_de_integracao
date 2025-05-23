@@ -975,6 +975,35 @@ void test_has_no_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13(){
   TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(1, 0));
 }
 
+void test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX1Y12(){
+  piece_x = 1;
+  piece_y = 14;
+  piece_id = 2;
+  update_piece();
+  add_piece_to_grid();
+
+  piece_x = 1;
+  piece_y = 12;
+  piece_id = 3;
+  update_piece();
+  int expect_collision = 0;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(0, 1));
+}
+
+void test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX0Y12(){
+  piece_x = 1;
+  piece_y = 14;
+  piece_id = 2;
+  update_piece();
+  add_piece_to_grid();
+
+  piece_x = 0;
+  piece_y = 12;
+  piece_id = 3;
+  update_piece();
+  int expect_collision = 1;
+  TEST_ASSERT_EQUAL_INT(expect_collision, has_no_collision(0, 1));
+}
 
 
 void test_try_rotate_L_test_1(){
@@ -1594,6 +1623,8 @@ int main(){
   RUN_TEST(test_has_no_collision_left_Piece_T_rx0_X0Y13_Piece_Z_rx0_movX2Y13);
   RUN_TEST(test_has_no_collision_right_Piece_J_rx0_X3Y12_Piece_L_rx0_movX5Y13);
   RUN_TEST(test_has_no_collision_right_Piece_J_rx0_X4Y12_Piece_L_rx0_movX5Y13);
+  RUN_TEST(test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX1Y12);
+  RUN_TEST(test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX0Y12);
 
   RUN_TEST(test_try_rotate_L_test_1);  
   RUN_TEST(test_try_rotate_L_test_2);  
