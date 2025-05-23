@@ -1182,30 +1182,30 @@ void test_try_rotate_I_rx2_test_floor(){
 }
 
 
-void test_fall_timer_expired_false_interval_less_than_fall_delay(){
+void test_is_fall_delay_elapsed_false_interval_less_than_fall_delay(){
   current_time = 999;
   TEST_ASSERT_FALSE(is_fall_delay_elapsed());
 }
 
-void test_fall_timer_expired_true_interval_equal_than_fall_delay(){
+void test_is_fall_delay_elapsed_true_interval_equal_than_fall_delay(){
   current_time = 1000;
   TEST_ASSERT_TRUE(is_fall_delay_elapsed());
 }
 
-void test_fall_timer_expired_true_interval_greater_than_fall_delay(){
+void test_is_fall_delay_elapsed_true_interval_greater_than_fall_delay(){
   current_time = 1001;
   TEST_ASSERT_TRUE(is_fall_delay_elapsed());
 }
 
 
-void test_fall_timer_expired_false_with_start_fall_timer(){
+void test_is_fall_delay_elapsed_false_with_start_fall_timer(){
   current_time = 1279;
   start_fall_delay();
   current_time = 2143;
   TEST_ASSERT_FALSE(is_fall_delay_elapsed());
 }
 
-void test_fall_timer_expired_true_with_start_fall_timer(){
+void test_is_fall_delay_elapsed_true_with_start_fall_timer(){
   current_time = 1279;
   start_fall_delay();
   current_time = 2343;
@@ -1784,11 +1784,11 @@ int main(){
   RUN_TEST(test_try_rotate_I_rx0_test_floor);
   RUN_TEST(test_try_rotate_I_rx2_test_floor);
 
-  RUN_TEST(test_fall_timer_expired_false_interval_less_than_fall_delay);
-  RUN_TEST(test_fall_timer_expired_true_interval_equal_than_fall_delay);
-  RUN_TEST(test_fall_timer_expired_true_interval_greater_than_fall_delay);
-  RUN_TEST(test_fall_timer_expired_false_with_start_fall_timer);
-  RUN_TEST(test_fall_timer_expired_true_with_start_fall_timer);
+  RUN_TEST(test_is_fall_delay_elapsed_false_interval_less_than_fall_delay);
+  RUN_TEST(test_is_fall_delay_elapsed_true_interval_equal_than_fall_delay);
+  RUN_TEST(test_is_fall_delay_elapsed_true_interval_greater_than_fall_delay);
+  RUN_TEST(test_is_fall_delay_elapsed_false_with_start_fall_timer);
+  RUN_TEST(test_is_fall_delay_elapsed_true_with_start_fall_timer);
 
   RUN_TEST(test_has_piece_moved_default);
   RUN_TEST(test_has_piece_moved_set_true);
