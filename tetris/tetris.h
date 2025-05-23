@@ -29,7 +29,6 @@ extern int piece_y;
 
 extern unsigned long last_fall_delay;
 extern unsigned long last_lock_delay;
-extern bool locking;
 extern bool piece_moved;
 
 void clear_grid();
@@ -48,6 +47,10 @@ bool has_no_collision(int dx, int dy);
 bool try_rotate();
 void start_fall_delay();
 bool is_fall_delay_elapsed();
+void start_lock_delay();
+void reset_lock_delay();
+bool is_lock_delay_elapsed();
+bool is_lock_delay_active();
 bool has_piece_moved();
 void set_piece_moved();
 void reset_piece_moved();

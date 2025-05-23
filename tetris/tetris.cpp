@@ -28,7 +28,9 @@
 // Opções do tempo de descida
 #define INITIAL_FALL_DELAY 500
 #define INITIAL_LAST_FALL_DELAY 0
+#define INITIAL_LOCK_DELAY 500
 #define DROP_DISCOUNT 60
+#define MOVE_DELAY 100
 
 int button_left = 8;
 int button_right = 9;
@@ -135,7 +137,10 @@ int piece_x = 0;
 int piece_y = 0;
 
 unsigned long fall_delay = INITIAL_FALL_DELAY;
-unsigned long last_fall_timer = 0;
+unsigned long last_fall_delay = 0;
+unsigned long lock_delay = INITIAL_LOCK_DELAY;
+unsigned long last_lock_delay = 0;
+bool locking = false;
 bool piece_moved = false;
 
 uint32_t grid[LED_COUNT] = {0};
@@ -202,10 +207,25 @@ bool can_auto_fall(){
   return !locking && is_fall_delay_elapsed();
 }
 
-void clear_grid(){
-  for(int i=0; i < LED_COUNT; i++){
-    grid[i] = 0;
+void start_lock_delay(){
+  if(!locking){
+    locking = true;
+    last_lock_delay = millis();
   }
+}
+
+void reset_lock_delay(){
+  locking = false;
+}
+
+// Função para verificar se o jogo está no tempo de lock
+bool is_lock_delay_active(){
+  return locking;
+}
+
+// Função que verifica se o tempo de lock expirou
+bool is_lock_delay_elapsed(){
+  return is_lock_delay_active() && ((millis() - last_lock_delay) > lock_delay);
 }
 
 void show_grid(){
