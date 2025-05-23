@@ -429,7 +429,7 @@ uint8_t *get_test_piece(){
 }
 
 void clear_piece(){
-  for(int i=0; i < LED_COUNT; i++)
+  for(int i=0; i < 16; i++)
     piece[i] = 0;
 }
 #endif
