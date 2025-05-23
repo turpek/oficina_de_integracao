@@ -1,6 +1,6 @@
 # Definição de variáveis
 CXX      = g++
-CXXFLAGS = -Wall -I. -DUNIT_TEST -DENABLE_TEST
+CXXFLAGS = -g -Wall -I. -DUNIT_TEST -DENABLE_TEST
 SRC_DIR  = tetris
 TEST_DIR = test
 UNITY_DIR = Unity
