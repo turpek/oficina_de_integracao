@@ -140,8 +140,9 @@ unsigned long fall_delay = INITIAL_FALL_DELAY;
 unsigned long last_fall_delay = 0;
 unsigned long lock_delay = INITIAL_LOCK_DELAY;
 unsigned long last_lock_delay = 0;
-bool locking = false;
-bool piece_moved = false;
+static bool locking = false;
+static bool piece_moved = false;
+static bool score_check = false;
 
 uint32_t grid[LED_COUNT] = {0};
 
@@ -224,6 +225,19 @@ void start_fall_delay(){
 
 bool can_fall(){
   return !is_lock_delay_active() && is_fall_delay_elapsed();
+}
+
+
+void set_score_check(){
+  score_check = true;
+}
+
+void reset_score_check(){
+  score_check = false;
+}
+
+bool can_score_check(){
+  return score_check;
 }
 
 void show_grid(){
