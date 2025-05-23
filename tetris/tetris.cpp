@@ -170,12 +170,15 @@ uint8_t get_next_piece() {
   return bag[bag_index++];
 }
 
-
-
-
-bool is_fall_timer_expired(){
-  return (millis() - last_fall_timer) >= fall_delay;
+bool is_fall_delay_elapsed(){
+  return (millis() - last_fall_delay) >= fall_delay;
 }
+
+
+void start_fall_delay(){
+  last_fall_delay = millis();
+}
+
 
 bool has_piece_moved(){
   return piece_moved;
@@ -195,6 +198,9 @@ void clear_grid(){
   }
 }
 
+bool can_auto_fall(){
+  return !locking && is_fall_delay_elapsed();
+}
 
 void clear_grid(){
   for(int i=0; i < LED_COUNT; i++){
