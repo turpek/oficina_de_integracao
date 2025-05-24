@@ -245,6 +245,10 @@ bool can_score_check(){
   return score_check;
 }
 
+int grid_index(int x, int y){
+  return (y * GRID_W) + x;
+}
+
 void show_grid(){
   for(int i=0; i < LED_COUNT; i++){
     strip.setPixelColor(i, grid[i]);
@@ -270,7 +274,7 @@ void add_piece_to_grid(){
       if((dx < 0 || dx >= GRID_W) || (dy < 0 || dy >= GRID_H))
         continue;
       else if(piece[y*PIECE_W+x] == 1)
-        grid[dy*GRID_W+dx] = piece_colors[piece_id];
+        grid[grid_index(dx, dy)] = piece_colors[piece_id];
     }
   }
 }
@@ -284,7 +288,7 @@ void remove_piece_from_grid(){
       if((dx < 0 || dx >= GRID_W) || (dy < 0 || dy >= GRID_H))
         continue;
       else if(piece[y*PIECE_W+x] == 1)
-        grid[dy*GRID_W+dx] = 0;
+        grid[grid_index(dx, dy)] = 0;
     }
   }
 
@@ -382,7 +386,7 @@ bool has_no_collision(int dx, int dy){
     for(int x=piece_x+dx, i=0; x < GRID_W && i < PIECE_W; x++, i++){
       if(x < 0)
         continue;
-      if((grid[y * GRID_W + x] > 0) && (piece[j * PIECE_W + i] > 0))
+      if((grid[grid_index(x, y)] > 0) && (piece[j * PIECE_W + i] > 0))
         return 0;
     }
   }
