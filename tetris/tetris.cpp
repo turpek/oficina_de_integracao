@@ -419,6 +419,7 @@ bool try_rotate(){
   piece_x = old_piece_x;
   piece_y = old_piece_y;
   piece_rotation = old_rotation;
+  update_piece();
   return false;
 }
 
