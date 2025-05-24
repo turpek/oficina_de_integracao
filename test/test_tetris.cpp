@@ -42,7 +42,7 @@ void show_piece(uint8_t *piece){
 
 void show_grid(uint32_t *grid){
 
-  for (int i = 0; i < LED_COUNT; ++i) {
+  for (int i = 0; i < GRID_COUNT; ++i) {
     int val = grid[i];
     if(val != 0)
       val = 1;
@@ -458,268 +458,268 @@ void test_update_piece_L_rx3(){
 }
 
 void test_add_piece_to_grid_Piece_S_rx0(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 /***************** TESTE DA FUNÇÃO `add_piece_to_grid` *********************/
 
 void test_add_piece_to_grid_Piece_S_rx1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 1;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx1, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx1, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 
 void test_add_piece_to_grid_Piece_S_rx2(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 2;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx2, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx2, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx3(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 3;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx3, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx3, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX1Y0(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 0;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX0Y1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
   piece_y = 1;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX1Y1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 1;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 
 void test_add_piece_to_grid_Piece_S_rx0_movX_1Y0(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = -1;
   piece_y = 0;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX0Y_1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
   piece_y = -1;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX_1Y_1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = -1;
   piece_y = -1;
   update_piece();
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX_1_Y_1, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX_1_Y_1, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX5Y14(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 5;
   piece_y = 14;
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX5Y14, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX5Y14, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX6Y14(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 6;
   piece_y = 14;
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX6Y14, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX6Y14, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX5Y15(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 5;
   piece_y = 15;
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX5Y15, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX5Y15, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_add_piece_to_grid_Piece_S_rx0_movX6Y15(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 6;
   piece_y = 15;
   add_piece_to_grid();
-  transform_grid(expect_grid, map_piece_S_rx0_movX6Y15, piece_colors[piece_id], LED_COUNT);
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  transform_grid(expect_grid, map_piece_S_rx0_movX6Y15, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 /***************** TESTE DA FUNÇÃO `add_piece_to_grid` *********************/
 
 void test_remove_piece_from_grid_Piece_S_rx0(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_piece_S_rx0, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx0, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 
 }
 
 void test_remove_piece_from_grid_Piece_S_rx1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 1;
   update_piece();
-  transform_grid(grid, map_piece_S_rx1, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx1, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 
 }
 void test_remove_piece_from_grid_Piece_S_rx2(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 2;
   update_piece();
-  transform_grid(grid, map_piece_S_rx2, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx2, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 
 }
 
 void test_remove_piece_from_grid_Piece_S_rx3(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 3;
   update_piece();
-  transform_grid(grid, map_piece_S_rx3, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx3, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_remove_piece_from_grid_Piece_S_rx0_movX1Y0(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 0;
   update_piece();
-  transform_grid(grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx0_movX1Y0, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_remove_piece_from_grid_Piece_S_rx0_movX0Y1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
   piece_y = 1;
   update_piece();
-  transform_grid(grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx0_movX0Y1, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_remove_piece_from_grid_Piece_S_rx0_movX1Y1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 1;
   piece_y = 1;
   update_piece();
-  transform_grid(grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx0_movX1Y1, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 
 void test_remove_piece_from_grid_Piece_S_rx0_movX_1Y0(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = -1;
   piece_y = 0;
   update_piece();
-  transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx0_movX_1Y0, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1(){
-  uint32_t expect_grid[LED_COUNT] = {0};
+  uint32_t expect_grid[GRID_COUNT] = {0};
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
   piece_y = -1;
   update_piece();
-  transform_grid(grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_piece_S_rx0_movX0Y_1, piece_colors[piece_id], GRID_COUNT);
   remove_piece_from_grid();
-  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, LED_COUNT);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
 void test_is_right_pressed_right_button_not_pressed(){
@@ -930,7 +930,7 @@ void test_check_right_border_Piece_S_rx3_mov_X6(){
 
 void test_check_botton_border_Piece_S_rx0_mov_Y12(){
   piece_id = 0;
-  piece_y = 12;
+  piece_y = 16;
   update_piece();
   int expect_botton_border = 1;
   TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border(1));
@@ -938,7 +938,7 @@ void test_check_botton_border_Piece_S_rx0_mov_Y12(){
 
 void test_check_botton_border_Piece_S_rx0_mov_Y13(){
   piece_id = 0;
-  piece_y = 13;
+  piece_y = 17;
   update_piece();
   int expect_botton_border = 1;
   TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border(1));
@@ -946,7 +946,7 @@ void test_check_botton_border_Piece_S_rx0_mov_Y13(){
 
 void test_check_botton_border_Piece_S_rx0_mov_Y14(){
   piece_id = 0;
-  piece_y = 14;
+  piece_y = 18;
   update_piece();
   int expect_botton_border = 0;
   TEST_ASSERT_EQUAL_INT(expect_botton_border, check_botton_border(1));
@@ -954,7 +954,7 @@ void test_check_botton_border_Piece_S_rx0_mov_Y14(){
 
 void test_check_botton_border_Piece_I_rx1_mov_Y11(){
   piece_id = 6;
-  piece_y = 11;
+  piece_y = 15;
   piece_rotation = 1;
   update_piece();
   int expect_botton_border = 1;
@@ -963,7 +963,7 @@ void test_check_botton_border_Piece_I_rx1_mov_Y11(){
 
 void test_check_botton_border_Piece_I_rx1_mov_Y12(){
   piece_id = 6;
-  piece_y = 12;
+  piece_y = 16;
   piece_rotation = 1;
   update_piece();
   int expect_botton_border = 0;
@@ -1065,7 +1065,7 @@ void test_has_no_collision_fall_Piece_J_rx0_X1Y14_Piece_L_rx0_movX0Y12(){
 
 void test_try_rotate_L_test_1(){
   piece_x = 2;
-  piece_y = 2;
+  piece_y = 6;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
@@ -1076,99 +1076,99 @@ void test_try_rotate_L_test_1(){
 
 void test_try_rotate_L_test_2(){
   piece_x = 1;
-  piece_y = 13;
+  piece_y = 17;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_L_test_3(){
   piece_x = 1;
-  piece_y = 11;
+  piece_y = 15;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_L_test_4(){
   piece_x = 4;
-  piece_y = 12;
+  piece_y = 17;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_L_test_5(){
   piece_x = 3;
-  piece_y = 4;
+  piece_y = 8;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_L_test_floor(){
   piece_x = 3;
-  piece_y = 14;
+  piece_y = 18;
   piece_id = 2;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_L, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_L, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_I_rx3_test_right_wall(){
   piece_x = 6;
-  piece_y = 10;
+  piece_y = 14;
   piece_id = 6;
   piece_rotation = 3;
   update_piece();
-  transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_I, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_I_rx1_test_left_wall(){
   piece_x = -2;
-  piece_y = 10;
+  piece_y = 14;
   piece_id = 6;
   piece_rotation = 3;
   update_piece();
-  transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_I, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_I_rx0_test_floor(){
   piece_x = 2;
-  piece_y = 14;
+  piece_y = 18;
   piece_id = 6;
   piece_rotation = 0;
   update_piece();
-  transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_I, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 
 void test_try_rotate_I_rx2_test_floor(){
   piece_x = 2;
-  piece_y = 14;
+  piece_y = 18;
   piece_id = 6;
   piece_rotation = 2;
   update_piece();
-  transform_grid(grid, map_rotation_I, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_rotation_I, piece_colors[piece_id], GRID_COUNT);
   int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
@@ -1221,17 +1221,17 @@ void test_has_piece_moved_set_false(){
 
 void test_react_to_player_without_movements(){
   int expect_piece_x = 2;
-  int expect_piece_y = 2;
+  int expect_piece_y = 6;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 2;
+  piece_y = 6;
 
   update_piece();
   add_piece_to_grid();
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
@@ -1241,18 +1241,18 @@ void test_react_to_player_without_movements(){
 
 void test_react_to_player_botton_left_true(){
   int expect_piece_x = 1;
-  int expect_piece_y = 2;
+  int expect_piece_y = 6;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 2;
+  piece_y = 6;
 
   update_piece();
   add_piece_to_grid();
   pin_values[button_left] = LOW;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
@@ -1262,17 +1262,17 @@ void test_react_to_player_botton_left_true(){
 
 void test_react_to_player_joystick_left_true(){
   int expect_piece_x = 1;
-  int expect_piece_y = 2;
+  int expect_piece_y = 6;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 2;
+  piece_y = 6;
 
   update_piece();
   add_piece_to_grid();
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   mock_analog_x = JOYSTICK_LEFT;
   react_to_player();
@@ -1283,17 +1283,17 @@ void test_react_to_player_joystick_left_true(){
 
 void test_react_to_player_botton_left_collision(){
   int expect_piece_x = 1;
-  int expect_piece_y = 9;
+  int expect_piece_y = 13;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 1;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
   add_piece_to_grid();
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   pin_values[button_left] = LOW;
   react_to_player();
@@ -1304,17 +1304,17 @@ void test_react_to_player_botton_left_collision(){
 
 void test_react_to_player_joystick_left_collision(){
   int expect_piece_x = 1;
-  int expect_piece_y = 9;
+  int expect_piece_y = 13;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 1;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
   add_piece_to_grid();
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   mock_analog_x = JOYSTICK_LEFT;
   react_to_player();
@@ -1325,17 +1325,17 @@ void test_react_to_player_joystick_left_collision(){
 
 void test_react_to_player_botton_left_border(){
   int expect_piece_x = 0;
-  int expect_piece_y = 0;
+  int expect_piece_y = 4;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 0;
-  piece_y = 0;
+  piece_y = 4;
 
   update_piece();
   add_piece_to_grid();
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   pin_values[button_left] = LOW;
   react_to_player();
@@ -1346,17 +1346,17 @@ void test_react_to_player_botton_left_border(){
 
 void test_react_to_player_joystick_left_border(){
   int expect_piece_x = 0;
-  int expect_piece_y = 0;
+  int expect_piece_y = 4;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 0;
-  piece_y = 0;
+  piece_y = 4;
 
   update_piece();
   add_piece_to_grid();
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   mock_analog_x = JOYSTICK_LEFT;
   react_to_player();
@@ -1367,18 +1367,18 @@ void test_react_to_player_joystick_left_border(){
 
 void test_react_to_player_botton_right_true(){
   int expect_piece_x = 3;
-  int expect_piece_y = 2;
+  int expect_piece_y = 6;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 2;
+  piece_y = 6;
 
   update_piece();
   add_piece_to_grid();
   pin_values[button_right] = LOW;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 3");
@@ -1387,18 +1387,18 @@ void test_react_to_player_botton_right_true(){
 }
 void test_react_to_player_joystick_right_true(){
   int expect_piece_x = 3;
-  int expect_piece_y = 2;
+  int expect_piece_y = 6;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 2;
+  piece_y = 6;
 
   update_piece();
   add_piece_to_grid();
   mock_analog_x = JOYSTICK_RIGHT;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 3");
@@ -1408,18 +1408,18 @@ void test_react_to_player_joystick_right_true(){
 
 void test_react_to_player_botton_right_collision(){
   int expect_piece_x = 2;
-  int expect_piece_y = 13;
+  int expect_piece_y = 17;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 13;
+  piece_y = 17;
 
   update_piece();
   add_piece_to_grid();
   pin_values[button_right] = LOW;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
@@ -1429,18 +1429,18 @@ void test_react_to_player_botton_right_collision(){
 
 void test_react_to_player_joystick_right_collision(){
   int expect_piece_x = 2;
-  int expect_piece_y = 13;
+  int expect_piece_y = 17;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 2;
-  piece_y = 13;
+  piece_y = 17;
 
   update_piece();
   add_piece_to_grid();
   mock_analog_x = JOYSTICK_RIGHT;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 2");
@@ -1450,18 +1450,18 @@ void test_react_to_player_joystick_right_collision(){
 
 void test_react_to_player_botton_right_border(){
   int expect_piece_x = 7;
-  int expect_piece_y = 0;
+  int expect_piece_y = 4;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 7;
-  piece_y = 0;
+  piece_y = 4;
 
   update_piece();
   add_piece_to_grid();
   pin_values[button_right] = LOW;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 7");
@@ -1471,18 +1471,18 @@ void test_react_to_player_botton_right_border(){
 
 void test_react_to_player_joystick_right_border(){
   int expect_piece_x = 7;
-  int expect_piece_y = 0;
+  int expect_piece_y = 4;
   int expect_rotation = 0;
 
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 7;
-  piece_y = 0;
+  piece_y = 4;
 
   update_piece();
   add_piece_to_grid();
   mock_analog_x = JOYSTICK_RIGHT;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 7");
@@ -1496,12 +1496,12 @@ void test_react_to_player_botton_up_true(){
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 4;
-  piece_y = 4;
+  piece_y = 8;
 
   update_piece();
   add_piece_to_grid();
   pin_values[button_up] = LOW;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 1");
@@ -1513,12 +1513,12 @@ void test_react_to_player_joystick_up_true(){
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 4;
-  piece_y = 4;
+  piece_y = 8;
 
   update_piece();
   add_piece_to_grid();
   mock_analog_y = JOYSTICK_UP;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 1");
@@ -1530,12 +1530,12 @@ void test_react_to_player_botton_up_false(){
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 0;
-  piece_y = 14;
+  piece_y = 18;
 
   update_piece();
   add_piece_to_grid();
   pin_values[button_up] = LOW;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
@@ -1547,12 +1547,12 @@ void test_react_to_player_joystick_up_false(){
   piece_id = 6;
   piece_rotation = 0;
   piece_x = 0;
-  piece_y = 14;
+  piece_y = 18;
 
   update_piece();
   add_piece_to_grid();
   mock_analog_y = JOYSTICK_UP;
-  transform_grid(grid, map_react, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_rotation, piece_rotation, "expect_rotation = 0");
@@ -1659,14 +1659,14 @@ void test_can_fall_true(){
 }
 
 void test_update_game_state_can_fall_false_with_lock_delay_and_fall_delay_false(){
-  int expect_piece_y = 3;
+  int expect_piece_y = 7;
   piece_id = 5;
   piece_rotation = 0;
   piece_x = 1;
-  piece_y = 3;
+  piece_y = 7;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
   add_piece_to_grid();
 
   reset_lock_delay();
@@ -1679,14 +1679,14 @@ void test_update_game_state_can_fall_false_with_lock_delay_and_fall_delay_false(
 }
 
 void test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_true(){
-  int expect_piece_y = 3;
+  int expect_piece_y = 7;
   piece_id = 5;
   piece_rotation = 0;
   piece_x = 1;
-  piece_y = 3;
+  piece_y = 7;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
   add_piece_to_grid();
 
   start_lock_delay();
@@ -1699,14 +1699,14 @@ void test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_t
 }
 
 void test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_false(){
-  int expect_piece_y = 3;
+  int expect_piece_y = 7;
   piece_id = 5;
   piece_rotation = 0;
   piece_x = 1;
-  piece_y = 3;
+  piece_y = 7;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
   add_piece_to_grid();
 
   start_lock_delay();
@@ -1719,14 +1719,14 @@ void test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_f
 }
 
 void test_update_game_state_can_fall_true_with_lock_delay_false_and_fall_delay_true(){
-  int expect_piece_y = 4;
+  int expect_piece_y = 8;
   piece_id = 5;
   piece_rotation = 0;
   piece_x = 1;
-  piece_y = 3;
+  piece_y = 7;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
   add_piece_to_grid();
 
   reset_lock_delay();
@@ -1742,10 +1742,10 @@ void test_update_game_state_is_lock_delay_active_true_has_collision(){
   piece_id = 5;
   piece_rotation = 2;
   piece_x = 3;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
 
   reset_lock_delay();
   current_time = 200;
@@ -1760,10 +1760,10 @@ void test_update_game_state_is_lock_delay_active_false_can_fall_false(){
   piece_id = 5;
   piece_rotation = 2;
   piece_x = 3;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
 
   current_time = 200;
   reset_lock_delay();
@@ -1783,10 +1783,10 @@ void test_update_game_state_is_lock_delay_active_false_can_fall_true(){
   piece_id = 5;
   piece_rotation = 2;
   piece_x = 3;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
 
   current_time = 200;
   reset_lock_delay();
@@ -1806,10 +1806,10 @@ void test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_can
   piece_id = 5;
   piece_rotation = 2;
   piece_x = 3;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
 
   current_time = 200;
   reset_lock_delay();
@@ -1831,10 +1831,10 @@ void test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_
   piece_id = 5;
   piece_rotation = 2;
   piece_x = 3;
-  piece_y = 9;
+  piece_y = 13;
 
   update_piece();
-  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  transform_grid(grid, map_update_game, piece_colors[piece_id], GRID_COUNT);
 
   current_time = 200;
   start_lock_delay();
@@ -1900,6 +1900,7 @@ int main(){
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX1Y0);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX0Y1);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX1Y1);
+  
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX_1Y0);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX0Y_1);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX_1Y_1);
@@ -2042,6 +2043,7 @@ int main(){
   RUN_TEST(test_update_game_state_is_lock_delay_active_false_can_fall_true);
   RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_can_fall);
   RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_can_fall);
+  
 
   return UNITY_END();
 
