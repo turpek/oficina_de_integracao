@@ -511,6 +511,26 @@ void update_game_state(){
   }
 }
 
+void setup(){
+
+  strip.begin();
+  strip.show();
+  pinMode(button_left,INPUT_PULLUP);
+  pinMode(button_right,INPUT_PULLUP);
+  pinMode(button_up, INPUT_PULLUP);
+  pinMode(button_down, INPUT_PULLUP);
+
+  randomSeed(analogRead(joystick_y)+analogRead(2)+analogRead(3));
+  init_bag();
+  spawn_piece();
+
+}
+
+void loop(){
+  react_to_player();
+  update_game_state();
+}
+
 #ifndef UNIT_TEST
 int main(){
 

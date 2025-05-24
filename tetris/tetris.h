@@ -59,6 +59,7 @@ void set_piece_moved();
 void reset_piece_moved();
 void react_to_player();
 void update_game_state();
+void setup();
 
 
 #ifdef ENABLE_TEST
