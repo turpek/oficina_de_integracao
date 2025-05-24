@@ -29,7 +29,6 @@ extern int piece_y;
 
 extern unsigned long last_fall_delay;
 extern unsigned long last_lock_delay;
-extern bool piece_moved;
 
 void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
