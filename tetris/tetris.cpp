@@ -25,7 +25,7 @@
 #define PIECE_H 4
 
 // Coordenada do spawner
-#define INITIAL_PIECE_X        4
+#define INITIAL_PIECE_X        3
 #define INITIAL_PIECE_Y       -1
 #define INITIAL_PIECE_ROTATION 0
 
@@ -455,6 +455,21 @@ void react_to_player(){
   }
 }
 
+void spawn_piece(){
+  piece_id = get_next_piece();
+  piece_x = INITIAL_PIECE_X;
+  piece_y = INITIAL_PIECE_Y;
+  update_piece();
+  if(!has_no_collision(0, 1)){
+    clear_grid();
+  }
+  add_piece_to_grid();
+  show_grid();
+
+  reset_lock_delay();
+  reset_score_check();
+  start_fall_delay();
+}
 
 void update_game_state(){
   remove_piece_from_grid();
