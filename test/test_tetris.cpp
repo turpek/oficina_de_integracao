@@ -1081,7 +1081,7 @@ void test_try_rotate_L_test_1(){
   piece_rotation = 0;
   update_piece();
 
-  int expect_rotate =1;
+  int expect_rotate = 1;
   TEST_ASSERT_EQUAL_INT(expect_rotate, try_rotate());
 }
 

@@ -78,6 +78,7 @@ public:
      * Show (mock) - prints all pixel values
      */
     void show() {
+        /*
         std::printf("[mock] show: ");
         for (uint16_t i = 0; i < _numPixels; ++i) {
             uint32_t c = _pixels[i];
@@ -87,6 +88,7 @@ public:
             std::printf("[%u:(%u,%u,%u)] ", i, r, g, b);
         }
         std::printf("\n");
+        */
     }
 
     /**
