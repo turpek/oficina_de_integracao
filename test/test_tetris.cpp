@@ -13,6 +13,9 @@ using namespace std;
 #define INITIAL_LOCK_DELAY 500
 #define DROP_DISCOUNT 60
 #define MOVE_DELAY 100
+#define INITIAL_PIECE_X  4;
+#define INITIAL_PIECE_Y -1;
+
 
 void setUp(void){
   clear_grid();
@@ -1666,6 +1669,199 @@ void test_can_fall_true(){
   TEST_ASSERT_TRUE(can_fall());
 }
 
+void test_update_game_state_can_fall_false_with_lock_delay_and_fall_delay_false(){
+  int expect_piece_y = 3;
+  piece_id = 5;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 3;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  add_piece_to_grid();
+
+  reset_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + INITIAL_FALL_DELAY - 1;
+
+  update_game_state();
+  TEST_ASSERT_EQUAL_INT(expect_piece_y, piece_y);
+}
+
+void test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_true(){
+  int expect_piece_y = 3;
+  piece_id = 5;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 3;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  add_piece_to_grid();
+
+  start_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + INITIAL_FALL_DELAY;
+
+  update_game_state();
+  TEST_ASSERT_EQUAL_INT(expect_piece_y, piece_y);
+}
+
+void test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_false(){
+  int expect_piece_y = 3;
+  piece_id = 5;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 3;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  add_piece_to_grid();
+
+  start_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + INITIAL_FALL_DELAY - 1;
+
+  update_game_state();
+  TEST_ASSERT_EQUAL_INT(expect_piece_y, piece_y);
+}
+
+void test_update_game_state_can_fall_true_with_lock_delay_false_and_fall_delay_true(){
+  int expect_piece_y = 4;
+  piece_id = 5;
+  piece_rotation = 0;
+  piece_x = 1;
+  piece_y = 3;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+  add_piece_to_grid();
+
+  reset_lock_delay();
+  current_time = 200;
+  start_fall_delay();
+  current_time = current_time + INITIAL_FALL_DELAY;
+
+  update_game_state();
+  TEST_ASSERT_EQUAL_INT(expect_piece_y, piece_y);
+}
+
+void test_update_game_state_is_lock_delay_active_true_has_collision(){
+  piece_id = 5;
+  piece_rotation = 2;
+  piece_x = 3;
+  piece_y = 9;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+
+  reset_lock_delay();
+  current_time = 200;
+  current_time = current_time + INITIAL_FALL_DELAY;
+
+  update_game_state();
+  TEST_ASSERT_TRUE_MESSAGE(is_lock_delay_active(), "locking is TRUE");
+  TEST_ASSERT_FALSE_MESSAGE(can_fall(), "can_fall is FALSE");
+}
+
+void test_update_game_state_is_lock_delay_active_false_can_fall_false(){
+  piece_id = 5;
+  piece_rotation = 2;
+  piece_x = 3;
+  piece_y = 9;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+
+  current_time = 200;
+  reset_lock_delay();
+  current_time = 300;
+
+  remove_piece_from_grid();
+  piece_x = piece_x + 1;
+  update_game_state();
+
+  current_time = 400;
+  TEST_ASSERT_FALSE_MESSAGE(is_lock_delay_active(), "locking is FALSE");
+  TEST_ASSERT_FALSE_MESSAGE(can_fall(), "can_fall is FALSE");
+  TEST_ASSERT_FALSE_MESSAGE(can_score_check(), "can_score_check is FALSE");
+}
+
+void test_update_game_state_is_lock_delay_active_false_can_fall_true(){
+  piece_id = 5;
+  piece_rotation = 2;
+  piece_x = 3;
+  piece_y = 9;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+
+  current_time = 200;
+  reset_lock_delay();
+  current_time = 300;
+
+  remove_piece_from_grid();
+  piece_x = piece_x + 1;
+  update_game_state();
+
+  current_time = current_time + INITIAL_FALL_DELAY;
+  TEST_ASSERT_FALSE_MESSAGE(is_lock_delay_active(), "locking is FALSE");
+  TEST_ASSERT_TRUE_MESSAGE(can_fall(), "can_fall is TRUE");
+  TEST_ASSERT_FALSE_MESSAGE(can_score_check(), "can_score_check is FALSE");
+}
+
+void test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_can_fall(){
+  piece_id = 5;
+  piece_rotation = 2;
+  piece_x = 3;
+  piece_y = 9;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+
+  current_time = 200;
+  reset_lock_delay();
+  current_time = current_time + INITIAL_LOCK_DELAY + 1;
+
+  remove_piece_from_grid();
+  piece_x = piece_x + 1;
+  update_game_state();
+
+  current_time = current_time + INITIAL_FALL_DELAY;
+  TEST_ASSERT_FALSE_MESSAGE(is_lock_delay_active(), "locking is FALSE");
+  TEST_ASSERT_TRUE_MESSAGE(can_fall(), "can_fall is TRUE");
+  TEST_ASSERT_FALSE_MESSAGE(can_score_check(), "can_score_check is FALSE");
+}
+
+void test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_can_fall(){
+  int expect_piece_x = INITIAL_PIECE_X;
+  int expect_piece_y = INITIAL_PIECE_Y;
+  piece_id = 5;
+  piece_rotation = 2;
+  piece_x = 3;
+  piece_y = 9;
+
+  update_piece();
+  transform_grid(grid, map_update_game, piece_colors[piece_id], LED_COUNT);
+
+  current_time = 200;
+  start_lock_delay();
+  current_time = current_time + INITIAL_LOCK_DELAY + 1;
+
+  update_game_state();
+
+  current_time = current_time + INITIAL_FALL_DELAY;
+  TEST_ASSERT_TRUE_MESSAGE(is_lock_delay_active(), "locking is FALSE");
+  TEST_ASSERT_FALSE_MESSAGE(can_fall(), "can_fall is FALSE");
+  TEST_ASSERT_FALSE_MESSAGE(can_score_check(), "can_score_check is FALSE");
+  TEST_ASSERT_EQUAL_INT(expect_piece_x, piece_x);
+  TEST_ASSERT_EQUAL_INT(expect_piece_y, piece_y);
+}
+
+
 int main(){
   UNITY_BEGIN();
 
@@ -1847,6 +2043,16 @@ int main(){
   RUN_TEST(test_can_fall_false_with_lock_delay_active_with_fall_delay_false);
   RUN_TEST(test_can_fall_false_with_lock_delay_active_with_fall_delay_true);
   RUN_TEST(test_can_fall_true);
+
+  RUN_TEST(test_update_game_state_can_fall_false_with_lock_delay_and_fall_delay_false);
+  RUN_TEST(test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_true);
+  RUN_TEST(test_update_game_state_can_fall_false_with_lock_delay_true_and_fall_delay_false);
+  RUN_TEST(test_update_game_state_can_fall_true_with_lock_delay_false_and_fall_delay_true);
+  RUN_TEST(test_update_game_state_is_lock_delay_active_true_has_collision);
+  RUN_TEST(test_update_game_state_is_lock_delay_active_false_can_fall_false);
+  RUN_TEST(test_update_game_state_is_lock_delay_active_false_can_fall_true);
+  RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_can_fall);
+  RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_can_fall);
 
   return UNITY_END();
 

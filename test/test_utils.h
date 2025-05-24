@@ -27,5 +27,6 @@ extern uint32_t map_piece_S_rx0_movX6Y15[];
 extern uint32_t map_rotation_L[];
 extern uint32_t map_rotation_I[];
 extern uint32_t map_react[];
+extern uint32_t map_update_game[];
 
 #endif
