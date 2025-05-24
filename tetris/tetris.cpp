@@ -24,6 +24,11 @@
 #define PIECE_W 4
 #define PIECE_H 4
 
+// Coordenada do spawner
+#define INITIAL_PIECE_X        4
+#define INITIAL_PIECE_Y       -1
+#define INITIAL_PIECE_ROTATION 0
+
 
 // Opções do tempo de descida
 #define INITIAL_FALL_DELAY 1000
@@ -447,6 +452,47 @@ void react_to_player(){
   if(has_piece_moved()){
     show_grid();
     delay(MOVE_DELAY);
+  }
+}
+
+
+void update_game_state(){
+  remove_piece_from_grid();
+  if(can_fall()){
+    if(check_botton_border(1) && has_no_collision(0, 1)){
+      piece_y++;
+      start_fall_delay();
+    }
+    else{
+      start_lock_delay();
+    }
+    add_piece_to_grid();
+    show_grid();
+  }
+  else if(is_lock_delay_active()){
+    if(check_botton_border(1) && has_no_collision(0, 1)){
+      start_fall_delay();
+      reset_lock_delay();
+    }
+    else if(is_lock_delay_elapsed()){
+      set_score_check();
+    }
+  }
+
+  if(can_score_check()){
+    piece_id = get_next_piece();
+    update_piece();
+    piece_x = INITIAL_PIECE_X;
+    piece_y = INITIAL_PIECE_Y;
+    piece_rotation = INITIAL_PIECE_ROTATION;
+
+    start_fall_delay();
+    reset_score_check();
+
+    if(!has_no_collision(0, 1)){
+      clear_grid();
+      show_grid();
+    }
   }
 }
 
