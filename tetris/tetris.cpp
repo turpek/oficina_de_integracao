@@ -244,6 +244,7 @@ void show_grid(){
   for(int i=0; i < LED_COUNT; i++){
     strip.setPixelColor(i, grid[i]);
   }
+  strip.show();
 }
 
 void decodePiece(uint8_t *piece, const uint16_t bitmask){
