@@ -3,6 +3,43 @@
 
 #include <stdint.h>
 
+
+#define NUM_PIECE_TYPES     7
+#define NUM_ROTATION        4
+#define NUM_KICKS           5
+#define NUM_KICKS_I         3
+#define PIECE_I             6
+
+// Definição do tamanho do grid, ou seja, do tamanho da matriz de LEDs
+#define GRID_W 8
+#define GRID_H 20
+#define GRID_COUNT (GRID_W * GRID_H)
+#define LED_COUNT 128
+#define LED_PIN 6
+
+// Opções do joystick
+#define JOYSTICK_DEAD_ZONE 30
+#define JOYSTICK_PIN 2
+
+
+// Dimensões das peças
+#define PIECE_W 4
+#define PIECE_H 4
+
+// Coordenada do spawner
+#define INITIAL_PIECE_X        3
+#define INITIAL_PIECE_Y        2
+#define INITIAL_PIECE_ROTATION 0
+
+
+// Opções do tempo de descida
+#define INITIAL_FALL_DELAY 1000
+#define INITIAL_LAST_FALL_DELAY 0
+#define INITIAL_LOCK_DELAY 500
+#define DROP_DISCOUNT 60
+#define MOVE_DELAY 100
+
+
 // Declaração dos pinos
 extern int button_left;
 extern int button_right;

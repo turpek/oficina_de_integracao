@@ -5,17 +5,6 @@
 #include <iostream>
 using namespace std;
 
-#define GRID_W 8
-#define GRID_H 16
-#define LED_COUNT (GRID_W * GRID_H)
-#define INITIAL_FALL_DELAY 1000
-#define INITIAL_LAST_FALL_DELAY 0
-#define INITIAL_LOCK_DELAY 500
-#define DROP_DISCOUNT 60
-#define MOVE_DELAY 100
-#define INITIAL_PIECE_X  4;
-#define INITIAL_PIECE_Y -1;
-
 
 void setUp(void){
   clear_grid();

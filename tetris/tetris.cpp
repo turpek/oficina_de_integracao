@@ -1,41 +1,9 @@
 #include <cstdint>
 #include "tetris/Mock_Arduino.h"
 #include "tetris/Mock_Adafruit_NeoPixel.h"
+#include "tetris.h"
 #include <stdio.h>
 
-#define NUM_PIECE_TYPES     7
-#define NUM_ROTATION        4
-#define NUM_KICKS           5
-#define NUM_KICKS_I         3
-#define PIECE_I             6
-
-// Definição do tamanho do grid, ou seja, do tamanho da matriz de LEDs
-#define GRID_W 8
-#define GRID_H 16
-#define LED_COUNT (GRID_H * GRID_W)
-#define LED_PIN 6
-
-// Opções do joystick
-#define JOYSTICK_DEAD_ZONE 30
-#define JOYSTICK_PIN 2
-
-
-// Dimensões das peças
-#define PIECE_W 4
-#define PIECE_H 4
-
-// Coordenada do spawner
-#define INITIAL_PIECE_X        3
-#define INITIAL_PIECE_Y       -1
-#define INITIAL_PIECE_ROTATION 0
-
-
-// Opções do tempo de descida
-#define INITIAL_FALL_DELAY 1000
-#define INITIAL_LAST_FALL_DELAY 0
-#define INITIAL_LOCK_DELAY 500
-#define DROP_DISCOUNT 60
-#define MOVE_DELAY 100
 
 int button_left = 8;
 int button_right = 9;
@@ -149,7 +117,7 @@ static bool locking = false;
 static bool piece_moved = false;
 static bool score_check = false;
 
-uint32_t grid[LED_COUNT] = {0};
+uint32_t grid[GRID_COUNT] = {0};
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
@@ -194,7 +162,7 @@ void reset_piece_moved(){
 }
 
 void clear_grid(){
-  for(int i=0; i < LED_COUNT; i++){
+  for(int i=0; i < GRID_COUNT; i++){
     grid[i] = 0;
   }
 }
@@ -250,8 +218,9 @@ int grid_index(int x, int y){
 }
 
 void show_grid(){
-  for(int i=0; i < LED_COUNT; i++){
-    strip.setPixelColor(i, grid[i]);
+
+  for(int x=0, i=grid_index(0, 4); x < LED_COUNT; x++, i++){
+    strip.setPixelColor(x, grid[i]);
   }
   strip.show();
 }
