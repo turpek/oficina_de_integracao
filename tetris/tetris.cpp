@@ -495,8 +495,8 @@ void update_game_state(){
     }
   }
 
+  add_piece_to_grid();
   if(can_score_check()){
-    add_piece_to_grid();
     spawn_piece();
   }
 }
