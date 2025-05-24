@@ -495,19 +495,8 @@ void update_game_state(){
   }
 
   if(can_score_check()){
-    piece_id = get_next_piece();
-    update_piece();
-    piece_x = INITIAL_PIECE_X;
-    piece_y = INITIAL_PIECE_Y;
-    piece_rotation = INITIAL_PIECE_ROTATION;
-
-    start_fall_delay();
-    reset_score_check();
-
-    if(!has_no_collision(0, 1)){
-      clear_grid();
-      show_grid();
-    }
+    add_piece_to_grid();
+    spawn_piece();
   }
 }
 
