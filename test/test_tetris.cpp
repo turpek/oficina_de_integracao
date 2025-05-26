@@ -1910,6 +1910,31 @@ void test_push_rows_teste_3(){
   TEST_ASSERT_EQUAL_INT8_ARRAY(map_push_rows_t2_frame_1, map_push_rows_t2_frame_0, GRID_COUNT);
 }
 
+void test_row_is_full_teste_empty(){
+  transform_grid(grid, map_row_full, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_FALSE(row_is_full(13));
+}
+
+void test_row_is_full_teste_true_end_cell(){
+  transform_grid(grid, map_row_full, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_FALSE(row_is_full(14));
+}
+
+void test_row_is_full_teste_false_end_cell(){
+  transform_grid(grid, map_row_full, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_FALSE(row_is_full(16));
+}
+
+void test_row_is_full_teste_true_initial_cell_and_false_remainder(){
+  transform_grid(grid, map_row_full, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_FALSE(row_is_full(17));
+}
+
+void test_row_is_full_teste_full(){
+  transform_grid(grid, map_row_full, piece_colors[piece_id], GRID_COUNT);
+  TEST_ASSERT_TRUE(row_is_full(15));
+}
+
 int main(){
   UNITY_BEGIN();
 
@@ -2110,6 +2135,13 @@ int main(){
   RUN_TEST(test_push_rows_teste_1);
   RUN_TEST(test_push_rows_teste_2);
   RUN_TEST(test_push_rows_teste_3);
+
+  RUN_TEST(test_row_is_full_teste_empty);
+  RUN_TEST(test_row_is_full_teste_true_end_cell);
+  RUN_TEST(test_row_is_full_teste_false_end_cell);
+  RUN_TEST(test_row_is_full_teste_true_initial_cell_and_false_remainder);
+  RUN_TEST(test_row_is_full_teste_full);
+
   return UNITY_END();
 
 }

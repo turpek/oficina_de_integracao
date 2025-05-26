@@ -33,5 +33,6 @@ extern uint32_t map_push_rows_t1_frame_0[];
 extern uint32_t map_push_rows_t1_frame_1[];
 extern uint32_t map_push_rows_t2_frame_0[];
 extern uint32_t map_push_rows_t2_frame_1[];
+extern uint32_t map_row_full[];
 
 #endif
