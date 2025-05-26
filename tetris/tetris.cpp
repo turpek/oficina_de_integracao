@@ -273,6 +273,25 @@ void clear_row(int y){
     grid[grid_index(x,  y)] = 0;
   }
 }
+
+void push_rows(int y, int dy, int rows){
+  if(y >= GRID_H || dy < 1){
+    return;
+  }
+  for(int j=0; j < rows; j++, y--){
+    if((y - dy) < 0){
+      break;
+    }
+    for(int x=0; x < GRID_W; x++){
+      grid[grid_index(x, y)] = grid[grid_index(x, y - dy)];
+    }
+  }
+  for(int j=0; j < dy; j++, y++){
+    clear_row(y);
+  }
+}
+
+
 bool is_right_pressed(int dx){
   return (dx < -JOYSTICK_DEAD_ZONE) || (digitalRead(button_right) == LOW);
 }
