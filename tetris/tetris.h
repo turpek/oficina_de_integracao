@@ -74,6 +74,7 @@ void add_piece_to_grid();
 void remove_piece_from_grid();
 void clear_row(int y);
 void push_rows(int y, int dy, int rows);
+bool row_is_full(int y);
 bool is_right_pressed(int dx);
 bool is_left_pressed(int dx);
 bool is_down_pressed(int dy);

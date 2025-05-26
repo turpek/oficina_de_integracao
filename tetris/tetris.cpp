@@ -274,6 +274,15 @@ void clear_row(int y){
   }
 }
 
+bool row_is_full(int y){
+  for(int x=0; x < GRID_W; x++){
+    if(grid[grid_index(x, y)] == 0){
+      return 0;
+    }
+  }
+  return 1;
+}
+
 void push_rows(int y, int dy, int rows){
   if(y >= GRID_H || dy < 1){
     return;
