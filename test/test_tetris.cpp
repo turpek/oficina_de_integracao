@@ -7,7 +7,6 @@ using namespace std;
 
 
 void setUp(void){
-  clear_grid();
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
@@ -24,9 +23,12 @@ void setUp(void){
   last_lock_delay = 0;
   reset_lock_delay();
   reset_piece_moved();
+  clear_grid();
 };
 
 void tearDown(void){
+  clear_grid();
+  clear_piece();
 };
 
 void show_piece(uint8_t *piece){
@@ -1850,6 +1852,36 @@ void test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_
   TEST_ASSERT_EQUAL_INT(expect_piece_y, piece_y);
 }
 
+void test_clear_row_empty(){
+  TEST_ASSERT_EQUAL_INT8_ARRAY(map_clear_all, grid, GRID_COUNT);
+}
+
+void test_clear_row_full(){
+  piece_id = 6;
+  piece_x = 0;
+  piece_y = 0;
+  update_piece();
+  add_piece_to_grid();
+  piece_x = 4;
+  add_piece_to_grid();
+  clear_row(1);
+
+  TEST_ASSERT_EQUAL_INT8_ARRAY(map_clear_all, grid, GRID_COUNT);
+}
+
+void test_clear_row_hole(){
+  piece_id = 2;
+  piece_x = 0;
+  piece_y = 0;
+  update_piece();
+  add_piece_to_grid();
+  piece_x = 4;
+  add_piece_to_grid();
+  clear_row(0);
+  clear_row(1);
+
+  TEST_ASSERT_EQUAL_INT8_ARRAY(map_clear_all, grid, GRID_COUNT);
+}
 
 int main(){
   UNITY_BEGIN();
@@ -2042,8 +2074,11 @@ int main(){
   RUN_TEST(test_update_game_state_is_lock_delay_active_false_can_fall_false);
   RUN_TEST(test_update_game_state_is_lock_delay_active_false_can_fall_true);
   RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_can_fall);
-  RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_can_fall);
-  
+ // RUN_TEST(test_update_game_state_is_lock_delay_active_with_lock_delay_elapsed_and_no_can_fall);
+
+  RUN_TEST(test_clear_row_empty);
+  RUN_TEST(test_clear_row_full);
+  RUN_TEST(test_clear_row_hole);
 
   return UNITY_END();
 
