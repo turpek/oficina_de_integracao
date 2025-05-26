@@ -72,6 +72,7 @@ void decodePiece(uint8_t *piece, const uint16_t bitmask);
 void update_piece();
 void add_piece_to_grid();
 void remove_piece_from_grid();
+void clear_row(int y);
 bool is_right_pressed(int dx);
 bool is_left_pressed(int dx);
 bool is_down_pressed(int dy);

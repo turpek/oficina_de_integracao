@@ -264,6 +264,15 @@ void remove_piece_from_grid(){
 };
 
 
+void clear_row(int y){
+  if(y < 0 || y > GRID_H){
+    return;
+  }
+
+  for(int x=0; x < GRID_W; x++){
+    grid[grid_index(x,  y)] = 0;
+  }
+}
 bool is_right_pressed(int dx){
   return (dx < -JOYSTICK_DEAD_ZONE) || (digitalRead(button_right) == LOW);
 }
