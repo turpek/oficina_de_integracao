@@ -29,5 +29,9 @@ extern uint32_t map_rotation_I[];
 extern uint32_t map_react[];
 extern uint32_t map_update_game[];
 extern uint32_t map_clear_all[];
+extern uint32_t map_push_rows_t1_frame_0[];
+extern uint32_t map_push_rows_t1_frame_1[];
+extern uint32_t map_push_rows_t2_frame_0[];
+extern uint32_t map_push_rows_t2_frame_1[];
 
 #endif

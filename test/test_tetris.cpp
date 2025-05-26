@@ -1883,6 +1883,33 @@ void test_clear_row_hole(){
   TEST_ASSERT_EQUAL_INT8_ARRAY(map_clear_all, grid, GRID_COUNT);
 }
 
+void test_push_rows_teste_1(){
+  int y = GRID_H + PIECE_H - 1; 
+  int dy = 1;
+  int lines = 3;
+  transform_grid(grid, map_push_rows_t1_frame_0, piece_colors[piece_id], GRID_COUNT);
+  push_rows(y, dy, lines);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(map_push_rows_t1_frame_1, map_push_rows_t1_frame_0, GRID_COUNT);
+}
+
+void test_push_rows_teste_2(){
+  int y = 16; 
+  int dy = 2;
+  int lines = 3;
+  transform_grid(grid, map_push_rows_t2_frame_0, piece_colors[piece_id], GRID_COUNT);
+  push_rows(y, dy, lines);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(map_push_rows_t2_frame_1, map_push_rows_t2_frame_0, GRID_COUNT);
+}
+
+void test_push_rows_teste_3(){
+  int y = GRID_H + PIECE_H - 1; 
+  int dy = 2;
+  int lines = GRID_H;
+  transform_grid(grid, map_push_rows_t2_frame_0, piece_colors[piece_id], GRID_COUNT);
+  push_rows(y, dy, lines);
+  TEST_ASSERT_EQUAL_INT8_ARRAY(map_push_rows_t2_frame_1, map_push_rows_t2_frame_0, GRID_COUNT);
+}
+
 int main(){
   UNITY_BEGIN();
 
@@ -2080,6 +2107,9 @@ int main(){
   RUN_TEST(test_clear_row_full);
   RUN_TEST(test_clear_row_hole);
 
+  RUN_TEST(test_push_rows_teste_1);
+  RUN_TEST(test_push_rows_teste_2);
+  RUN_TEST(test_push_rows_teste_3);
   return UNITY_END();
 
 }
