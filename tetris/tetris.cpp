@@ -312,6 +312,18 @@ void push_rows(int y, int dy, int rows){
   top_row = y;
 }
 
+void collapse_rows(int y, int dy, int rows){
+  if(y >= GRID_H || dy < 1){
+    return;
+  }
+  for(int j=0; j < rows; j++, y--){
+    if((y - dy) < 0){
+      continue;
+    }
+    for(int x=0; x < GRID_W; x++){
+      grid[grid_index(x, y)] = grid[grid_index(x, y - dy)];
+    }
+  }
 }
 
 int clear_rows(){
