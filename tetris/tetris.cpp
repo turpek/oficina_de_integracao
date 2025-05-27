@@ -302,9 +302,16 @@ void push_rows(int y, int dy, int rows){
       grid[grid_index(x, y)] = grid[grid_index(x, y - dy)];
     }
   }
+
+  // Devemos apagar as dy linhas abaixo da peça mais ao top do grid
+  y = top_row;
   for(int j=0; j < dy; j++, y++){
     clear_row(y);
   }
+  // Agora `top_row` deve ser atualizada, ja que o grid desceu dy vezes
+  top_row = y;
+}
+
 }
 
 int clear_rows(){
