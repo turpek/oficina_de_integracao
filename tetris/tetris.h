@@ -63,6 +63,7 @@ extern int piece_id;
 extern int piece_rotation;
 extern int piece_x;
 extern int piece_y;
+extern int top_row;
 
 extern unsigned long last_fall_delay;
 extern unsigned long last_lock_delay;

@@ -117,6 +117,7 @@ static bool locking = false;
 static bool piece_moved = false;
 static bool score_check = false;
 
+int top_row = GRID_H - 1;
 uint32_t grid[GRID_COUNT] = {0};
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
@@ -200,6 +201,12 @@ bool can_fall(){
   return !is_lock_delay_active() && is_fall_delay_elapsed();
 }
 
+
+void update_top_row(){
+  if(top_row < piece_y){
+    top_row = piece_y;
+  }
+}
 
 void set_score_check(){
   score_check = true;
@@ -507,6 +514,7 @@ void update_game_state(){
 
   add_piece_to_grid();
   if(can_score_check()){
+    update_top_row();
     spawn_piece();
   }
 }
