@@ -11,6 +11,7 @@ void setUp(void){
   piece_rotation = 0;
   piece_x = 0;
   piece_y = 0;
+  top_row = GRID_H - 1;
   clear_piece();
   pin_values[button_right] = HIGH;
   pin_values[button_left] = HIGH;
@@ -1935,8 +1936,83 @@ void test_row_is_full_teste_full(){
   TEST_ASSERT_TRUE(row_is_full(15));
 }
 
+void test_clear_rows_teste_1(){
+  uint32_t expect_grid[GRID_COUNT] = {0};
+  piece_x = 2;
+  piece_y = 18;
+  piece_id = 4;
+  top_row = 18;
+  update_piece();
+  transform_grid(grid, map_clear_rows_t1_frame_0, piece_colors[piece_id], GRID_COUNT);
+  transform_grid(expect_grid, map_clear_rows_t1_frame_1, piece_colors[piece_id], GRID_COUNT);
+  add_piece_to_grid();
+  clear_rows();
+  TEST_ASSERT_EQUAL_INT32_ARRAY(expect_grid, grid, GRID_COUNT);
+}
+
+void test_clear_rows_teste_2(){
+  uint32_t expect_grid[GRID_COUNT] = {0};
+  piece_x = 6;
+  piece_y = 18;
+  piece_id = 4;
+  top_row = 15;
+  update_piece();
+  transform_grid(grid, map_clear_rows_t2_frame_0, piece_colors[piece_id], GRID_COUNT);
+  transform_grid(expect_grid, map_clear_rows_t2_frame_1, piece_colors[piece_id], GRID_COUNT);
+  add_piece_to_grid();
+  clear_rows();
+  TEST_ASSERT_EQUAL_INT32_ARRAY(expect_grid, grid, GRID_COUNT);
+}
+
+void test_clear_rows_teste_3(){
+  uint32_t expect_grid[GRID_COUNT] = {0};
+  piece_x = 0;
+  piece_y = 16;
+  piece_id = 0;
+  top_row = 0;
+  update_piece();
+  piece_rotation = 1;
+  update_piece();
+  transform_grid(grid, map_clear_rows_t3_frame_0, piece_colors[piece_id], GRID_COUNT);
+  transform_grid(expect_grid, map_clear_rows_t3_frame_1, piece_colors[piece_id], GRID_COUNT);
+  add_piece_to_grid();
+  clear_rows();
+  TEST_ASSERT_EQUAL_INT32_ARRAY(expect_grid, grid, GRID_COUNT);
+}
+
+void test_clear_rows_teste_4(){
+  uint32_t expect_grid[GRID_COUNT] = {0};
+  piece_x = 6;
+  piece_y = 15;
+  piece_id = 6;
+  top_row = 0;
+  piece_rotation = 3;
+  update_piece();
+  transform_grid(grid, map_clear_rows_t4_frame_0, piece_colors[piece_id], GRID_COUNT);
+  transform_grid(expect_grid, map_clear_rows_t4_frame_1, piece_colors[piece_id], GRID_COUNT);
+  add_piece_to_grid();
+  clear_rows();
+  TEST_ASSERT_EQUAL_INT32_ARRAY(expect_grid, grid, GRID_COUNT);
+}
+
+void test_clear_rows_teste_5(){
+  uint32_t expect_grid[GRID_COUNT] = {0};
+  piece_x = 5;
+  piece_y = 3;
+  piece_id = 1;
+  top_row = 0;
+  piece_rotation = 0;
+  update_piece();
+  transform_grid(grid, map_clear_rows_t5_frame_0, piece_colors[piece_id], GRID_COUNT);
+  transform_grid(expect_grid, map_clear_rows_t5_frame_1, piece_colors[piece_id], GRID_COUNT);
+  add_piece_to_grid();
+  clear_rows();
+  TEST_ASSERT_EQUAL_INT32_ARRAY(expect_grid, grid, GRID_COUNT);
+}
+
 int main(){
   UNITY_BEGIN();
+
 
   RUN_TEST(test_decodePiece_I_rx0);
   RUN_TEST(test_decodePiece_I_rx1);
@@ -2142,6 +2218,11 @@ int main(){
   RUN_TEST(test_row_is_full_teste_true_initial_cell_and_false_remainder);
   RUN_TEST(test_row_is_full_teste_full);
 
+  RUN_TEST(test_clear_rows_teste_1);
+  RUN_TEST(test_clear_rows_teste_2);
+  RUN_TEST(test_clear_rows_teste_3);
+  RUN_TEST(test_clear_rows_teste_4);
+  RUN_TEST(test_clear_rows_teste_5);
   return UNITY_END();
 
 }

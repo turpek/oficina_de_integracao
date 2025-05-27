@@ -34,5 +34,19 @@ extern uint32_t map_push_rows_t1_frame_1[];
 extern uint32_t map_push_rows_t2_frame_0[];
 extern uint32_t map_push_rows_t2_frame_1[];
 extern uint32_t map_row_full[];
+extern uint32_t map_push_rows_t3_frame_0[];
+extern uint32_t map_push_rows_t3_frame_1[];
+extern uint32_t map_clear_rows_t1_frame_0[];
+extern uint32_t map_clear_rows_t1_frame_1[];
+extern uint32_t map_clear_rows_t2_frame_0[];
+extern uint32_t map_clear_rows_t2_frame_1[];
+extern uint32_t map_clear_rows_t3_frame_0[];
+extern uint32_t map_clear_rows_t3_frame_1[];
+extern uint32_t map_clear_rows_t4_frame_0[];
+extern uint32_t map_clear_rows_t4_frame_1[];
+extern uint32_t map_clear_rows_t5_frame_0[];
+extern uint32_t map_clear_rows_t5_frame_1[];
+extern uint32_t map_clear_rows_t6_frame_0[];
+extern uint32_t map_clear_rows_t6_frame_1[];
 
 #endif
