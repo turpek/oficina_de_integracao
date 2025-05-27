@@ -307,6 +307,21 @@ void push_rows(int y, int dy, int rows){
   }
 }
 
+int clear_rows(){
+  int y=piece_y, rows=0;
+  for(int dy=0; dy < PIECE_H; dy++){
+    if((y + dy) >= GRID_H){
+      continue;
+    }
+    else if(row_is_full(y + dy)){
+      rows++;
+      collapse_rows(y + dy, 1, dy);
+    }
+  }
+
+  push_rows(y+rows-1, rows, y-top_row);
+  return rows;
+}
 
 bool is_right_pressed(int dx){
   return (dx < -JOYSTICK_DEAD_ZONE) || (digitalRead(button_right) == LOW);
@@ -515,6 +530,7 @@ void update_game_state(){
   add_piece_to_grid();
   if(can_score_check()){
     update_top_row();
+    clear_rows();
     spawn_piece();
   }
 }
