@@ -272,7 +272,7 @@ void remove_piece_from_grid(){
 
 
 void clear_row(int y){
-  if(y < 0 || y > GRID_H){
+  if(y < 0 || y >= GRID_H){
     return;
   }
 
