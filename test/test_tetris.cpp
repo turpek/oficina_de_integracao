@@ -2010,6 +2010,28 @@ void test_clear_rows_teste_5(){
   TEST_ASSERT_EQUAL_INT32_ARRAY(expect_grid, grid, GRID_COUNT);
 }
 
+void test_update_top_row_game_started(){
+  int expect_piece_row = GRID_H - 2;
+  piece_y = expect_piece_row;
+  update_top_row();
+  TEST_ASSERT_EQUAL_INT(expect_piece_row, top_row);
+}
+
+void test_update_top_row_not_update(){
+  int expect_piece_row = 2;
+  top_row = expect_piece_row;
+  piece_y = 8;
+  update_top_row();
+  TEST_ASSERT_EQUAL_INT(expect_piece_row, top_row);
+}
+
+void test_update_top_row_update_new_top(){
+  int expect_piece_row = 1;
+  piece_y = expect_piece_row;
+  update_top_row();
+  TEST_ASSERT_EQUAL_INT(expect_piece_row, top_row);
+}
+
 int main(){
   UNITY_BEGIN();
 
@@ -2223,6 +2245,10 @@ int main(){
   RUN_TEST(test_clear_rows_teste_3);
   RUN_TEST(test_clear_rows_teste_4);
   RUN_TEST(test_clear_rows_teste_5);
+
+  RUN_TEST(test_update_top_row_game_started);
+  RUN_TEST(test_update_top_row_not_update);
+  RUN_TEST(test_update_top_row_update_new_top);
   return UNITY_END();
 
 }
