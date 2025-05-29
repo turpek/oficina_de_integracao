@@ -203,7 +203,7 @@ bool can_fall(){
 
 
 void update_top_row(){
-  if(top_row < piece_y){
+  if(top_row > piece_y){
     top_row = piece_y;
   }
 }

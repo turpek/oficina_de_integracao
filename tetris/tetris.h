@@ -73,6 +73,7 @@ void decodePiece(uint8_t *piece, const uint16_t bitmask);
 void update_piece();
 void add_piece_to_grid();
 void remove_piece_from_grid();
+void update_top_row();
 void clear_row(int y);
 void push_rows(int y, int dy, int rows);
 bool row_is_full(int y);
