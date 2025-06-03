@@ -2,11 +2,20 @@
 #include "tetris/tetris.h"
 #include "test/test_utils.h"
 #include "tetris/Mock_Arduino.h"
+#include "tetris/Bounce2.h"
 #include <iostream>
 using namespace std;
 
 
+void button_setup(Bounce2::Button *btn){
+  btn->mockIsPressed = false;
+  btn->mockPressed = false;
+  btn->mockReleased = false;
+  btn->call_update = 0;
+}
+
 void setUp(void){
+  fall_delay = INITIAL_FALL_DELAY;
   piece_id = 0;
   piece_rotation = 0;
   piece_x = 0;
@@ -22,6 +31,8 @@ void setUp(void){
   current_time = 500;
   last_fall_delay = 0;
   last_lock_delay = 0;
+  button_setup(&btn_down);
+  button_setup(&btn_up);
   reset_lock_delay();
   reset_piece_moved();
   clear_grid();
@@ -1503,7 +1514,7 @@ void test_react_to_player_botton_up_true(){
 
   update_piece();
   add_piece_to_grid();
-  pin_values[button_up] = LOW;
+  btn_up.mockReleased = true;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -2032,6 +2043,90 @@ void test_update_top_row_update_new_top(){
   TEST_ASSERT_EQUAL_INT(expect_piece_row, top_row);
 }
 
+void test_try_soft_drop_piece_button_pressed(){
+  unsigned long expect_fall_delay = INITIAL_FALL_DELAY / SOFT_DROP_FACTOR;
+  btn_down.mockIsPressed = true;
+  btn_down.mockPressed = true;
+  TEST_ASSERT_TRUE_MESSAGE(try_soft_drop(0), "Peça descendo mais rapido");
+  TEST_ASSERT_EQUAL_INT32_MESSAGE(expect_fall_delay, fall_delay, "Tempo de delay para a peca cair");
+}
+
+void test_try_soft_drop_piece_button_long_pressed(){
+  unsigned long expect_fall_delay = INITIAL_FALL_DELAY / SOFT_DROP_FACTOR;
+  btn_down.mockIsPressed = true;
+  btn_down.mockPressed = true;
+  try_soft_drop(0);
+  btn_down.mockPressed = false;
+  TEST_ASSERT_TRUE_MESSAGE(try_soft_drop(0), "Peca descendo mais rapido");
+  TEST_ASSERT_EQUAL_INT32_MESSAGE(expect_fall_delay, fall_delay, "Tempo de delay para a peca cair");
+}
+
+void test_try_soft_drop_piece_button_release(){
+  unsigned long expect_fall_delay = INITIAL_FALL_DELAY;
+  btn_down.mockIsPressed = true;
+  btn_down.mockPressed = true;
+  try_soft_drop(0);
+  btn_down.mockIsPressed = false;
+  btn_down.mockPressed = false;
+  btn_down.mockReleased = true;
+  TEST_ASSERT_FALSE_MESSAGE(try_soft_drop(0), "Botao foi solto ");
+  TEST_ASSERT_EQUAL_INT32_MESSAGE(expect_fall_delay, fall_delay, "Tempo de delay para a peca cair restaurado");
+}
+
+void test_react_to_player_button_down_no_pressed(){
+  int expect_fall_delay = INITIAL_FALL_DELAY;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 18;
+
+  update_piece();
+  add_piece_to_grid();
+  btn_down.mockPressed = false;
+  btn_down.mockIsPressed = false;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT32(expect_fall_delay, fall_delay);
+}
+
+void test_react_to_player_button_down_pressed(){
+  int expect_fall_delay = INITIAL_FALL_DELAY / SOFT_DROP_FACTOR;
+  int expect_call_update = 1;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 18;
+
+  update_piece();
+  add_piece_to_grid();
+  btn_down.mockPressed = true;
+  btn_down.mockIsPressed = true;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT32(expect_fall_delay, fall_delay);
+  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_call_update, btn_down.call_update, "Metodo update do Button foi chamado");
+}
+
+void test_react_to_player_button_down_released(){
+  unsigned long expect_fall_delay = INITIAL_FALL_DELAY;
+
+  piece_id = 6;
+  piece_rotation = 0;
+  piece_x = 0;
+  piece_y = 18;
+
+  update_piece();
+  add_piece_to_grid();
+  btn_down.mockPressed = true;
+  btn_down.mockIsPressed = true;
+  react_to_player();
+  btn_down.mockPressed = false;
+  btn_down.mockIsPressed = false;
+  btn_down.mockReleased = true;
+  react_to_player();
+  TEST_ASSERT_EQUAL_INT32(expect_fall_delay, fall_delay);
+}
+
 int main(){
   UNITY_BEGIN();
 
@@ -2249,6 +2344,15 @@ int main(){
   RUN_TEST(test_update_top_row_game_started);
   RUN_TEST(test_update_top_row_not_update);
   RUN_TEST(test_update_top_row_update_new_top);
+
+  RUN_TEST(test_try_soft_drop_piece_button_pressed);
+  RUN_TEST(test_try_soft_drop_piece_button_long_pressed);
+  RUN_TEST(test_try_soft_drop_piece_button_release);
+
+
+  RUN_TEST(test_react_to_player_button_down_no_pressed);
+  RUN_TEST(test_react_to_player_button_down_pressed);
+  RUN_TEST(test_react_to_player_button_down_released);
   return UNITY_END();
 
 }
