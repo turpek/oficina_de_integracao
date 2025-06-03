@@ -2,6 +2,7 @@
 #define TETRIS_H
 
 #include <stdint.h>
+#include "tetris/Bounce2.h"
 
 
 #define NUM_PIECE_TYPES     7
@@ -36,7 +37,7 @@
 #define INITIAL_FALL_DELAY 1000
 #define INITIAL_LAST_FALL_DELAY 0
 #define INITIAL_LOCK_DELAY 500
-#define DROP_DISCOUNT 60
+#define SOFT_DROP_FACTOR 4;
 #define MOVE_DELAY 100
 
 
@@ -45,6 +46,9 @@ extern int button_left;
 extern int button_right;
 extern int button_down;
 extern int button_up;
+
+extern Bounce2::Button btn_down;
+extern Bounce2::Button btn_up;
 
 // Declaração (não definição!)
 extern uint16_t piece_I[];
@@ -65,6 +69,7 @@ extern int piece_x;
 extern int piece_y;
 extern int top_row;
 
+extern unsigned long fall_delay;
 extern unsigned long last_fall_delay;
 extern unsigned long last_lock_delay;
 
@@ -100,6 +105,7 @@ bool can_fall();
 bool has_piece_moved();
 void set_piece_moved();
 void reset_piece_moved();
+bool try_soft_drop(int dy);
 void react_to_player();
 void update_game_state();
 void setup();

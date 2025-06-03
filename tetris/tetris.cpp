@@ -1,6 +1,7 @@
 #include <cstdint>
 #include "tetris/Mock_Arduino.h"
 #include "tetris/Mock_Adafruit_NeoPixel.h"
+#include "Bounce2.h"
 #include "tetris.h"
 #include <stdio.h>
 
@@ -121,6 +122,9 @@ int top_row = GRID_H - 1;
 uint32_t grid[GRID_COUNT] = {0};
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
+
+Bounce2::Button btn_down = Bounce2::Button();
+Bounce2::Button btn_up = Bounce2::Button();
 
 uint8_t bag[NUM_PIECE_TYPES];
 uint8_t bag_index = 0;
@@ -480,6 +484,22 @@ bool try_rotate(){
   return false;
 }
 
+bool try_soft_drop(int dy){
+  btn_down.update();
+  static unsigned long restore_fall_delay = fall_delay;
+  if(btn_down.pressed()){
+    restore_fall_delay = fall_delay;
+    fall_delay = fall_delay / SOFT_DROP_FACTOR;
+    return true;
+  }
+  else if(btn_down.isPressed()){
+    return true;
+  }
+  else if(btn_down.released()){
+    fall_delay = restore_fall_delay;
+  }
+  return false;
+}
 
 void react_to_player(){
   int dx = map(analogRead(joystick_x),0,1023,512,-512);
@@ -498,6 +518,7 @@ void react_to_player(){
     try_rotate();
     set_piece_moved();
   }
+  try_soft_drop(dy);
   add_piece_to_grid();
 
   if(has_piece_moved()){
@@ -550,8 +571,18 @@ void update_game_state(){
   if(can_score_check()){
     update_top_row();
     clear_rows();
-    spawn_piece();
+    if(!spawn_piece()){
+      game_over();
+    }
   }
+}
+
+
+void config_button(Bounce2::Button *btn, int pin){
+  btn->attach(pin, INPUT_PULLUP);
+  btn->interval(10);
+  btn->setPressedState(LOW);
+
 }
 
 void setup(){
@@ -561,7 +592,9 @@ void setup(){
   pinMode(button_left,INPUT_PULLUP);
   pinMode(button_right,INPUT_PULLUP);
   pinMode(button_up, INPUT_PULLUP);
-  pinMode(button_down, INPUT_PULLUP);
+  //pinMode(button_down, INPUT_PULLUP);
+  config_button(&btn_down, button_down);
+  config_button(&btn_up, button_up);
 
   randomSeed(analogRead(joystick_y)+analogRead(2)+analogRead(3));
   init_bag();
