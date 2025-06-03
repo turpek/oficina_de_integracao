@@ -362,6 +362,11 @@ bool is_up_pressed(int dy){
   return (dy > JOYSTICK_DEAD_ZONE) || (digitalRead(button_up) == LOW);
 }
 
+bool is_up_release(int dy){
+  btn_up.update();
+  return btn_up.released();
+}
+
 int check_left_border(int dx){
   if((piece_x - dx) >= 0){
     return 1;
@@ -514,7 +519,7 @@ void react_to_player(){
     piece_x++;
     set_piece_moved();
   }
-  if(is_up_pressed(dy)){
+  if(is_up_release(dy)){
     try_rotate();
     set_piece_moved();
   }
