@@ -627,6 +627,41 @@ void pause_game(){
   }
   delay(100);
 }
+
+bool can_level_up(){
+  return count_row > 0 && (count_row % 10 == 0);
+}
+
+int get_score(int rows){
+  switch(rows){
+    case 1: return 10;  // Single
+    case 2: return 30;  // Double
+    case 3: return 50;  // Triple
+    case 4: return 80;  // Tetris
+    default: return 0;
+  }
+}
+
+void update_score(){
+
+  int rows = clear_rows();
+  count_row += rows;
+  score += get_score(rows);
+
+  int score_1 = score - (  ( score/10 ) * 10  );
+  int score_2 = ((score - (  ( score/100 ) * 100  )) - score_1)/10;
+  int score_3 = ((score - (  ( score/1000 ) * 1000  )) - score_1 - score_2)/100;
+  int score_4 = (score - score_1 - score_2 - score_3) / 1000;
+
+  shift(0x08, score_4);
+  shift(0x07, score_3);
+  shift(0x06, score_2);
+  shift(0x05, score_1);
+
+  if(can_level_up()){
+    fall_delay -= 100;
+  }
+
 }
 
 
@@ -656,7 +691,7 @@ void update_game_state(){
   add_piece_to_grid();
   if(can_score_check()){
     update_top_row();
-    clear_rows();
+    update_score();
     if(!spawn_piece()){
       game_over();
     }
