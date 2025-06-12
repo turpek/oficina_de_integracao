@@ -617,7 +617,18 @@ void game_over(){
   clear_grid();
   setup();
 }
+
+void pause_game(){
+  if(is_pause_pressed()){
+    delay(300);
+    do{
+      delay(50);
+    }while(!is_pause_pressed());
+  }
+  delay(100);
 }
+}
+
 
 void update_game_state(){
   remove_piece_from_grid();
@@ -664,12 +675,16 @@ void setup(){
   randomSeed(analogRead(joystick_y)+analogRead(2)+analogRead(3));
   init_bag();
   spawn_piece();
-
+  count_row = 0;
+  level = 0;
+  score = 0;
+  fall_delay = INITIAL_FALL_DELAY;
 }
 
 void loop(){
   react_to_player();
   update_game_state();
+  pause_game();
 }
 
 #ifndef UNIT_TEST
