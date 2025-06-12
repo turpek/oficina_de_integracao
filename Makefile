@@ -1,6 +1,7 @@
 # Definição de variáveis
-CXX      = g++
-CXXFLAGS = -g -Wall -I. -DUNIT_TEST -DENABLE_TEST
+CXX = g++
+# CXX = clang++
+CXXFLAGS = -g -O0 -std=c++17 -Wall -MMD -MP -I. -I./tetris -I./mock -I./Unity -I./test -DUNIT_TEST -DENABLE_TEST
 SRC_DIR  = tetris
 TEST_DIR = test
 UNITY_DIR = Unity
@@ -8,7 +9,7 @@ BIN_DIR  = bin
 
 # Arquivos-fonte
 UNITY_SRC  = $(UNITY_DIR)/unity.c
-TETRIS_SRC = $(SRC_DIR)/tetris.cpp
+TETRIS_SRC = $(SRC_DIR)/tetris.cpp $(SRC_DIR)/GButton.cpp
 TEST_SRC   = $(TEST_DIR)/test_utils.cpp $(TEST_DIR)/test_tetris.cpp
 
 # Executáveis
@@ -27,11 +28,8 @@ $(BIN_DIR):
 $(TARGET): $(UNITY_SRC) $(TETRIS_SRC) $(TEST_SRC) | $(BIN_DIR)
 	@$(CXX) $(CXXFLAGS) $(UNITY_SRC) $(TETRIS_SRC) $(TEST_SRC) -o $(TARGET)
 
+
 # Limpeza dos binários
 clean:
 	@rm -rf $(BIN_DIR)
 	@echo "Arquivos de compilação limpos."
-
-# Força a recompilação
-force: clean all
-
