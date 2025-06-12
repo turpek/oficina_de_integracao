@@ -589,6 +589,24 @@ void spawn_piece(){
   reset_lock_delay();
   reset_score_check();
   start_fall_delay();
+
+void game_over_loop_leds(){
+  for(int i=LED_COUNT - 1; i>=0 ;i--){
+    strip.setPixelColor(i, strip.Color(0,150,0));
+    strip.show();
+    delay(10);
+  }
+}
+
+void game_over(){
+  game_over_loop_leds();
+  delay(100);
+  do{
+    delay(50);
+  }while(!is_start_pressed());
+  clear_grid();
+  setup();
+}
 }
 
 void update_game_state(){
