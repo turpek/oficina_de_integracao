@@ -1,10 +1,7 @@
-#include <cstdint>
-#include "Bounce2.h"
 #include "Arduino.h"
 #include "Adafruit_NeoPixel.h"
 #include "GButton.h"
 #include "tetris.h"
-#include <stdio.h>
 
 
 int btn_pause = 7;
