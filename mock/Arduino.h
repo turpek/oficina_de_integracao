@@ -1,6 +1,8 @@
 #ifndef MOCK_ARDUINO_H
 #define MOCK_ARDUINO_H
 
+#include <cstdint>
+
 // Modos de pino
 #define INPUT           0
 #define OUTPUT          1
@@ -18,8 +20,11 @@
 #define JOYSTICK_CENTER 512
 #define JOYSTICK_RIGHT  800
 #define JOYSTICK_NOISE  510
-#define JOYSTICK_UP     200
-#define JOYSTICK_DOWN   800
+#define JOYSTICK_UP     800
+#define JOYSTICK_DOWN   200
+
+#define MSBFIRST 1  // Só um valor qualquer para a constante
+
 
 // Número máximo de pinos simulados
 const int MAX_PINS = 20;
@@ -92,5 +97,15 @@ inline long random(long min, long max) {
 }
 
 inline void delay(long time) {};
+
+// Protótipo da função shiftOut para compilar
+inline void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val) {
+  // Mock vazio - não faz nada
+  (void)dataPin;
+  (void)clockPin;
+  (void)bitOrder;
+  (void)val;
+}
+
 
 #endif

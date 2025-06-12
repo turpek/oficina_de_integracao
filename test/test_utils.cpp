@@ -1,4 +1,5 @@
 #include "test_utils.h"
+#include "Arduino.h"
 
 
 void transform_grid(uint32_t expect_grid[], uint32_t expect_map[], uint32_t color, int size) {

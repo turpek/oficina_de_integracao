@@ -50,8 +50,6 @@ public:
         for (uint16_t i = 0; i < _numPixels; ++i) {
             _pixels[i] = 0;
         }
-        std::printf("[mock] begin: %u pixels on pin %u flags=0x%08X\n",
-                    _numPixels, _pin, _flags);
     }
 
     /**
@@ -104,7 +102,10 @@ public:
     uint16_t numPixels() const {
         return _numPixels;
     }
-    
+
+    void setBrightness(uint8_t b) {
+
+    }
 
 private:
     uint16_t  _numPixels;  // number of LEDs

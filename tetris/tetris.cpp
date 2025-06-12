@@ -1,7 +1,7 @@
 #include <cstdint>
-#include "tetris/Mock_Arduino.h"
-#include "tetris/Mock_Adafruit_NeoPixel.h"
 #include "Bounce2.h"
+#include "Arduino.h"
+#include "Adafruit_NeoPixel.h"
 #include "GButton.h"
 #include "tetris.h"
 #include <stdio.h>

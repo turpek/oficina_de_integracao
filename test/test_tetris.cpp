@@ -1,8 +1,4 @@
-#include "Unity/unity.h"
-#include "tetris/tetris.h"
-#include "test/test_utils.h"
-#include "tetris/Mock_Arduino.h"
-#include "tetris/Bounce2.h"
+#include "Arduino.h"
 #include <iostream>
 using namespace std;
 
