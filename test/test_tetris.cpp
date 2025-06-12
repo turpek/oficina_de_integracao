@@ -1898,7 +1898,7 @@ void test_clear_row_hole(){
 }
 
 void test_push_rows_teste_1(){
-  int y = GRID_H + PIECE_H - 1; 
+  int y = GRID_H + PIECE_H - 1;
   int dy = 1;
   int lines = 3;
   transform_grid(grid, map_push_rows_t1_frame_0, piece_colors[piece_id], GRID_COUNT);
@@ -1907,7 +1907,7 @@ void test_push_rows_teste_1(){
 }
 
 void test_push_rows_teste_2(){
-  int y = 16; 
+  int y = 16;
   int dy = 2;
   int lines = 3;
   transform_grid(grid, map_push_rows_t2_frame_0, piece_colors[piece_id], GRID_COUNT);
@@ -1916,7 +1916,7 @@ void test_push_rows_teste_2(){
 }
 
 void test_push_rows_teste_3(){
-  int y = GRID_H + PIECE_H - 1; 
+  int y = GRID_H + PIECE_H - 1;
   int dy = 2;
   int lines = GRID_H;
   transform_grid(grid, map_push_rows_t2_frame_0, piece_colors[piece_id], GRID_COUNT);
@@ -2177,7 +2177,7 @@ int main(){
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX1Y0);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX0Y1);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX1Y1);
-  
+
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX_1Y0);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX0Y_1);
   RUN_TEST(test_add_piece_to_grid_Piece_S_rx0_movX_1Y_1);
