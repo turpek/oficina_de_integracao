@@ -574,14 +574,14 @@ void react_to_player(){
   }
 }
 
-void spawn_piece(){
+bool spawn_piece(){
   piece_id = get_next_piece();
   piece_x = INITIAL_PIECE_X;
   piece_y = INITIAL_PIECE_Y;
   piece_rotation = INITIAL_PIECE_ROTATION;
   update_piece();
-  if(!has_no_collision(0, 1)){
-    clear_grid();
+  if(!has_no_collision(0, 0)){
+    return false;
   }
   add_piece_to_grid();
   show_grid();
@@ -589,6 +589,8 @@ void spawn_piece(){
   reset_lock_delay();
   reset_score_check();
   start_fall_delay();
+  return true;
+}
 
 void game_over_loop_leds(){
   for(int i=LED_COUNT - 1; i>=0 ;i--){
