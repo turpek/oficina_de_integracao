@@ -1,16 +1,20 @@
+#include "unity.h"
+#include "tetris.h"
+#include "test_utils.h"
 #include "Arduino.h"
+#include "GButton.h"
 #include <iostream>
 using namespace std;
 
 
-void button_setup(Bounce2::Button *btn){
-  btn->mockIsPressed = false;
-  btn->mockPressed = false;
-  btn->mockReleased = false;
-  btn->call_update = 0;
+void reset_buttons(){
+  current_time += 500;
+  update_buttons();
+  current_time = 500;
 }
 
 void setUp(void){
+  setup();
   fall_delay = INITIAL_FALL_DELAY;
   piece_id = 0;
   piece_rotation = 0;
@@ -18,17 +22,18 @@ void setUp(void){
   piece_y = 0;
   top_row = GRID_H - 1;
   clear_piece();
-  pin_values[button_right] = HIGH;
-  pin_values[button_left] = HIGH;
-  pin_values[button_down] = HIGH;
-  pin_values[button_up] = HIGH;
+  pin_values[btn_right] = HIGH;
+  pin_values[btn_left] = HIGH;
+  pin_values[btn_down] = HIGH;
+  pin_values[btn_up] = HIGH;
+  pin_values[btn_start] = HIGH;
+  pin_values[btn_pause] = HIGH;
   mock_analog_x = JOYSTICK_CENTER;
   mock_analog_y = JOYSTICK_CENTER;
+  reset_buttons();
   current_time = 500;
   last_fall_delay = 0;
   last_lock_delay = 0;
-  button_setup(&btn_down);
-  button_setup(&btn_up);
   reset_lock_delay();
   reset_piece_moved();
   clear_grid();
@@ -733,115 +738,116 @@ void test_remove_piece_from_grid_Piece_S_rx0_movX0Y_1(){
 }
 
 void test_is_right_pressed_right_button_not_pressed(){
-  pin_values[button_right] = HIGH;
+  pin_values[btn_right] = HIGH;
   int expect_right_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(0));
+  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed());
 }
 
 void test_is_right_pressed_right_button_pressed(){
-  pin_values[button_right] = LOW;
-  int expect_right_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(0));
+  button_pressed(button_right, btn_right, DEBOUNCE_TIME);
+  button_right.update();
+  TEST_ASSERT_TRUE(is_right_pressed());
 }
 
 void test_is_right_pressed_by_joystick_DX_0(){
-  int expect_right_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(0));
+  TEST_ASSERT_FALSE(is_right_pressed());
 }
 
 void test_is_right_pressed_by_joystick_DX_30(){
-  int expect_right_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(-30));
+  int state = JOYSTICK_CENTER + JOYSTICK_DEAD_ZONE;
+  joystick_pressed_x(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_right_pressed());
 }
 
 void test_is_right_pressed_by_joystick_DX_31(){
-  int expect_right_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_right_pressed, is_right_pressed(-31));
+  int state = JOYSTICK_CENTER + JOYSTICK_DEAD_ZONE + 1;
+  joystick_pressed_x(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_right_pressed());
 }
 
 void test_is_left_pressed_left_button_not_pressed(){
-  pin_values[button_left] = HIGH;
-  int expect_left_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_left_pressed, is_left_pressed(0));
+  TEST_ASSERT_FALSE(is_left_pressed());
 }
 
 void test_is_left_pressed_left_button_pressed(){
-  pin_values[button_left] = LOW;
-  int expect_left_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_left_pressed, is_left_pressed(0));
+  button_pressed(button_left, btn_left, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_left_pressed());
 }
 
 void test_is_left_pressed_by_joystick_DX_0(){
-  int expect_left_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_left_pressed, is_left_pressed(0));
+    TEST_ASSERT_FALSE(is_left_pressed());
 }
 
 void test_is_left_pressed_by_joystick_DX_30(){
-  int expect_left_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_left_pressed, is_left_pressed(30));
+  int state = JOYSTICK_CENTER - JOYSTICK_DEAD_ZONE;
+  joystick_pressed_x(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_left_pressed());
 }
 
 void test_is_left_pressed_by_joystick_DX_31(){
-  int expect_left_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_left_pressed, is_left_pressed(31));
+  int state = JOYSTICK_CENTER - (JOYSTICK_DEAD_ZONE + 1);
+  joystick_pressed_x(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_left_pressed());
 }
 
 
 void test_is_down_pressed_down_button_not_pressed(){
-  pin_values[button_down] = HIGH;
-  int expect_down_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+  button_release(button_down, btn_down, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_down_pressed());
+
 }
 
-
 void test_is_down_pressed_down_button_pressed(){
-  pin_values[button_down] = LOW;
-  int expect_down_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+  button_pressed(button_down, btn_down, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_down_pressed());
 }
 
 void test_is_down_pressed_by_joystick_DY_0(){
-  int expect_down_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(0));
+  int state = JOYSTICK_CENTER;
+  joystick_pressed_y(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_down_pressed());
 
 }
 
 void test_is_down_pressed_by_joystick_DY_30(){
-  int expect_down_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-30));
+  int state = JOYSTICK_CENTER - JOYSTICK_DEAD_ZONE;
+  joystick_pressed_y(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_down_pressed());
 }
 
 void test_is_down_pressed_by_joystick_DY_31(){
-  int expect_down_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_down_pressed, is_down_pressed(-31));
+  int state = JOYSTICK_CENTER - (JOYSTICK_DEAD_ZONE + 1);
+  joystick_pressed_y(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_down_pressed());
 }
 
 
 void test_is_up_pressed_up_button_not_pressed(){
-  pin_values[button_up] = HIGH;
-  int expect_up_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+  button_release(button_up, btn_up, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_up_pressed());
 }
 
 void test_is_up_pressed_up_button_pressed(){
-  pin_values[button_up] = LOW;
-  int expect_up_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+  button_pressed(button_up, btn_up, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_up_pressed());
 }
 
 void test_is_up_pressed_by_joystick_DY0(){
-  int expect_up_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(0));
+  int state = JOYSTICK_CENTER;
+  joystick_pressed_y(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_up_pressed());
 }
 
 void test_is_up_pressed_by_joystick_DY30(){
-  int expect_up_pressed = 0;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(30));
+  int state = JOYSTICK_CENTER + (JOYSTICK_DEAD_ZONE);
+  joystick_pressed_y(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_FALSE(is_up_pressed());
 }
 
 void test_is_up_pressed_by_joystick_DY31(){
-  int expect_up_pressed = 1;
-  TEST_ASSERT_EQUAL_INT(expect_up_pressed, is_up_pressed(31));
+  int state = JOYSTICK_CENTER + (JOYSTICK_DEAD_ZONE + 1);
+  joystick_pressed_y(joystick, state, DEBOUNCE_TIME);
+  TEST_ASSERT_TRUE(is_up_pressed());
 }
 
 void test_check_left_border_Piece_S_rx0_mov_X0(){
@@ -1261,7 +1267,7 @@ void test_react_to_player_botton_left_true(){
 
   update_piece();
   add_piece_to_grid();
-  pin_values[button_left] = LOW;
+  pin_values[btn_left] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -1305,7 +1311,7 @@ void test_react_to_player_botton_left_collision(){
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
-  pin_values[button_left] = LOW;
+  pin_values[btn_left] = LOW;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 1");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 9");
@@ -1347,7 +1353,7 @@ void test_react_to_player_botton_left_border(){
   add_piece_to_grid();
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
-  pin_values[button_left] = LOW;
+  pin_values[btn_left] = LOW;
   react_to_player();
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_x, piece_x, "expect_piece_x = 0");
   TEST_ASSERT_EQUAL_INT_MESSAGE(expect_piece_y, piece_y, "expect_piece_y = 0");
@@ -1387,7 +1393,7 @@ void test_react_to_player_botton_right_true(){
 
   update_piece();
   add_piece_to_grid();
-  pin_values[button_right] = LOW;
+  pin_values[btn_right] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -1428,7 +1434,7 @@ void test_react_to_player_botton_right_collision(){
 
   update_piece();
   add_piece_to_grid();
-  pin_values[button_right] = LOW;
+  pin_values[btn_right] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -1470,7 +1476,7 @@ void test_react_to_player_botton_right_border(){
 
   update_piece();
   add_piece_to_grid();
-  pin_values[button_right] = LOW;
+  pin_values[btn_right] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -1510,7 +1516,7 @@ void test_react_to_player_botton_up_true(){
 
   update_piece();
   add_piece_to_grid();
-  btn_up.mockReleased = true;
+  pin_values[btn_up] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -1544,7 +1550,7 @@ void test_react_to_player_botton_up_false(){
 
   update_piece();
   add_piece_to_grid();
-  pin_values[button_up] = LOW;
+  pin_values[btn_up] = LOW;
   transform_grid(grid, map_react, piece_colors[piece_id], GRID_COUNT);
 
   react_to_player();
@@ -2041,35 +2047,37 @@ void test_update_top_row_update_new_top(){
 
 void test_try_soft_drop_piece_button_pressed(){
   unsigned long expect_fall_delay = INITIAL_FALL_DELAY / SOFT_DROP_FACTOR;
-  btn_down.mockIsPressed = true;
-  btn_down.mockPressed = true;
-  TEST_ASSERT_TRUE_MESSAGE(try_soft_drop(0), "Peça descendo mais rapido");
+  pin_values[btn_down] = LOW;
+  current_time = DEBOUNCE_TIME;
+  button_down.update();
+  TEST_ASSERT_TRUE_MESSAGE(try_soft_drop(), "Peca descendo mais rapido");
   TEST_ASSERT_EQUAL_INT32_MESSAGE(expect_fall_delay, fall_delay, "Tempo de delay para a peca cair");
 }
 
 void test_try_soft_drop_piece_button_long_pressed(){
   unsigned long expect_fall_delay = INITIAL_FALL_DELAY / SOFT_DROP_FACTOR;
-  btn_down.mockIsPressed = true;
-  btn_down.mockPressed = true;
-  try_soft_drop(0);
-  btn_down.mockPressed = false;
-  TEST_ASSERT_TRUE_MESSAGE(try_soft_drop(0), "Peca descendo mais rapido");
+  pin_values[btn_down] = LOW;
+  current_time = DEBOUNCE_TIME;
+  button_down.update();
+  try_soft_drop();
+  current_time += LONG_PRESSED_TIME;
+  button_down.update();
+  TEST_ASSERT_TRUE_MESSAGE(try_soft_drop(), "Peca descendo mais rapido");
   TEST_ASSERT_EQUAL_INT32_MESSAGE(expect_fall_delay, fall_delay, "Tempo de delay para a peca cair");
 }
 
 void test_try_soft_drop_piece_button_release(){
   unsigned long expect_fall_delay = INITIAL_FALL_DELAY;
-  btn_down.mockIsPressed = true;
-  btn_down.mockPressed = true;
-  try_soft_drop(0);
-  btn_down.mockIsPressed = false;
-  btn_down.mockPressed = false;
-  btn_down.mockReleased = true;
-  TEST_ASSERT_FALSE_MESSAGE(try_soft_drop(0), "Botao foi solto ");
+  pin_values[btn_down] = LOW;
+  current_time = DEBOUNCE_TIME;
+  try_soft_drop();
+  pin_values[btn_down] = HIGH;
+  current_time += DEBOUNCE_TIME;
+  TEST_ASSERT_FALSE_MESSAGE(try_soft_drop(), "Botao foi solto ");
   TEST_ASSERT_EQUAL_INT32_MESSAGE(expect_fall_delay, fall_delay, "Tempo de delay para a peca cair restaurado");
 }
 
-void test_react_to_player_button_down_no_pressed(){
+void test_react_to_player_btn_down_no_pressed(){
   int expect_fall_delay = INITIAL_FALL_DELAY;
 
   piece_id = 6;
@@ -2079,15 +2087,12 @@ void test_react_to_player_button_down_no_pressed(){
 
   update_piece();
   add_piece_to_grid();
-  btn_down.mockPressed = false;
-  btn_down.mockIsPressed = false;
   react_to_player();
   TEST_ASSERT_EQUAL_INT32(expect_fall_delay, fall_delay);
 }
 
-void test_react_to_player_button_down_pressed(){
+void test_react_to_player_btn_down_pressed(){
   int expect_fall_delay = INITIAL_FALL_DELAY / SOFT_DROP_FACTOR;
-  int expect_call_update = 1;
 
   piece_id = 6;
   piece_rotation = 0;
@@ -2096,14 +2101,13 @@ void test_react_to_player_button_down_pressed(){
 
   update_piece();
   add_piece_to_grid();
-  btn_down.mockPressed = true;
-  btn_down.mockIsPressed = true;
+  current_time = DEBOUNCE_TIME;
+  pin_values[btn_down] = LOW;
   react_to_player();
   TEST_ASSERT_EQUAL_INT32(expect_fall_delay, fall_delay);
-  TEST_ASSERT_EQUAL_INT_MESSAGE(expect_call_update, btn_down.call_update, "Metodo update do Button foi chamado");
 }
 
-void test_react_to_player_button_down_released(){
+void test_react_to_player_btn_down_released(){
   unsigned long expect_fall_delay = INITIAL_FALL_DELAY;
 
   piece_id = 6;
@@ -2113,12 +2117,12 @@ void test_react_to_player_button_down_released(){
 
   update_piece();
   add_piece_to_grid();
-  btn_down.mockPressed = true;
-  btn_down.mockIsPressed = true;
+  current_time = DEBOUNCE_TIME;
+  pin_values[btn_down] = LOW;
+  update_buttons();
+  current_time += LONG_PRESSED_TIME;
   react_to_player();
-  btn_down.mockPressed = false;
-  btn_down.mockIsPressed = false;
-  btn_down.mockReleased = true;
+  pin_values[btn_down] = HIGH;
   react_to_player();
   TEST_ASSERT_EQUAL_INT32(expect_fall_delay, fall_delay);
 }
@@ -2346,9 +2350,9 @@ int main(){
   RUN_TEST(test_try_soft_drop_piece_button_release);
 
 
-  RUN_TEST(test_react_to_player_button_down_no_pressed);
-  RUN_TEST(test_react_to_player_button_down_pressed);
-  RUN_TEST(test_react_to_player_button_down_released);
+  RUN_TEST(test_react_to_player_btn_down_no_pressed);
+  RUN_TEST(test_react_to_player_btn_down_pressed);
+  RUN_TEST(test_react_to_player_btn_down_released);
   return UNITY_END();
 
 }

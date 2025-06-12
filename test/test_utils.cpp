@@ -1,5 +1,6 @@
 #include "test_utils.h"
 #include "Arduino.h"
+#include "GButton.h"
 
 
 void transform_grid(uint32_t expect_grid[], uint32_t expect_map[], uint32_t color, int size) {
@@ -8,6 +9,74 @@ void transform_grid(uint32_t expect_grid[], uint32_t expect_map[], uint32_t colo
             expect_grid[i] = color;
         }
     }
+}
+
+void button_pressed(GButton& button, int pin, int interval){
+    make_state(button, pin_values[pin], LOW, interval);
+}
+
+void button_release(GButton& button, int pin, int interval){
+    make_state(button, pin_values[pin], HIGH, interval);
+}
+
+void button_click(GButton& button, int pin, unsigned long interval, unsigned long elapsed_click){
+    button_pressed(button, pin, interval);
+    button_release(button, pin, interval);
+    current_time += elapsed_click;
+    button.update();
+}
+
+void button_multiclick(GButton& button, int pin, unsigned long interval){
+    button_pressed(button, pin, interval);
+    button_release(button, pin, interval);
+    current_time += MULTI_CLICK_INTERVAL - 1;
+    button.update();
+}
+
+
+void joystick_pressed_x(GJoystick& joystick, int state, unsigned long interval){
+    make_state(joystick, mock_analog_x, state, interval);
+}
+
+void joystick_pressed_y(GJoystick& joystick, int state, unsigned long interval){
+    make_state(joystick, mock_analog_y, state, interval);
+}
+
+void joystick_released_x(GJoystick& joystick, unsigned long interval){
+    make_state(joystick, mock_analog_x, JOYSTICK_CENTER, interval);
+}
+
+void joystick_released_y(GJoystick& joystick, unsigned long interval){
+    make_state(joystick, mock_analog_y, JOYSTICK_CENTER, interval);
+}
+
+
+void joystick_click_x(GJoystick& joystick, int state, unsigned long interval, unsigned long elapsed_click){
+    make_state(joystick, mock_analog_x, state, DEBOUNCING_DELAY);
+    joystick_released_x(joystick, interval);
+    current_time += elapsed_click;
+    joystick.update();
+}
+
+void joystick_click_y(GJoystick& joystick, int state, unsigned long interval, unsigned long elapsed_click){
+    make_state(joystick, mock_analog_y, state, DEBOUNCING_DELAY);
+    joystick_released_y(joystick, interval);
+    current_time += elapsed_click;
+    joystick.update();
+}
+
+void joystick_multiclick_x(GJoystick& joystick, int state, unsigned long interval){
+    make_state(joystick, mock_analog_x, state, DEBOUNCING_DELAY);
+    joystick_released_x(joystick, interval);
+    current_time += MULTI_CLICK_INTERVAL - 1;
+    joystick.update();
+}
+
+void joystick_multiclick_y(GJoystick& joystick, int state, unsigned long interval){
+    make_state(joystick, mock_analog_y, state, DEBOUNCING_DELAY);
+    joystick_released_y(joystick, interval);
+    current_time += MULTI_CLICK_INTERVAL - 1;
+    joystick.update();
 }
 
 
