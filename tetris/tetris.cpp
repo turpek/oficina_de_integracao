@@ -163,6 +163,14 @@ uint8_t get_next_piece() {
   return bag[bag_index++];
 }
 
+void shift(uint8_t send_to_address, uint8_t send_this_data)
+{
+  digitalWrite(MAX7219_Chip_Select, LOW);
+  shiftOut(MAX7219_Data_IN, MAX7219_Clock, MSBFIRST, send_to_address);
+  shiftOut(MAX7219_Data_IN, MAX7219_Clock, MSBFIRST, send_this_data);
+  digitalWrite(MAX7219_Chip_Select, HIGH);
+}
+
 int mapY(int value) {
   return map(value, 1024, 0, 512, -512);
 }
@@ -649,6 +657,9 @@ void setup(){
   strip.begin();
   strip.show();
   configButton();
+  for(uint8_t i = 1; i <= 8; i++){
+    shift(i, 0x00); // envia 0 para o dígito i, apagando ele
+  }
 
   randomSeed(analogRead(joystick_y)+analogRead(2)+analogRead(3));
   init_bag();
