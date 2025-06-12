@@ -2,7 +2,7 @@
 #define TETRIS_H
 
 #include <stdint.h>
-#include "tetris/Bounce2.h"
+#include "GButton.h"
 
 
 #define NUM_PIECE_TYPES     7
@@ -35,20 +35,37 @@
 
 // Opções do tempo de descida
 #define INITIAL_FALL_DELAY 1000
+#define MINIMUM_FALL_DELAY 100
 #define INITIAL_LAST_FALL_DELAY 0
 #define INITIAL_LOCK_DELAY 500
-#define SOFT_DROP_FACTOR 4;
+#define SOFT_DROP_FACTOR 4
 #define MOVE_DELAY 100
+#define DEBOUNCE_TIME 40
+#define LONG_PRESSED_TIME 100
+
+#define MAX7219_Data_IN 3
+#define MAX7219_Chip_Select  4
+#define MAX7219_Clock 5
+
+
 
 
 // Declaração dos pinos
-extern int button_left;
-extern int button_right;
-extern int button_down;
-extern int button_up;
+extern int btn_left;
+extern int btn_right;
+extern int btn_down;
+extern int btn_up;
+extern int btn_pause;
+extern int btn_start;
 
-extern Bounce2::Button btn_down;
-extern Bounce2::Button btn_up;
+
+extern GButton button_up;
+extern GButton button_down;
+extern GButton button_right;
+extern GButton button_left;
+extern GButton button_start;
+extern GButton button_pause;
+extern GJoystick joystick;
 
 // Declaração (não definição!)
 extern uint16_t piece_I[];
@@ -83,10 +100,10 @@ void clear_row(int y);
 void push_rows(int y, int dy, int rows);
 bool row_is_full(int y);
 int clear_rows();
-bool is_right_pressed(int dx);
-bool is_left_pressed(int dx);
-bool is_down_pressed(int dy);
-bool is_up_pressed(int dy);
+bool is_right_pressed();
+bool is_left_pressed();
+bool is_down_pressed();
+bool is_up_pressed();
 int check_left_border(int dx);
 int check_right_border(int dx);
 bool check_botton_border(int dy);
@@ -105,11 +122,11 @@ bool can_fall();
 bool has_piece_moved();
 void set_piece_moved();
 void reset_piece_moved();
-bool try_soft_drop(int dy);
+bool try_soft_drop();
 void react_to_player();
 void update_game_state();
+void update_buttons();
 void setup();
-
 
 #ifdef ENABLE_TEST
 

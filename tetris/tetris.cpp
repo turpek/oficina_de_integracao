@@ -2,18 +2,20 @@
 #include "tetris/Mock_Arduino.h"
 #include "tetris/Mock_Adafruit_NeoPixel.h"
 #include "Bounce2.h"
+#include "GButton.h"
 #include "tetris.h"
 #include <stdio.h>
 
 
-int button_left = 8;
-int button_right = 9;
-int button_down = 10;
-int button_up = 11;
+int btn_pause = 7;
+int btn_left = 8;
+int btn_right = 9;
+int btn_down = 10;
+int btn_up = 11;
+int btn_start = 12;
 int joystick_x = A0;
 int joystick_y = A1;
 
-//
 
 /*                            Peça I
  *
@@ -117,14 +119,23 @@ unsigned long last_lock_delay = 0;
 static bool locking = false;
 static bool piece_moved = false;
 static bool score_check = false;
+int score = 0;
+int top_score = 0;
+int count_row = 0;
+int level = 0;
 
 int top_row = GRID_H - 1;
 uint32_t grid[GRID_COUNT] = {0};
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
-Bounce2::Button btn_down = Bounce2::Button();
-Bounce2::Button btn_up = Bounce2::Button();
+GButton button_up;
+GButton button_down;
+GButton button_right;
+GButton button_left;
+GButton button_start;
+GButton button_pause;
+GJoystick joystick = GJoystick(A0, A1, JOYSTICK_DEAD_ZONE, DEBOUNCE_TIME);
 
 uint8_t bag[NUM_PIECE_TYPES];
 uint8_t bag_index = 0;
@@ -139,6 +150,7 @@ void shuffle_bag() {
   }
 }
 
+
 void init_bag() {
   for (uint8_t i = 0; i < NUM_PIECE_TYPES; i++) {
     bag[i] = i;
@@ -152,6 +164,33 @@ uint8_t get_next_piece() {
     init_bag(); // reembaralha
   }
   return bag[bag_index++];
+}
+
+int mapY(int value) {
+  return map(value, 1024, 0, 512, -512);
+}
+
+void configButton(){
+  button_right.begin(btn_right, INPUT_PULLUP, DEBOUNCE_TIME);
+  button_left.begin(btn_left, INPUT_PULLUP, DEBOUNCE_TIME);
+  button_up.begin(btn_up, INPUT_PULLUP, DEBOUNCE_TIME);
+  button_down.begin(btn_down, INPUT_PULLUP, DEBOUNCE_TIME);
+  button_start.begin(btn_start, INPUT_PULLUP, DEBOUNCE_TIME);
+  button_pause.begin(btn_pause, INPUT_PULLUP, DEBOUNCE_TIME);
+  joystick.setMapY(mapY);
+  joystick.setClickTime(300);
+  joystick.setMultiClickInterval(350);
+  joystick.setLongPressedTime(500);
+}
+
+void update_buttons(){
+  button_right.update();
+  button_left.update();
+  button_up.update();
+  button_down.update();
+  button_start.update();
+  button_pause.update();
+  joystick.update();
 }
 
 bool has_piece_moved(){
@@ -346,25 +385,33 @@ int clear_rows(){
   return rows;
 }
 
-bool is_right_pressed(int dx){
-  return (dx < -JOYSTICK_DEAD_ZONE) || (digitalRead(button_right) == LOW);
+bool is_right_pressed(){
+  return joystick.right.isPressed() || button_right.isPressed();
 }
 
-bool is_left_pressed(int dx){
-  return (dx > JOYSTICK_DEAD_ZONE) || (digitalRead(button_left) == LOW);
+bool is_left_pressed(){
+  return joystick.left.isPressed() || button_left.isPressed();
 }
 
-bool is_down_pressed(int dy){
-  return (dy < -JOYSTICK_DEAD_ZONE || (digitalRead(button_down) == LOW));
+bool is_down_pressed(){
+  return joystick.down.isPressed() || button_down.isPressed();
 }
 
-bool is_up_pressed(int dy){
-  return (dy > JOYSTICK_DEAD_ZONE) || (digitalRead(button_up) == LOW);
+bool is_up_pressed(){
+  return joystick.up.isPressed() || button_up.isPressed();
 }
 
-bool is_up_release(int dy){
-  btn_up.update();
-  return btn_up.released();
+bool is_up_just_pressed(){
+  return (joystick.up.justPressed() && !button_up.isPressed()) ||
+    (button_up.justPressed() && !joystick.up.isPressed());
+}
+
+bool is_start_pressed(){
+  return button_start.isClick();
+}
+
+bool is_pause_pressed(){
+  return button_pause.isClick();
 }
 
 int check_left_border(int dx){
@@ -489,41 +536,39 @@ bool try_rotate(){
   return false;
 }
 
-bool try_soft_drop(int dy){
-  btn_down.update();
+bool try_soft_drop(){
   static unsigned long restore_fall_delay = fall_delay;
-  if(btn_down.pressed()){
+  static bool is_soft_drop = false;
+
+  if(button_down.justPressed()){
     restore_fall_delay = fall_delay;
     fall_delay = fall_delay / SOFT_DROP_FACTOR;
-    return true;
+    is_soft_drop = true;
   }
-  else if(btn_down.isPressed()){
-    return true;
-  }
-  else if(btn_down.released()){
+  else if(button_down.justReleased()){
     fall_delay = restore_fall_delay;
+    is_soft_drop = false;
   }
-  return false;
+  return is_soft_drop;
 }
 
 void react_to_player(){
-  int dx = map(analogRead(joystick_x),0,1023,512,-512);
-  int dy = map(analogRead(joystick_y),0,1023,512,-512);
 
+  update_buttons();
   remove_piece_from_grid();
-  if(is_left_pressed(dx) &&check_left_border(1) && has_no_collision(-1, 0)){
+  if(is_left_pressed() && check_left_border(1) && has_no_collision(-1, 0)){
     piece_x--;
     set_piece_moved();
   }
-  if(is_right_pressed(dx) && check_right_border(1) && has_no_collision(1, 0)){
+  if(is_right_pressed() && check_right_border(1) && has_no_collision(1, 0)){
     piece_x++;
     set_piece_moved();
   }
-  if(is_up_release(dy)){
+  if(is_up_just_pressed()){
     try_rotate();
     set_piece_moved();
   }
-  try_soft_drop(dy);
+  try_soft_drop();
   add_piece_to_grid();
 
   if(has_piece_moved()){
@@ -582,24 +627,11 @@ void update_game_state(){
   }
 }
 
-
-void config_button(Bounce2::Button *btn, int pin){
-  btn->attach(pin, INPUT_PULLUP);
-  btn->interval(10);
-  btn->setPressedState(LOW);
-
-}
-
 void setup(){
 
   strip.begin();
   strip.show();
-  pinMode(button_left,INPUT_PULLUP);
-  pinMode(button_right,INPUT_PULLUP);
-  pinMode(button_up, INPUT_PULLUP);
-  //pinMode(button_down, INPUT_PULLUP);
-  config_button(&btn_down, button_down);
-  config_button(&btn_up, button_up);
+  configButton();
 
   randomSeed(analogRead(joystick_y)+analogRead(2)+analogRead(3));
   init_bag();
