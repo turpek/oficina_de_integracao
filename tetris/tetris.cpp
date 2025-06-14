@@ -703,6 +703,11 @@ void setup(){
   strip.begin();
   strip.show();
   configButton();
+
+  // configura o barramento do MAX7219
+  pinMode(MAX7219_Data_IN, OUTPUT);
+  pinMode(MAX7219_Clock,   OUTPUT);
+  pinMode(MAX7219_Chip_Select, OUTPUT);
   for(uint8_t i = 1; i <= 8; i++){
     shift(i, 0x00); // envia 0 para o dígito i, apagando ele
   }
