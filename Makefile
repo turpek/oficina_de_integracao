@@ -1,6 +1,6 @@
 # Definição de variáveis
 CXX = g++
-# CXX = clang++
+# CXX = clang++  ## FLAG para gerar o arquivo compile_commands.json para o linter do coc, para gerar use `bear -- make`
 CXXFLAGS = -g -O0 -std=c++17 -Wall -MMD -MP -I. -I./tetris -I./mock -I./lib -I./Unity -I./test -DUNIT_TEST -DENABLE_TEST -DARDUINO=150
 SRC_DIR  = tetris
 TEST_DIR = test
