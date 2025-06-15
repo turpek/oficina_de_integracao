@@ -1,5 +1,5 @@
-#ifndef MOCK_ARDUINO_H
-#define MOCK_ARDUINO_H
+#ifndef ARDUINO_H
+#define ARDUINO_H
 
 #include <cstdint>
 
@@ -81,6 +81,10 @@ inline unsigned long millis() {
     return current_time;
 }
 
+inline unsigned long micros() {
+    return current_time * 1000;
+}
+
 inline  unsigned long mock_random_seed_value;
 
 inline void randomSeed(unsigned long seed) {
@@ -107,5 +111,27 @@ inline void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_
   (void)val;
 }
 
+
+// Mock de tone(pin, frequency)
+// (funcionalidade real é ignorada)
+inline void tone(uint8_t pin, unsigned int frequency) {
+  // nada
+}
+
+// Mock de tone(pin, frequency, duration)
+// (funcionalidade real é ignorada)
+inline void tone(uint8_t pin, unsigned int frequency, unsigned long duration) {
+  // nada
+}
+
+// Mock de noTone(pin)
+// (funcionalidade real é ignorada)
+inline void noTone(uint8_t pin) {
+  // nada
+}
+
+inline int abs(int x) {
+    return x;
+}
 
 #endif
