@@ -6,10 +6,15 @@
 #include <iostream>
 using namespace std;
 
-
 void reset_buttons(){
   current_time += 500;
   update_buttons();
+  current_time = 500;
+}
+
+void reset_timer(){
+  current_time = 400;
+  moveTimer.start();
   current_time = 500;
 }
 
@@ -31,6 +36,7 @@ void setUp(void){
   mock_analog_x = JOYSTICK_CENTER;
   mock_analog_y = JOYSTICK_CENTER;
   reset_buttons();
+  reset_timer();
   current_time = 500;
   last_fall_delay = 0;
   last_lock_delay = 0;
@@ -2130,6 +2136,8 @@ void test_react_to_player_btn_down_released(){
 int main(){
   UNITY_BEGIN();
 
+  // Valor padrao do map do eixo y do joystick
+  joystick.setMapY(defaultMap);
 
   RUN_TEST(test_decodePiece_I_rx0);
   RUN_TEST(test_decodePiece_I_rx1);
