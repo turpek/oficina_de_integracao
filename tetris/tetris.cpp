@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "Adafruit_NeoPixel.h"
 #include "GButton.h"
+#include "Chrono.h"
 #include "tetris.h"
 
 
@@ -133,6 +134,8 @@ GButton button_left;
 GButton button_start;
 GButton button_pause;
 GJoystick joystick = GJoystick(A0, A1, JOYSTICK_DEAD_ZONE, DEBOUNCE_TIME);
+
+Chrono moveTimer;
 
 uint8_t bag[NUM_PIECE_TYPES];
 uint8_t bag_index = 0;
@@ -559,26 +562,28 @@ bool try_soft_drop(){
 
 void react_to_player(){
 
-  update_buttons();
-  remove_piece_from_grid();
-  if(is_left_pressed() && check_left_border(1) && has_no_collision(-1, 0)){
-    piece_x--;
-    set_piece_moved();
-  }
-  if(is_right_pressed() && check_right_border(1) && has_no_collision(1, 0)){
-    piece_x++;
-    set_piece_moved();
-  }
-  if(is_up_just_pressed()){
-    try_rotate();
-    set_piece_moved();
-  }
-  try_soft_drop();
-  add_piece_to_grid();
+  if(moveTimer.hasPassed(MOVE_DELAY)){
+    update_buttons();
+    remove_piece_from_grid();
+    if(is_left_pressed() && check_left_border(1) && has_no_collision(-1, 0)){
+      piece_x--;
+      set_piece_moved();
+    }
+    if(is_right_pressed() && check_right_border(1) && has_no_collision(1, 0)){
+      piece_x++;
+      set_piece_moved();
+    }
+    if(is_up_just_pressed()){
+      try_rotate();
+      set_piece_moved();
+    }
+    try_soft_drop();
+    add_piece_to_grid();
 
-  if(has_piece_moved()){
-    show_grid();
-    delay(MOVE_DELAY);
+    if(has_piece_moved()){
+      show_grid();
+      moveTimer.restart();
+    }
   }
 }
 

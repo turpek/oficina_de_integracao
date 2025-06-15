@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "GButton.h"
+#include "Chrono.h"
 
 
 #define NUM_PIECE_TYPES     7
@@ -89,6 +90,7 @@ extern int top_row;
 extern unsigned long fall_delay;
 extern unsigned long last_fall_delay;
 extern unsigned long last_lock_delay;
+extern Chrono moveTimer;
 
 void clear_grid();
 void decodePiece(uint8_t *piece, const uint16_t bitmask);
