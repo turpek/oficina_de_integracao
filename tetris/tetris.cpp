@@ -548,12 +548,12 @@ bool try_soft_drop(){
   static unsigned long restore_fall_delay = fall_delay;
   static bool is_soft_drop = false;
 
-  if(button_down.justPressed()){
+  if(button_down.justPressed() || joystick.down.justPressed()){
     restore_fall_delay = fall_delay;
     fall_delay = fall_delay / SOFT_DROP_FACTOR;
     is_soft_drop = true;
   }
-  else if(button_down.justReleased()){
+  else if(button_down.justReleased() || joystick.down.justReleased()){
     fall_delay = restore_fall_delay;
     is_soft_drop = false;
   }
