@@ -2,6 +2,7 @@
 #include "Adafruit_NeoPixel.h"
 #include "GButton.h"
 #include "Chrono.h"
+#include "Sounds.h"
 #include "tetris.h"
 
 
@@ -709,6 +710,8 @@ void setup(){
   strip.show();
   configButton();
 
+  pinMode(BUZZER_TETRIS, OUTPUT);
+
   // configura o barramento do MAX7219
   pinMode(MAX7219_Data_IN, OUTPUT);
   pinMode(MAX7219_Clock,   OUTPUT);
@@ -727,6 +730,7 @@ void setup(){
 }
 
 void loop(){
+  tetrisSong();
   react_to_player();
   update_game_state();
   pause_game();
