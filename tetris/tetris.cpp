@@ -617,7 +617,9 @@ void game_over_loop_leds(){
 void game_over(){
   game_over_loop_leds();
   delay(100);
+  noTone(BUZZER_TETRIS);
   do{
+    button_start.update();
     delay(50);
   }while(!is_start_pressed());
   clear_grid();
