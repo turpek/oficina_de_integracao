@@ -614,6 +614,17 @@ void game_over_loop_leds(){
   }
 }
 
+bool start_game(){
+  button_start.update();
+  if(is_start_pressed()){
+    reset_tetrisSong();
+    clear_grid();
+    setup();
+    return true;
+  }
+  return false;
+}
+
 void game_over(){
   game_over_loop_leds();
   delay(100);
@@ -737,6 +748,7 @@ void loop(){
   react_to_player();
   update_game_state();
   pause_game();
+  start_game();
 }
 
 #ifndef UNIT_TEST
