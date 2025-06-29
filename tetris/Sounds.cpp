@@ -61,7 +61,13 @@ int notes=sizeof(melody)/sizeof(melody[0])/2;
 // this calculates the duration of a whole note in ms (60s/tempo)*4 beats
 int wholenote = (60000 * 4) / TEMPO;
 
-int divider = 0, noteDuration = 0;
+int divider = 0;
+int noteDuration = 0;
+int thisNote = 0;
+
+void reset_tetrisSong() {
+  thisNote = 0;
+}
 
 void tetrisSong() {
   static int thisNote = 0;
