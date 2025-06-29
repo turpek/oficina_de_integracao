@@ -638,13 +638,18 @@ void game_over(){
 }
 
 void pause_game(){
-  if(is_pause_pressed()){
+  button_pause.update();
+  if(button_pause.isClick()){
+    noTone(BUZZER_TETRIS);
     delay(300);
     do{
-      delay(50);
-    }while(!is_pause_pressed());
+      button_pause.update();
+      start_game();
+      delay(40);
+    }while(!button_pause.isClick());
+    delay(100);
+    tetrisSong();
   }
-  delay(100);
 }
 
 bool can_level_up(){
