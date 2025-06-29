@@ -10,7 +10,7 @@ DEP_DIR = lib
 
 # Arquivos-fonte
 UNITY_SRC  = $(UNITY_DIR)/unity.c
-TETRIS_SRC = $(SRC_DIR)/tetris.cpp
+TETRIS_SRC = $(SRC_DIR)/tetris.cpp $(SRC_DIR)/Sounds.cpp
 TEST_SRC   = $(TEST_DIR)/test_utils.cpp $(TEST_DIR)/test_tetris.cpp
 DEP_SRC = $(DEP_DIR)/Chrono.cpp $(DEP_DIR)/GButton.cpp
 
