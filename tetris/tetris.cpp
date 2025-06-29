@@ -630,11 +630,8 @@ void game_over(){
   delay(100);
   noTone(BUZZER_TETRIS);
   do{
-    button_start.update();
     delay(50);
-  }while(!is_start_pressed());
-  clear_grid();
-  setup();
+  }while(start_game());
 }
 
 void pause_game(){
