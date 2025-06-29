@@ -1,3 +1,11 @@
+#ifndef SOUNDS_H
+#define SOUNDS_H
+
+#define TEMPO 144 // change this to make the song slower or faster
+#define BUZZER_TETRIS 2 // change this to whichever pin you want to use
+
+void tetrisSong();
+
 #define NOTE_B0  31
 #define NOTE_C1  33
 #define NOTE_CS1 35
@@ -89,5 +97,4 @@
 #define NOTE_DS8 4978
 #define REST 0
 
-
-void tetrisSong();
+#endif

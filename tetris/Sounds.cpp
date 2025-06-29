@@ -12,12 +12,6 @@
 
 Chrono songTimer;
 
-// change this to make the song slower or faster
-int tempo=120;
-#define TEMPO 120
-#define BUZZER_TETRIS 2
-// change this to whichever pin you want to use
-int buzzer = 11;
 
 
 // notes of the moledy followed by the duration.
@@ -90,7 +84,7 @@ void tetrisSong() {
       }
 
       // we only play the note for 90% of the duration, leaving 10% as a pause
-      tone(buzzer, melody[thisNote], noteDuration*0.9);
+      tone(BUZZER_TETRIS, melody[thisNote], noteDuration*0.9);
 
       songTimer.restart();
       thisNote = thisNote + 2;
