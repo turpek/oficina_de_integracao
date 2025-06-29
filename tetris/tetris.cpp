@@ -708,6 +708,7 @@ void setup(){
 
   strip.begin();
   strip.show();
+  strip.setBrightness(127);
   configButton();
 
   pinMode(BUZZER_TETRIS, OUTPUT);
