@@ -17,7 +17,7 @@
 #define GRID_H 20
 #define GRID_COUNT (GRID_W * GRID_H)
 #define LED_COUNT 128
-#define LED_PIN 6
+#define LED_PIN 9
 
 // Opções do joystick
 #define JOYSTICK_DEAD_ZONE 30
@@ -44,11 +44,9 @@
 #define DEBOUNCE_TIME 40
 #define LONG_PRESSED_TIME 100
 
-#define MAX7219_Data_IN 3
-#define MAX7219_Chip_Select  4
-#define MAX7219_Clock 5
-
-
+#define MAX7219_Data_IN 11
+#define MAX7219_Chip_Select  12
+#define MAX7219_Clock 13
 
 
 // Declaração dos pinos

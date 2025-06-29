@@ -6,15 +6,15 @@
 #include "tetris.h"
 
 
-int btn_pause = 7;
-int btn_left = 8;
-int btn_right = 9;
-int btn_down = 10;
-int btn_up = 11;
-int btn_start = 12;
+
+int btn_pause = 3;
+int btn_start = 4;
+int btn_left = 5;
+int btn_right = 8;
+int btn_down = 6;
+int btn_up = 7;
 int joystick_x = A0;
 int joystick_y = A1;
-
 
 /*                            Peça I
  *
